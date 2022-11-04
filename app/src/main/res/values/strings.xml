@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OplevAppProjekt</string>
+    <string name="country1">Danmark</string>
+    <string name="country2">Pakistan</string>
+    <string name="country3">Tyskland</string>
+    <string name="country4">Italien</string>
+    <string name="country5">Indien</string>
+    <string name="country6">Frankrig</string>
+    <string name="country7">Norge</string>
+    <string name="country8">Sverige</string>
+    <string name="country9">England</string>
+    <string name="country10">Japan</string>
+</resources>
