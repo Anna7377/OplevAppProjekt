@@ -1,8 +1,5 @@
-package com.example.oplevappprojekt
+package com.example.oplevappprojekt.sites
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,35 +18,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.data.Datasource
 import com.example.scrollablelistofbuttons.model.ScrollableList
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-          //  ScrollableList()
-            Trip()
-        }
-    }
-}
+class MyJourneysUI{
 
-@Composable
-fun OplevApp(viewModel: ViewModel){
-    OplevAppProjektTheme {
-        val startroute = "start"
-        val mainroute = "main"
-        val inspirationroute = "inspiration"
-    }
 }
 
 @Composable
 fun ScrollableList() {
     OplevAppProjektTheme {
-        ScrollableList(scrollableList = Datasource().loadScrollableList())
+       ScrollableList(scrollableList = Datasource().loadScrollableList())
     }
 }
 
@@ -87,22 +71,24 @@ fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Mo
         }
     }
 }
-
-
 @Composable
 private fun ScrollableList(scrollableList: List<ScrollableList>, modifier: Modifier = Modifier){
     LazyColumn {
         items(scrollableList){ scrollableList ->
-            CountryCard(scrollablelistofbuttons = scrollableList)
+            com.example.oplevappprojekt.CountryCard(scrollablelistofbuttons = scrollableList)
         }
     }
 }
-
 
 @Preview
 @Composable
 fun CountryCardPreview(){
     OplevAppProjektTheme {
-        CountryCard(scrollablelistofbuttons = ScrollableList(R.string.country1, R.drawable.image1))
+        com.example.oplevappprojekt.CountryCard(
+            scrollablelistofbuttons = ScrollableList(
+                R.string.country1,
+                R.drawable.image1
+            )
+        )
     }
 }
