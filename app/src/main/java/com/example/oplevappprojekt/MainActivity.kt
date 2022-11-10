@@ -37,6 +37,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun OplevApp(viewModel: ViewModel){
+    OplevAppProjektTheme {
+        val startroute = "start"
+        val mainroute = "main"
+        val inspirationroute = "inspiration"
+        val newJourneyroute = "newJourney"
+    }
+}
+
+@Composable
 fun ScrollableList() {
     OplevAppProjektTheme {
         ScrollableList(scrollableList = Datasource().loadScrollableList())
