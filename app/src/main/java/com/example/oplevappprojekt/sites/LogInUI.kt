@@ -67,7 +67,7 @@ fun Title(text: String) {
 
 @Composable
 fun InputText(hint: String) {
-    Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Start)
+    Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Left)
     val currentText = remember {
         mutableStateOf(TextFieldValue())
     }
