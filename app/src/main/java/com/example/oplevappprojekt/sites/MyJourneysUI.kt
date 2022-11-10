@@ -33,7 +33,7 @@ class MyJourneysUI{
 @Composable
 fun ScrollableList() {
     OplevAppProjektTheme {
-       ScrollableList(scrollableList = Datasource().loadScrollableList())
+        ScrollableList(scrollableList = Datasource().loadScrollableList())
     }
 }
 
@@ -71,24 +71,22 @@ fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Mo
         }
     }
 }
+
+
 @Composable
 private fun ScrollableList(scrollableList: List<ScrollableList>, modifier: Modifier = Modifier){
     LazyColumn {
         items(scrollableList){ scrollableList ->
-            com.example.oplevappprojekt.CountryCard(scrollablelistofbuttons = scrollableList)
+            CountryCard(scrollablelistofbuttons = scrollableList)
         }
     }
 }
+
 
 @Preview
 @Composable
 fun CountryCardPreview(){
     OplevAppProjektTheme {
-        com.example.oplevappprojekt.CountryCard(
-            scrollablelistofbuttons = ScrollableList(
-                R.string.country1,
-                R.drawable.image1
-            )
-        )
+        CountryCard(scrollablelistofbuttons = ScrollableList(R.string.country1, R.drawable.image1))
     }
 }
