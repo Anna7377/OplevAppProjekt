@@ -42,7 +42,6 @@ fun OplevApp(viewModel: ViewModel){
         val startroute = "start"
         val mainroute = "main"
         val inspirationroute = "inspiration"
-        val newJourneyroute = "newJourney"
     }
 }
 
