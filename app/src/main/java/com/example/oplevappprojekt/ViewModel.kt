@@ -2,7 +2,7 @@ package com.example.oplevappprojekt
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
+// S215722
 data class OplevUIState( val username: String = "",
                          val password: String ="",
                          val loggedIn: Boolean = false )

@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// S215722
 @Composable
 fun OplevApp(viewModel: ViewModel){
     OplevAppProjektTheme {

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 
+// S215722
 class StartPageUI{
 
 }
