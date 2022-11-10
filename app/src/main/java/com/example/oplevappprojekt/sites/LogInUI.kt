@@ -3,6 +3,7 @@ package com.example.oplevappprojekt.sites
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -101,7 +102,8 @@ fun Logo() {
     Surface(modifier = Modifier.height(60.dp)) {
         Image(
             painter = painterResource(id = R.drawable.logo_photo),
-            contentDescription = "", contentScale = ContentScale.FillHeight
+            contentDescription = "", contentScale = ContentScale.FillHeight,
+            modifier = Modifier.clickable(enabled=true, onClickLabel = null, onClick = {/*TODO*/})
         )
     }
 }

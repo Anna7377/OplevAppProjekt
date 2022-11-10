@@ -26,6 +26,8 @@ import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.data.Datasource
 import com.example.scrollablelistofbuttons.model.ScrollableList
 
+//S213370
+
 class MyJourneysUI{
 
 }
