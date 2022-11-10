@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +33,8 @@ fun LoginPage() {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
-            .width(20.dp).absoluteOffset(15.dp, 15.dp)) {
+            .width(20.dp)
+            .absoluteOffset(15.dp, 15.dp)) {
             Logo()
         }
 
@@ -67,13 +69,16 @@ fun Title(text: String) {
 
 @Composable
 fun InputText(hint: String) {
-    Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Left)
-    val currentText = remember {
-        mutableStateOf(TextFieldValue())
+    Column() {
+        Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Left, textDecoration = TextDecoration.Underline)
+        val currentText = remember {
+            mutableStateOf(TextFieldValue())
+        }
+        TextField(value = currentText.value,
+            onValueChange = { currentText.value = it })
+        Spacer(modifier = Modifier.height(40.dp))
     }
-    TextField(value = currentText.value,
-        onValueChange = { currentText.value = it })
-    Spacer(modifier = Modifier.height(40.dp))
+
 }
 
 @Composable
