@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.oplevappprojekt.R
+
 
 class IdeaCategoriesUI{
 
@@ -28,13 +30,15 @@ fun Categories() {
                 Logo()
                 SingleJourneyTitle(text = "Min Rejse")
             }
-
+            SmallTitle(text = "Kategorier")
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
+        Column(horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(top=80.dp)) {
+            TopCard(text="Danmark", ImageId = R.drawable.image10)
         }
     }
 }
+
 
 @Preview
 @Composable
