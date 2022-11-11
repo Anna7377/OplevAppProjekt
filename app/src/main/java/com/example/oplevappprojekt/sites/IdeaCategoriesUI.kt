@@ -15,6 +15,8 @@ class IdeaCategoriesUI{
 
 }
 
+//S215722
+
 @Composable
 fun Categories() {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
@@ -30,11 +32,12 @@ fun Categories() {
                 Logo()
                 SingleJourneyTitle(text = "Min Rejse")
             }
-            SmallTitle(text = "Kategorier")
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(top=80.dp)) {
             TopCard(text="Danmark", ImageId = R.drawable.image10)
+            SingleJourneyTitle(text = "Kategorier")
+            // Insert Lazy Colum here
         }
     }
 }

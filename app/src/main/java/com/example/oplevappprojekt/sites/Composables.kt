@@ -69,7 +69,7 @@ fun SingleJourneyTitle(text: String){
         fontFamily = FontFamily.SansSerif,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.ExtraBold,
-        modifier= Modifier.padding(start = 27.dp)
+        modifier= Modifier.padding(start = 22.dp)
     )
 }
 
