@@ -49,46 +49,6 @@ fun Inspiration(){
 
         }
 }
-@Composable
-fun SmallTitle(text: String) {
-    Text(
-        text = text, color = Color(myColourString.toColorInt()),
-        fontSize = 47.sp,
-        fontFamily = FontFamily.SansSerif,
-        textAlign = TextAlign.Center,
-        fontWeight = FontWeight.ExtraBold,
-        modifier=Modifier.padding(top=40.dp, bottom=50.dp)
-    )
-}
-
-
-@Composable
-fun ScrollableTextField(){
-val scrollstate= rememberScrollState()
-    Column(modifier= Modifier
-        .verticalScroll(scrollstate)
-        .border(
-            width = 3.dp,
-            color = Color(
-                myColourString.toColorInt()
-            )
-        )
-        .width(300.dp)
-        .height(600.dp)){
-        val currentText = remember {
-            mutableStateOf(TextFieldValue()) }
-        TextField(onValueChange = { currentText.value = it } ,
-            modifier = Modifier.width(300.dp),
-            placeholder = { Text(text="Indsæt inspirationskilder...") },
-            value = currentText.value,
-            colors=TextFieldDefaults.
-            textFieldColors(backgroundColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent)
-            )
-
-        } }
-
 
 
 
