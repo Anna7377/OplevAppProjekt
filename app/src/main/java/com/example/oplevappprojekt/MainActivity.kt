@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
           //  ScrollableList()
             Trip()
+
         }
     }
 }
