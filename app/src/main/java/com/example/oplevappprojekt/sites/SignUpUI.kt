@@ -1,9 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,8 +36,8 @@ fun SignInPage() {
             InputText("Mail")
             InputText("Kodeord")
             InputText("Gentag Kodeord")
-            Row(modifier = Modifier.height(35.dp)){
-                ChangePageText(text = "Jeg accepterer GDPR regler mm.")
+            Row(modifier = Modifier.height(30.dp)){
+                GDPR()
                 Spacer(modifier = Modifier.width(20.dp))
                 val isChecked = remember { mutableStateOf(false) }
                 Checkbox(
@@ -47,16 +45,35 @@ fun SignInPage() {
                     onCheckedChange = { isChecked.value = it },
                     enabled = true,
                     colors = CheckboxDefaults.colors(checkmarkColor = Color(myColourString.toColorInt())),
-                    modifier = Modifier.size(3.dp).padding(0.dp, 13.dp),
+                    modifier = Modifier
+                        .size(3.dp)
+                        .padding(0.dp, 13.dp),
                 )
             }
             LogInButton(text = "Opret") {}
-            ChangePageText(text="Allerede Oprettet? Log Ind Nu!")
+            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = { })
 
         }
     }
 
+
 }
+
+@Preview
+@Composable
+fun GDPR(){
+    val dialog = remember{mutableStateOf(true)}
+
+    if(dialog.value){
+        AlertDialog(onDismissRequest = {dialog.value=false},
+            title = { Text(text="GDPR Regler", color = Color.White) },
+            text={ Text(text="...", color = Color.White) },
+            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Ok", color = Color.White) } },
+            backgroundColor = Color(myColourString.toColorInt()))
+    }
+    ChangePageText(text = "Jeg accepterer GDPR regler mm.", onClick = {dialog.value=true } )
+}
+
 @Preview
 @Composable
 fun SignInPrev(){

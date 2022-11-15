@@ -35,7 +35,7 @@ fun LoginPage() {
             Spacer(modifier = Modifier.height(60.dp))
             LogInButton(text = "Log Ind") {}
             Spacer(modifier = Modifier.height(40.dp))
-            ChangePageText("Ny til Oplev? Opret Bruger Nu!")
+            ChangePageText("Ny til Oplev? Opret Bruger Nu!", {})
 
         }
     }

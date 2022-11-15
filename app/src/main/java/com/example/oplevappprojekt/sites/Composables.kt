@@ -12,6 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +35,8 @@ fun TopCard(ImageId: Int, text: String) {
                 painter = painterResource(id = ImageId),
                 contentDescription = " ",
                 modifier = Modifier
-                    .fillMaxWidth().height(200.dp),
+                    .fillMaxWidth()
+                    .height(200.dp),
                 contentScale = ContentScale.Crop
             )
 Row(){
@@ -48,7 +50,9 @@ Row(){
 
         )
     Text(text="+",
-        modifier = Modifier.clickable(onClick = {/*TODO*/}).padding(top=120.dp, start=100.dp),
+        modifier = Modifier
+            .clickable(onClick = {/*TODO*/ })
+            .padding(top = 120.dp, start = 100.dp),
         textAlign=TextAlign.Right,
         fontSize=60.sp,
         fontWeight = FontWeight.Light,
@@ -135,7 +139,7 @@ fun InputText(hint: String) {
         }
         TextField(value = currentText.value,
             onValueChange = { currentText.value = it })
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
     }
 
 }
@@ -165,7 +169,7 @@ fun Logo() {
 }
 
 @Composable
-fun ChangePageText(text: String) {
+fun ChangePageText(text: String, onClick: () -> Unit) {
     TextButton(onClick = { /*TODO*/ }) {
         Text(text = text,
             color = Color(myColourString.toColorInt()))
