@@ -7,15 +7,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.sites.ScrollableList
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 class MainActivity : ComponentActivity() {
-    private val viewModel=ViewModel()
+    private val viewModel=JourneyViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
 // S215722
 @Composable
-fun OplevApp(viewModel: ViewModel){
+fun OplevApp(viewModel: JourneyViewModel){
     OplevAppProjektTheme {
         val startRoute = "start"
         val mainroute = "main"
