@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
 
 
 // S215722
@@ -20,6 +21,7 @@ class SignInUI{
 
 @Composable
 fun SignInPage() {
+
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)

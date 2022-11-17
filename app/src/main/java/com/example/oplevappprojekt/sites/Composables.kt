@@ -131,7 +131,8 @@ fun Title(text: String) {
 }
 
 @Composable
-fun InputText(hint: String) {
+fun InputText(hint: String) : String {
+    var retText: String = ""
     Column() {
         Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Left, textDecoration = TextDecoration.Underline)
         val currentText = remember {
@@ -140,8 +141,9 @@ fun InputText(hint: String) {
         TextField(value = currentText.value,
             onValueChange = { currentText.value = it })
         Spacer(modifier = Modifier.height(20.dp))
+        retText=currentText.toString()
     }
-
+    return retText
 }
 
 @Composable
