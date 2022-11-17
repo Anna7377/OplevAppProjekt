@@ -12,8 +12,11 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.sites.LoginPage
 import com.example.oplevappprojekt.sites.ScrollableList
+import com.example.oplevappprojekt.sites.StartPage
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,10 +32,11 @@ class MainActivity : ComponentActivity() {
 
 // S215722
 @Composable
-fun OplevApp(viewModel: JourneyViewModel){
+fun OplevApp(viewModel: AuthViewModel){
     OplevAppProjektTheme {
         val startRoute = "start"
         val mainroute = "main"
+        val loginRoute="logIn"
         val inspirationroute = "inspiration"
         val state = viewModel.uiState.collectAsState()
         val navigationController = rememberNavController()
@@ -41,7 +45,10 @@ fun OplevApp(viewModel: JourneyViewModel){
             modifier = Modifier.fillMaxSize(),
             startDestination = startRoute) {
             composable(route = startRoute) {
-                ScrollableList()
+                StartPage(navigate={navigationController.navigate(loginRoute)})
+            }
+            composable(route=loginRoute){
+                LoginPage(viewModel=AuthViewModel)
             }
     }
 }}

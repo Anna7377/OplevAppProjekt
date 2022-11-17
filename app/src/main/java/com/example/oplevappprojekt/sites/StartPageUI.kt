@@ -18,7 +18,7 @@ class StartPageUI{
 }
 
 @Composable
-fun StartPage(){
+fun StartPage(navigate: ()-> Unit){
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier
             .height(400.dp)
@@ -42,5 +42,5 @@ fun StartPage(){
 @Preview
 @Composable
 fun StartPrev(){
-    StartPage()
+
 }

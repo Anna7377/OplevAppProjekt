@@ -20,7 +20,7 @@ class SignInUI{
 }
 
 @Composable
-fun SignInPage() {
+fun SignInPage(viewModel: AuthViewModel) {
 
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
@@ -35,9 +35,9 @@ fun SignInPage() {
             Title("Opret Bruger")
             Spacer(modifier = Modifier.height(30.dp))
             InputText("Navn")
-            InputText("Mail")
-            InputText("Kodeord")
-            InputText("Gentag Kodeord")
+            viewModel.onNewMailChange(InputText("Mail"))
+            viewModel.onNewPassChange(InputText("Kodeord"))
+            viewModel.onConfPassChange(InputText("Gentag Kodeord"))
             Row(modifier = Modifier.height(30.dp)){
                 GDPR()
                 Spacer(modifier = Modifier.width(20.dp))
@@ -79,5 +79,5 @@ fun GDPR(){
 @Preview
 @Composable
 fun SignInPrev(){
-    SignInPage()
+    SignInPage(AuthViewModel())
 }

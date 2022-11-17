@@ -8,6 +8,9 @@ import androidx.compose.runtime.setValue
 import com.example.oplevappprojekt.Authentication.AuthRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.oplevappprojekt.model.Journey
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class Auth (
@@ -25,6 +28,9 @@ data class Auth (
 )
 
 class AuthViewModel(private val authRepository : AuthRepository = AuthRepository()) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(Journey())
+    val uiState = _uiState.asStateFlow()
 
     val currentUser = authRepository.currentUser
 
@@ -48,8 +54,7 @@ AuthUIstate=AuthUIstate.copy(newPass = pass)
         try {
             if (AuthUIstate.newPass.isEmpty() ||
                 AuthUIstate.newMail.isEmpty() ||
-                AuthUIstate.confPass.isEmpty() ||
-                AuthUIstate.userName.isEmpty()
+                AuthUIstate.confPass.isEmpty()
             ) {
                 throw IllegalArgumentException("Please fill out all fields")
             }
