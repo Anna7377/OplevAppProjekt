@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+// s215722
 data class Auth (
     val mail: String ="",
     val password: String="",
@@ -25,6 +26,7 @@ data class Auth (
     val isSuccessLogin: Boolean = false,
     val signUpError: String? = null,
     val loginError: String? = null,
+    val GDPRcheck: Boolean = false
 )
 
 class AuthViewModel(private val authRepository : AuthRepository = AuthRepository()) : ViewModel() {
@@ -50,6 +52,22 @@ AuthUIstate=AuthUIstate.copy(newPass = pass)
        AuthUIstate=AuthUIstate.copy(confPass=pass)
    }
 
+    fun IsChecked(check: Boolean){
+        AuthUIstate=AuthUIstate.copy(GDPRcheck = check)
+    }
+
+    fun tempCreateUser(mail: String, pass: String, confPass: String, GDPR: Boolean){
+        if(mail.isEmpty() || pass.isEmpty() || confPass.isEmpty()){
+
+        }
+        if(!AuthUIstate.GDPRcheck){
+
+        }
+        if(confPass!=pass){
+
+        }
+    }
+
     fun createUser(context: Context) = viewModelScope.launch() {
         try {
             if (AuthUIstate.newPass.isEmpty() ||
@@ -57,6 +75,9 @@ AuthUIstate=AuthUIstate.copy(newPass = pass)
                 AuthUIstate.confPass.isEmpty()
             ) {
                 throw IllegalArgumentException("Please fill out all fields")
+            }
+            if(!AuthUIstate.GDPRcheck){
+                throw IllegalArgumentException("You must accept the GDPR rules")
             }
             AuthUIstate = AuthUIstate.copy(isLoading = true)
             if (AuthUIstate.newPass != AuthUIstate.confPass) {
@@ -91,5 +112,6 @@ AuthUIstate=AuthUIstate.copy(newPass = pass)
         }
     }
 }
+
 
 

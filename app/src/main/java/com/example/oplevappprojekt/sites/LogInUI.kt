@@ -17,7 +17,7 @@ class LogInUI {
 }
 
 @Composable
-fun LoginPage() {
+fun LoginPage(navigation: ()-> Unit) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
@@ -35,7 +35,7 @@ fun LoginPage() {
             Spacer(modifier = Modifier.height(60.dp))
             LogInButton(text = "Log Ind") {}
             Spacer(modifier = Modifier.height(40.dp))
-            ChangePageText("Ny til Oplev? Opret Bruger Nu!", {})
+            ChangePageText("Ny til Oplev? Opret Bruger Nu!", navigation)
 
         }
     }
@@ -47,6 +47,6 @@ fun LoginPage() {
 @Preview
 @Composable
 fun LoginPrev() {
-    LoginPage()
+    LoginPage(navigation = {})
 }
 

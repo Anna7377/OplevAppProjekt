@@ -15,10 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
-import com.example.oplevappprojekt.model.LogInScreenMain
-import com.example.oplevappprojekt.sites.LoginPage
-import com.example.oplevappprojekt.sites.ScrollableList
-import com.example.oplevappprojekt.sites.StartPage
+
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +24,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-        LogInScreenMain()
         }
     }
 }
@@ -39,6 +35,7 @@ fun OplevApp(viewModel: AuthViewModel){
         val startRoute = "start"
         val mainroute = "main"
         val loginRoute="logIn"
+        val signupRoute="signUp"
         val inspirationroute = "inspiration"
         val state = viewModel.uiState.collectAsState()
         val navigationController = rememberNavController()
@@ -47,15 +44,27 @@ fun OplevApp(viewModel: AuthViewModel){
             modifier = Modifier.fillMaxSize(),
             startDestination = startRoute) {
             composable(route = startRoute) {
-                StartPage(navigate={navigationController.navigate(loginRoute)})
+                if(!viewModel.isLoggedIn) {
+                    StartPage(navigate = { navigationController.navigate(loginRoute) })
+                }
+                else{
+                    MainPage(navigationInsp = {navigationController.navigate(inspirationroute)})
+                }
             }
             composable(route=loginRoute){
-                LoginPage(viewModel=AuthViewModel)
+                LoginPage(navigation = {navigationController.navigate(signupRoute)})
+            }
+            composable(route=signupRoute){
+                SignUpPage(viewModel = AuthViewModel(), navigation = {navigationController.navigate(loginRoute)},
+                navMain = {navigationController.navigate(mainroute)})
+            }
+            composable(route=mainroute){
+                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)})
+            }
+            composable(route=inspirationroute){
+                Inspiration()
             }
     }
-}}
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview(){
+
 
 }
