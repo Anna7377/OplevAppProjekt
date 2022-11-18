@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "330839135150",
+    "project_id": "oplev-app",
+    "storage_bucket": "oplev-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330839135150:android:fff76eca5b3e6a93d56e3f",
+        "android_client_info": {
+          "package_name": "com.example.oplevappprojekt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330839135150-ff1rf5lkbe90ae701nieil0fp7u17tfa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.oplevappprojekt",
+            "certificate_hash": "b6517253d5081877bd81c311ce7108641dd5161f"
+          }
+        },
+        {
+          "client_id": "330839135150-u05m1j3g3br5r2tqis51v116qr6cpnl7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpEoNTKxnDLdeL3U0XRtzmGoIBa7CYPbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330839135150-u05m1j3g3br5r2tqis51v116qr6cpnl7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
