@@ -2,11 +2,13 @@ package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Bottom
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -140,7 +142,7 @@ fun InputText(hint: String) : String {
         }
         TextField(value = currentText.value,
             onValueChange = { currentText.value = it })
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         retText=currentText.toString()
     }
     return retText
@@ -172,7 +174,7 @@ fun Logo() {
 
 @Composable
 fun ChangePageText(text: String, onClick: () -> Unit) {
-    TextButton(onClick = { /*TODO*/ }) {
+    TextButton(onClick = onClick) {
         Text(text = text,
             color = Color(myColourString.toColorInt()))
 
@@ -196,5 +198,11 @@ fun BigLogo(){
         .padding(20.dp, 20.dp, 20.dp, 20.dp)
         ,painter = painterResource(id = R.drawable.logo_photo), contentDescription = "")
 
+}
+@Composable
+fun BottomMenu(navigateInsp: ()-> Unit, navigateMain: ()->Unit, navigateprof:()->Unit) {
+        BottomNavigation(backgroundColor = Color(myColourString.toColorInt()), contentColor = Color.White) {
+
+    }
 }
 

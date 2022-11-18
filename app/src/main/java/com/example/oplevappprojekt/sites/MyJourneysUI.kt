@@ -1,14 +1,12 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +28,21 @@ import com.example.scrollablelistofbuttons.model.ScrollableList
 
 class MyJourneysUI{
 
+}
+
+@Composable
+fun MainPage(navigationInsp: ()-> Unit){
+   Surface(modifier = Modifier.fillMaxSize()) {
+       Column(modifier = Modifier
+           .fillMaxWidth()) {
+           TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
+       }
+    }
+}
+@Preview
+@Composable
+fun MainPrev(){
+    MainPage({})
 }
 
 @Composable

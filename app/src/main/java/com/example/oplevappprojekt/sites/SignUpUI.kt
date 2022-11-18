@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.sites
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -8,9 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 
 
@@ -20,7 +23,8 @@ class SignInUI{
 }
 
 @Composable
-fun SignInPage(viewModel: AuthViewModel) {
+fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Unit) {
+    val context = LocalContext.current
 
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
@@ -33,11 +37,14 @@ fun SignInPage(viewModel: AuthViewModel) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(70.dp))
             Title("Opret Bruger")
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             InputText("Navn")
-            viewModel.onNewMailChange(InputText("Mail"))
-            viewModel.onNewPassChange(InputText("Kodeord"))
-            viewModel.onConfPassChange(InputText("Gentag Kodeord"))
+           val typedmail: String = InputText("Mail")
+            viewModel.onNewMailChange(typedmail)
+           val pass= InputText("Kodeord")
+            viewModel.onNewPassChange(pass)
+          val confpass= InputText("Gentag Kodeord")
+            viewModel.onConfPassChange(confpass)
             Row(modifier = Modifier.height(30.dp)){
                 GDPR()
                 Spacer(modifier = Modifier.width(20.dp))
@@ -51,9 +58,11 @@ fun SignInPage(viewModel: AuthViewModel) {
                         .size(3.dp)
                         .padding(0.dp, 13.dp),
                 )
+                viewModel.IsChecked(isChecked.value)
             }
-            LogInButton(text = "Opret") {}
-            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = { })
+            Spacer(modifier = Modifier.height(5.dp))
+            LogInButton(text = "Opret", onClick = {viewModel.createUser(context)})
+            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
 
         }
     }
@@ -79,5 +88,5 @@ fun GDPR(){
 @Preview
 @Composable
 fun SignInPrev(){
-    SignInPage(AuthViewModel())
+    SignUpPage(AuthViewModel(), {}, {})
 }
