@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
@@ -14,7 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
-import com.example.oplevappprojekt.sites.*
+
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-OplevApp(AuthViewModel())
         }
     }
 }
@@ -65,6 +65,6 @@ fun OplevApp(viewModel: AuthViewModel){
                 Inspiration()
             }
     }
-}
-}
 
+
+}
