@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
@@ -24,7 +25,6 @@ class SignInUI{
 
 @Composable
 fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Unit) {
-    val context = LocalContext.current
 
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
@@ -39,12 +39,13 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
             Title("Opret Bruger")
             Spacer(modifier = Modifier.height(10.dp))
             InputText("Navn")
-           val typedmail: String = InputText("Mail")
-            viewModel.onNewMailChange(typedmail)
+           val mail: String = InputText("Mail")
+
            val pass= InputText("Kodeord")
-            viewModel.onNewPassChange(pass)
+
           val confpass= InputText("Gentag Kodeord")
-            viewModel.onConfPassChange(confpass)
+            var check: Boolean = false
+
             Row(modifier = Modifier.height(30.dp)){
                 GDPR()
                 Spacer(modifier = Modifier.width(20.dp))
@@ -58,10 +59,10 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
                         .size(3.dp)
                         .padding(0.dp, 13.dp),
                 )
-                viewModel.IsChecked(isChecked.value)
+                check=isChecked.value
             }
             Spacer(modifier = Modifier.height(5.dp))
-            LogInButton(text = "Opret", onClick = {viewModel.createUser(context)})
+            LogInButton(text = "Opret", onClick = {viewModel.updateCredentials(mail, pass, confpass, check)})
             ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
 
         }

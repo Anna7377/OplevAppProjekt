@@ -143,7 +143,7 @@ fun InputText(hint: String) : String {
         TextField(value = currentText.value,
             onValueChange = { currentText.value = it })
         Spacer(modifier = Modifier.height(15.dp))
-        retText=currentText.toString()
+        retText=currentText.value.text
     }
     return retText
 }

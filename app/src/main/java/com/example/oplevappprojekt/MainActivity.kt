@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            OplevApp(viewModel = AuthViewModel())
         }
     }
 }
@@ -44,12 +46,7 @@ fun OplevApp(viewModel: AuthViewModel){
             modifier = Modifier.fillMaxSize(),
             startDestination = startRoute) {
             composable(route = startRoute) {
-                if(!viewModel.isLoggedIn) {
                     StartPage(navigate = { navigationController.navigate(loginRoute) })
-                }
-                else{
-                    MainPage(navigationInsp = {navigationController.navigate(inspirationroute)})
-                }
             }
             composable(route=loginRoute){
                 LoginPage(navigation = {navigationController.navigate(signupRoute)})
@@ -67,4 +64,4 @@ fun OplevApp(viewModel: AuthViewModel){
     }
 
 
-}
+}}

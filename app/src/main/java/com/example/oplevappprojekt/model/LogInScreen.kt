@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 
 // s215718 & s213370
 
+/*
 @Composable
     fun LogInPage(navController : NavHostController){
         Column(modifier = Modifier.padding(20.dp),
@@ -53,6 +54,7 @@ import androidx.navigation.NavHostController
 
             }
         }
+ */
 
 
 
