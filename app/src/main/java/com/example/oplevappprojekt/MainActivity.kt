@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.model.LogInScreenMain
 import com.example.oplevappprojekt.sites.LoginPage
 import com.example.oplevappprojekt.sites.ScrollableList
 import com.example.oplevappprojekt.sites.StartPage
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-
+        LogInScreenMain()
         }
     }
 }
@@ -52,4 +54,8 @@ fun OplevApp(viewModel: AuthViewModel){
             }
     }
 }}
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview(){
 
+}
