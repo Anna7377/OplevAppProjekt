@@ -62,8 +62,11 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
                 check=isChecked.value
             }
             Spacer(modifier = Modifier.height(5.dp))
-            LogInButton(text = "Opret", onClick = {viewModel.updateCredentials(mail, pass, confpass, check)})
+            LogInButton(text = "Opret", onClick = {viewModel.SignUp(mail, pass, confpass)})
             ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
+            if(viewModel.isLoggedin()){
+                navMain()
+                }
 
         }
     }

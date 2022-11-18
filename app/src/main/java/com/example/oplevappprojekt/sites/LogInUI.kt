@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
 
 // S215722
 
@@ -17,7 +19,7 @@ class LogInUI {
 }
 
 @Composable
-fun LoginPage(navigation: ()-> Unit) {
+fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()->Unit) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
@@ -30,12 +32,15 @@ fun LoginPage(navigation: ()-> Unit) {
             Spacer(modifier = Modifier.height(90.dp))
             Title("Log Ind")
             Spacer(modifier = Modifier.height(40.dp))
-            InputText("Mail")
-            InputText("Password")
+            val mail = InputText("Mail")
+           val pass = InputText("Password")
             Spacer(modifier = Modifier.height(60.dp))
-            LogInButton(text = "Log Ind") {}
+            LogInButton(text = "Log Ind", onClick = {viewModel.TryLogIn(mail, pass)} )
             Spacer(modifier = Modifier.height(40.dp))
             ChangePageText("Ny til Oplev? Opret Bruger Nu!", navigation)
+            if(viewModel.isLoggedin()){
+                navMain()
+            }
 
         }
     }
@@ -47,6 +52,6 @@ fun LoginPage(navigation: ()-> Unit) {
 @Preview
 @Composable
 fun LoginPrev() {
-    LoginPage(navigation = {})
+    LoginPage(navigation = {}, viewModel = AuthViewModel(), {})
 }
 

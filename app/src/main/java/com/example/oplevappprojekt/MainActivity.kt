@@ -49,7 +49,7 @@ fun OplevApp(viewModel: AuthViewModel){
                     StartPage(navigate = { navigationController.navigate(loginRoute) })
             }
             composable(route=loginRoute){
-                LoginPage(navigation = {navigationController.navigate(signupRoute)})
+                LoginPage(navigation = {navigationController.navigate(signupRoute)}, viewModel = AuthViewModel(), navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=signupRoute){
                 SignUpPage(viewModel = AuthViewModel(), navigation = {navigationController.navigate(loginRoute)},
