@@ -24,12 +24,13 @@ import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.data.Datasource
 import com.example.scrollablelistofbuttons.model.ScrollableList
 
-//S213370
 
+//S213370 & S215722
 class MyJourneysUI{
 
 }
 
+// S215722
 @Composable
 fun MainPage(navigationInsp: ()-> Unit){
    Surface(modifier = Modifier.fillMaxSize()) {
@@ -44,6 +45,8 @@ fun MainPage(navigationInsp: ()-> Unit){
 fun MainPrev(){
     MainPage({})
 }
+
+//S213370
 
 @Composable
 fun ScrollableList() {
