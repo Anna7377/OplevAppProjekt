@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.data.Datasource
 import com.example.scrollablelistofbuttons.model.ScrollableList
@@ -32,19 +33,26 @@ class MyJourneysUI{
 
 // S215722
 @Composable
-fun MainPage(navigationInsp: ()-> Unit){
+fun MainPage(navigationInsp: ()-> Unit, viewModel: JourneyViewModel){
    Surface(modifier = Modifier.fillMaxSize()) {
        Column(modifier = Modifier
            .fillMaxWidth()) {
            TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
+           LazyColumn {
+               for(i in 1..viewModel.journeys.size){
+
+               }
+           }
        }
     }
 }
 @Preview
 @Composable
 fun MainPrev(){
-    MainPage({})
+    MainPage({}, JourneyViewModel())
 }
+
+
 
 //S213370
 

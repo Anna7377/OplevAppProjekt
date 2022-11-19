@@ -16,18 +16,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import java.util.Date
 
 
 val myColor = "#455467"
 
+
 @Composable
 @Preview
 fun TripPrev(){
-    Trip()
+    Trip(JourneyViewModel(), {})
 }
 
 @Composable
-fun Trip() {
+fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -106,16 +110,16 @@ fun Trip() {
                     .padding(30.dp)
                     .offset(y = 160.dp)
             )
-            Date()
-            Month()
-            Year()
-            CreateButton()
+            Date(viewModel)
+            Month(viewModel)
+            Year(viewModel)
+            CreateButton(createJ =  {viewModel.newJourey(selectedItem, viewModel.CreateDate(), R.drawable.image10)})
         }
     }
 }
 
 @Composable
-fun Date() {
+fun Date(viewModel: JourneyViewModel) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -164,10 +168,13 @@ fun Date() {
             }
         }
     )
+    viewModel.day=selectedItem
 }
 
+
+
 @Composable
-fun Month(){
+fun Month(viewModel: JourneyViewModel) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -215,9 +222,10 @@ fun Month(){
             }
         }
     )
+   viewModel.month=selectedItem
 }
 @Composable
-fun Year() {
+fun Year(viewModel: JourneyViewModel) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -265,15 +273,17 @@ fun Year() {
             }
         }
     )
+    viewModel.year=selectedItem
 }
 @Composable
-fun CreateButton() {
+fun CreateButton(createJ: ()->Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .offset(y = 275.dp)
     ){
-        Button(onClick = {},
+        Button(onClick = {createJ},
             shape = RoundedCornerShape(60.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
         ) {

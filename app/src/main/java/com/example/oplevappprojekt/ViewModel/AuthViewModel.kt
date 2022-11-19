@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
-///s215722
+//s215722
 data class Auth(
 val mail:String="",
 val password:String="",

@@ -7,20 +7,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 class MainActivity : ComponentActivity() {
-    private val viewModel=JourneyViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +36,7 @@ fun OplevApp(viewModel: AuthViewModel){
         val loginRoute="logIn"
         val signupRoute="signUp"
         val inspirationroute = "inspiration"
+        val createroute="create"
         val state = viewModel.uiState.collectAsState()
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -56,10 +54,13 @@ fun OplevApp(viewModel: AuthViewModel){
                 navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=mainroute){
-                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)})
+                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)}, JourneyViewModel())
             }
             composable(route=inspirationroute){
                 Inspiration()
+            }
+            composable(route=createroute){
+                Trip(JourneyViewModel(), navMain = {navigationController.navigate(mainroute)})
             }
     }
 
