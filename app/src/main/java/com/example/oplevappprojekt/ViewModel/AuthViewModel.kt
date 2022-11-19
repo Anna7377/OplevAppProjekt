@@ -58,6 +58,7 @@ var loggedIn: Boolean = false
                 { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
+                        loggedIn=true
                         val user = auth.currentUser
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
