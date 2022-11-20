@@ -57,13 +57,6 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
     }
 }
 
-@Composable
-fun NewJourneyButton(onClick: ()->Unit){
-    FloatingActionButton(onClick = onClick,
-        backgroundColor = Color(myColourString.toColorInt()),
-        contentColor = Color.White) {
-    }
-}
 @Preview
 @Composable
 fun MainPrev(){
