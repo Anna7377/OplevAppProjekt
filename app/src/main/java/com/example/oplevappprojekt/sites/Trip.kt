@@ -18,12 +18,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
+import com.example.oplevappprojekt.model.Screen
 
 
 val myColor = "#455467"
 
 @Composable
-fun Trip() {
+fun CreateTrip(
+    navController: NavController
+) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -51,15 +55,16 @@ fun Trip() {
             var selectedItem by remember {
                 mutableStateOf("Vælg land")
             }
-            var list = listOf("Danmark", "Usa", "Norge", "England")
+            var list = listOf("Danmark", "USA", "Norge", "England")
+            //var list = arrayOf(countries)
 
             MaterialTheme(
-                content ={
+                content = {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.height(200.dp)
 
-                    ){
+                    ) {
                         Box(
                             modifier = Modifier
                                 .offset(x = 30.dp)
@@ -69,17 +74,20 @@ fun Trip() {
                                 .width(250.dp)
                         )
                         {
-                            TextButton(onClick = {expanded = true}) {
+                            TextButton(onClick = { expanded = true }) {
                                 Row {
-                                    Text(text = "$selectedItem",
+                                    Text(
+                                        text = "$selectedItem",
                                         fontSize = 10.sp,
                                         color = Color.Black,
                                     )
                                     Icon(Icons.Default.ArrowDropDown, contentDescription = "")
                                 }
                             }
-                            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                                list.forEach{
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }) {
+                                list.forEach {
                                     DropdownMenuItem(onClick = {
                                         expanded = false
                                         selectedItem = it
@@ -105,10 +113,24 @@ fun Trip() {
             Date()
             Month()
             Year()
-            CreateButton()
-        }
-    }
-}
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+                    .offset(y = 275.dp)
+            ){
+                Button(onClick = {
+                    navController.navigate(route = Screen.Trips.route)
+                },
+                    shape = RoundedCornerShape(60.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+                ) {
+                    Text(
+                        text = "Opret",
+                        color = Color.Black
+                    )
+                }
+            }
+        }}}
 
 @Composable
 fun Date() {
@@ -262,30 +284,3 @@ fun Year() {
         }
     )
 }
-@Composable
-fun CreateButton() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-            .offset(y = 275.dp)
-    ){
-        Button(onClick = {},
-            shape = RoundedCornerShape(60.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-        ) {
-            Text(
-                text = "Opret",
-                color = Color.Black
-            )
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
