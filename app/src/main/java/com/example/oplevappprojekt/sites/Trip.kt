@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import java.util.Date
 
 
@@ -27,7 +28,8 @@ val myColor = "#455467"
 @Composable
 @Preview
 fun TripPrev(){
-    Trip(JourneyViewModel(), {})
+    val repo = HardcodedJourneysRepository()
+    Trip(JourneyViewModel(repo), {})
 }
 
 @Composable
@@ -121,7 +123,6 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .offset(y = 275.dp)
             ){
                 Button(onClick = {
-                    TODO()
                     //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
                     //fra dropdown og ikke de hardkodede værdier.
 

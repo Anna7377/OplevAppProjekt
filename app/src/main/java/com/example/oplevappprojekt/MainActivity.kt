@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
@@ -43,6 +44,8 @@ fun OplevApp(viewModel: AuthViewModel){
         NavHost(navController = navigationController,
             modifier = Modifier.fillMaxSize(),
             startDestination = mainroute) {
+
+            val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
                     StartPage(navigate = { navigationController.navigate(loginRoute) })
             }
@@ -55,14 +58,14 @@ fun OplevApp(viewModel: AuthViewModel){
             }
             composable(route=mainroute){
                 MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
-                    MyJourneysViewModel(),
+                    MyJourneysViewModel(repo),
                    navCreate = {navigationController.navigate(createroute)})
             }
             composable(route=inspirationroute){
                 Inspiration()
             }
             composable(route=createroute){
-                Trip(JourneyViewModel(), navMain = {navigationController.navigate(mainroute)})
+                Trip(JourneyViewModel(repo), navMain = {navigationController.navigate(mainroute)})
             }
     }
 

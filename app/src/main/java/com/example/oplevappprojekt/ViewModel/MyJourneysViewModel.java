@@ -1,6 +1,9 @@
 package com.example.oplevappprojekt.ViewModel;
 
+import androidx.lifecycle.ViewModel;
+
 import com.example.oplevappprojekt.R;
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository;
 import com.example.oplevappprojekt.data.JourneyData;
 import com.example.oplevappprojekt.model.Journey;
 
@@ -9,9 +12,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MyJourneysViewModel {
+public class MyJourneysViewModel extends ViewModel {
 
    private  JourneyData journeyData;
+   private HardcodedJourneysRepository repo;
+   public MyJourneysViewModel(HardcodedJourneysRepository repo) {
+       this.repo = repo;
+       journeyData = new JourneyData();
+       journeyData.setJourneys(repo.getJourneys());
+   }
 
     public JourneyData getJourneyData() {
         return journeyData;

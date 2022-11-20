@@ -74,10 +74,8 @@ fun MainPrev(){
 @Composable
 fun CountryList(list: List<Journey>){
     LazyColumn {
-        items(list) { list.forEach{ 
+        items(list) {
             CountryCards(img=it.img, country = it.country)
-        }
-
         }
     }
 }
