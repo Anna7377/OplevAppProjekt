@@ -27,6 +27,8 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import java.time.format.TextStyle
 
+
+//S215722
 @Composable
 fun TopCard(ImageId: Int, text: String) {
     Card(modifier = Modifier.padding(4.dp), elevation = 4.dp,

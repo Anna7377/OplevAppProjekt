@@ -5,9 +5,10 @@ import java.util.Date
 
 
 data class Journey(
-    val image: String = " ",
-    val country: String = " ",
-    val date: LocalDate = LocalDate.now()
+   val country: String,
+    val date: Date,
+   val img: Int
+
 )
 
 data class Idea(

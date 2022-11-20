@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
-///s215722
+//s215722
 data class Auth(
 val mail:String="",
 val password:String="",
@@ -58,6 +58,7 @@ var loggedIn: Boolean = false
                 { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
+                        loggedIn=true
                         val user = auth.currentUser
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
