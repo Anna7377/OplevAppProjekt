@@ -110,21 +110,43 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .padding(30.dp)
                     .offset(y = 160.dp)
             )
-            Date(viewModel)
-            Month(viewModel)
-            Year(viewModel)
-            CreateButton(createJ =  {viewModel.newJourey(selectedItem, viewModel.CreateDate(), R.drawable.image10)})
+            viewModel.setDay(Dato())
+           viewModel.setMonth(Month())
+           viewModel.setYear(Year())
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(y = 275.dp)
+            ){
+                Button(onClick = {
+                    TODO()
+                    //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
+                    //fra dropdown og ikke de hardkodede værdier.
+
+                    viewModel.newJourey(selectedItem, 2020, 2, 2, R.drawable.image10)
+                    navMain()},
+                    shape = RoundedCornerShape(60.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+                ) {
+                    Text(
+                        text = "Opret",
+                        color = Color.Black
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun Date(viewModel: JourneyViewModel) {
+fun Dato(): String {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("Dato")
+        mutableStateOf("10")
     }
 
     var list = listOf("1", "2", "3", "4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
@@ -168,20 +190,20 @@ fun Date(viewModel: JourneyViewModel) {
             }
         }
     )
-    viewModel.day=selectedItem
+    return selectedItem
 }
 
 
 
 @Composable
-fun Month(viewModel: JourneyViewModel) {
+fun Month() : String {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("Måned")
+        mutableStateOf("10")
     }
-    var list = listOf("Januar", "Februar", "Marts", "April","Maj","Juni","Juli","August","September","Oktober","November","December")
+    var list = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
 
     MaterialTheme(
         content ={
@@ -222,15 +244,15 @@ fun Month(viewModel: JourneyViewModel) {
             }
         }
     )
-   viewModel.month=selectedItem
+   return selectedItem
 }
 @Composable
-fun Year(viewModel: JourneyViewModel) {
+fun Year() : String {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("År")
+        mutableStateOf("2020")
     }
     var list = listOf("2020", "2021", "2022", "2023","2024","2025","2026","2027","2028","2029","2030")
 
@@ -273,26 +295,11 @@ fun Year(viewModel: JourneyViewModel) {
             }
         }
     )
-    viewModel.year=selectedItem
+    return selectedItem
 }
 @Composable
 fun CreateButton(createJ: ()->Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .offset(y = 275.dp)
-    ){
-        Button(onClick = {createJ},
-            shape = RoundedCornerShape(60.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-        ) {
-            Text(
-                text = "Opret",
-                color = Color.Black
-            )
-        }
-    }
+
 }
 
 

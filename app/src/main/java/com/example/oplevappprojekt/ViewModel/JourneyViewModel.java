@@ -5,6 +5,7 @@ import static java.lang.Integer.parseInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.oplevappprojekt.data.JourneyData;
 import com.example.oplevappprojekt.model.Journey;
 
 import java.util.ArrayList;
@@ -16,52 +17,59 @@ import java.util.ListIterator;
 
 public class JourneyViewModel {
 
-    public List<Journey>  journeys = new ArrayList<>();
+    private JourneyData journeyData;
 
-    private String year, month, day;
+
+    public JourneyData getJourneyData() {
+        return journeyData;
+
+    }
+
+    public void setJourneyData(JourneyData journeyData) {
+        this.journeyData = journeyData;
+    }
+
+    private int year, month, day;
     private Date date;
 
     public void setDay(String day) {
-        this.day = day;
+        this.day = parseInt(day);
     }
 
     public void setYear(String year) {
-        this.year = year;
+        this.year = parseInt(year);
     }
 
     public void setMonth(String month) {
-        this.month = month;
+        this.month = parseInt(month);
     }
 
-    public String getDay() {
+    public int getDay() {
         return day;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         return month;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public Date CreateDate(){
-        year=getYear();
-        month=getMonth();
-        day=getDay();
-     int inday = parseInt(day);
-     int inmonth = parseInt(month);
-     int inyear=parseInt(year);
-     Date date = new Date(inyear,inmonth,inday);
+    public Date CreateDate(int year, int month, int day){
+     Date date = new Date(year,month,day);
      return date;
     }
 
-    public void newJourey(String country, Date date, int img){
-       Journey journey1 = new Journey(country, date, img);
-journeys.add(journey1);
-CreateDate();
-System.out.println("Journey created");
-    }
+    public void newJourey(String country, int year, int month, int day, int img){
+       Journey journey1 = new Journey(country, CreateDate(year, month, day), img);
+        ArrayList<Journey> journeys = new ArrayList<>();
+        journeys.add(journey1);
+        setJourneyData(new JourneyData());
+        getJourneyData().setJourneys(journeys);
+        System.out.println("Journey created");
+        System.out.println(getJourneyData().getJourneys());
 
+    }
 }
 
