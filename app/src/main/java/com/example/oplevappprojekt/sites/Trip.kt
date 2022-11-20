@@ -1,5 +1,8 @@
 package com.example.oplevappprojekt
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,28 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.oplevappprojekt.ViewModel.JourneyViewModel
-import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import java.util.Date
+import androidx.navigation.NavController
+import com.example.oplevappprojekt.model.Screen
 
 
 val myColor = "#455467"
 
-
 @Composable
-@Preview
-fun TripPrev(){
-    val repo = HardcodedJourneysRepository()
-    Trip(JourneyViewModel(repo), {})
-}
-
-@Composable
-fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
+fun CreateTrip(
+    navController: NavController
+) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -61,15 +55,16 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
             var selectedItem by remember {
                 mutableStateOf("Vælg land")
             }
-            var list = listOf("Danmark", "Usa", "Norge", "England")
+            var list = listOf("Danmark", "USA", "Norge", "England")
+            //var list = arrayOf(countries)
 
             MaterialTheme(
-                content ={
+                content = {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.height(200.dp)
 
-                    ){
+                    ) {
                         Box(
                             modifier = Modifier
                                 .offset(x = 30.dp)
@@ -79,17 +74,20 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                                 .width(250.dp)
                         )
                         {
-                            TextButton(onClick = {expanded = true}) {
+                            TextButton(onClick = { expanded = true }) {
                                 Row {
-                                    Text(text = "$selectedItem",
+                                    Text(
+                                        text = "$selectedItem",
                                         fontSize = 10.sp,
                                         color = Color.Black,
                                     )
                                     Icon(Icons.Default.ArrowDropDown, contentDescription = "")
                                 }
                             }
-                            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                                list.forEach{
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }) {
+                                list.forEach {
                                     DropdownMenuItem(onClick = {
                                         expanded = false
                                         selectedItem = it
@@ -112,22 +110,17 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .padding(30.dp)
                     .offset(y = 160.dp)
             )
-            viewModel.setDay(Dato())
-           viewModel.setMonth(Month())
-           viewModel.setYear(Year())
-
+            Date()
+            Month()
+            Year()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
                     .offset(y = 275.dp)
             ){
                 Button(onClick = {
-                    //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
-                    //fra dropdown og ikke de hardkodede værdier.
-
-                    viewModel.newJourey(selectedItem, 2020, 2, 2, R.drawable.image10)
-                    navMain()},
+                    navController.navigate(route = Screen.Trips.route)
+                },
                     shape = RoundedCornerShape(60.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                 ) {
@@ -137,17 +130,15 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     )
                 }
             }
-        }
-    }
-}
+        }}}
 
 @Composable
-fun Dato(): String {
+fun Date() {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("10")
+        mutableStateOf("Dato")
     }
 
     var list = listOf("1", "2", "3", "4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
@@ -191,20 +182,17 @@ fun Dato(): String {
             }
         }
     )
-    return selectedItem
 }
 
-
-
 @Composable
-fun Month() : String {
+fun Month(){
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("10")
+        mutableStateOf("Måned")
     }
-    var list = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+    var list = listOf("Januar", "Februar", "Marts", "April","Maj","Juni","Juli","August","September","Oktober","November","December")
 
     MaterialTheme(
         content ={
@@ -245,15 +233,14 @@ fun Month() : String {
             }
         }
     )
-   return selectedItem
 }
 @Composable
-fun Year() : String {
+fun Year() {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("2020")
+        mutableStateOf("År")
     }
     var list = listOf("2020", "2021", "2022", "2023","2024","2025","2026","2027","2028","2029","2030")
 
@@ -296,18 +283,4 @@ fun Year() : String {
             }
         }
     )
-    return selectedItem
 }
-@Composable
-fun CreateButton(createJ: ()->Unit) {
-
-}
-
-
-
-
-
-
-
-
-
