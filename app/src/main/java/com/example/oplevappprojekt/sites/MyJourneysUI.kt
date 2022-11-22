@@ -48,12 +48,6 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                       .fillMaxWidth()
               ) {
                   TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
-                  FloatingActionButton(
-                      onClick = navCreate,
-                      backgroundColor = Color(myColourString.toColorInt()),
-                      contentColor = Color.White
-                  ) {
-                  }
 
                   if (viewModel.journeyData.journeys.isEmpty()) {
                       Text(text = "No journeys")
@@ -62,7 +56,8 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                   }
               }
           }
-      })
+      },
+  floatingActionButton = {Fob({navCreate()})})
 }
 
 @Preview
