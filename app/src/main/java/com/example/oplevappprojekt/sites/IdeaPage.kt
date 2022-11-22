@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.oplevappprojekt.model.Journey
@@ -26,6 +30,7 @@ typealias ComposableFun = @Composable () -> Unit
 fun Previeww() {
 MyJourneyPage()
 }
+
 
 @Composable
 fun MyJourneyPage(){
@@ -75,15 +80,23 @@ fun IdeaGrid(journey : Journey){
 
 @Composable
 fun IdeaBox(idea: Idea?) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
         Box(modifier = Modifier
             .width(200.dp)
             .height(200.dp)
-            .padding(top=20.dp, bottom = 20.dp, start = 20.dp, end=20.dp)
-            .clip(RoundedCornerShape(15))){
+            .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
+            .clip(RoundedCornerShape(15))) {
             Image(
-                painter = painterResource(id = R.drawable.image10 ),
+                painter = painterResource(id = R.drawable.image11),
                 contentDescription = " "
             )
-
+        }
+        if (idea != null) {
+            Text(text=idea.title, textAlign = TextAlign.Center)
+        }
+        else {
+            Text(text= "Skagen", textAlign = TextAlign.Center)
+        }
         }
 }

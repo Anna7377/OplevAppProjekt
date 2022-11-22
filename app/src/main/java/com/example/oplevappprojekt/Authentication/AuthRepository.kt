@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.Authentication
 
 
+/*
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -52,4 +53,4 @@ class AuthRepository {
         }
 }
 
-
+ *///

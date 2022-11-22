@@ -224,10 +224,7 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Inspirationskilder") },
                 selected = false,
-                onClick = {
-
-
-                })
+                onClick = {onClick1})
 
             BottomNavigationItem(
                 icon = {
@@ -247,8 +244,7 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 label = { Text(text = "Profil") },
                 selected = false,
                 onClick = {
-                })
-
+                } )
         }
     }
 }
