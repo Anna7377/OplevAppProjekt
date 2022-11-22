@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 
 @Composable
-fun CreateIdea() {
+fun CreateIdea(navIdeas: ()->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -61,7 +61,7 @@ fun CreateIdea() {
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Button(onClick = {},
+                    Button(onClick = {navIdeas()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -76,7 +76,7 @@ fun CreateIdea() {
     }}
 
 @Composable
-fun Title(){
+fun Title()  {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -100,7 +100,6 @@ fun Title(){
         },
 
         )
-
 
 }
 

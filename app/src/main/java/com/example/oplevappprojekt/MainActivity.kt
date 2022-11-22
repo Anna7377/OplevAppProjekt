@@ -77,7 +77,7 @@ fun OplevApp(viewModel: AuthViewModel){
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)})
             }
             composable(route=createIdea){
-                CreateIdea()
+                CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
     }
 

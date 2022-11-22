@@ -62,7 +62,6 @@ fun MyJourneyPage(navCreate: ()-> Unit){
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IdeaGrid(journey : Journey){
-
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in journey.IdeaList){
@@ -116,8 +115,4 @@ fun IdeaBox(idea: Idea?) {
             backgroundColor = Color(myColourString.toColorInt())
         )
     }
-}
-@Composable
-fun TapIdea(value: Boolean){
-
 }
