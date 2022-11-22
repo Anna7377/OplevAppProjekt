@@ -37,16 +37,23 @@ class MyJourneysUI{
 }
 
 // S215722
+
+@Composable
+fun mainScreen(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit){
+    Scaffold(
+        bottomBar = { BottomBar(onClick1 = { /*TODO*/ }, onClick2 = { /*TODO*/ }) {}},
+        content = { MainPage(navigationInsp = { /*TODO*/ }, viewModel = viewModel) {}},
+        floatingActionButton = { Fab {
+            navCreate
+        }}
+    )
+}
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit){
    Surface(modifier = Modifier.fillMaxSize()) {
        Column(modifier = Modifier
            .fillMaxWidth()) {
            TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
-           FloatingActionButton(onClick = navCreate,
-               backgroundColor = Color(myColourString.toColorInt()),
-               contentColor = Color.White) {
-           }
 
            if (viewModel.journeyData.journeys.isEmpty()){
                Text(text = "No journeys")
@@ -54,6 +61,14 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                CountryList(list = viewModel.journeyData.journeys)
            }
        }
+    }
+}
+
+@Composable
+fun Fab(navCreate: () -> Unit){
+    FloatingActionButton(onClick = navCreate,
+        backgroundColor = Color(myColourString.toColorInt()),
+        contentColor = Color.White) {
     }
 }
 

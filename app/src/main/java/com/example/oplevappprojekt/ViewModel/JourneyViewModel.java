@@ -25,15 +25,6 @@ public class JourneyViewModel extends ViewModel {
         this.repo = repo;
     }
 
-    public JourneyData getJourneyData() {
-        return journeyData;
-
-    }
-
-    public void setJourneyData(JourneyData journeyData) {
-        this.journeyData = journeyData;
-    }
-
     private int year, month, day;
     private Date date;
 
@@ -67,8 +58,8 @@ public class JourneyViewModel extends ViewModel {
     }
 
     public void newJourey(String country, int year, int month, int day, int img){
-       Journey journey1 = new Journey(country, CreateDate(year, month, day), img);
-       repo.addJourney(journey1);
+        //Journey journey1 = new Journey(country, CreateDate(year, month, day), img);
+       //repo.addJourney(journey1);
 
     }
 }

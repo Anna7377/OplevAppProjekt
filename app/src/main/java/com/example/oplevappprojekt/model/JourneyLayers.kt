@@ -7,14 +7,11 @@ import java.util.Date
 data class Journey(
    val country: String,
     val date: Date,
-   val img: Int
-
+   val img: Int,
+   var IdeaList: MutableList<Idea> = mutableListOf<Idea>()
 )
 
 data class Idea(
-    val image: String,
     val title: String,
-    val desc: Date,
-    val link: String,
-    val category: String
+    val desc: String
 )

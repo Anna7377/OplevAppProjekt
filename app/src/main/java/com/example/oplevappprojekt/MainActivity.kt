@@ -43,7 +43,7 @@ fun OplevApp(viewModel: AuthViewModel){
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
             modifier = Modifier.fillMaxSize(),
-            startDestination = mainroute) {
+            startDestination = inspirationroute) {
 
             val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
@@ -57,7 +57,7 @@ fun OplevApp(viewModel: AuthViewModel){
                 navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=mainroute){
-                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
+                mainScreen(navigationInsp = {navigationController.navigate(inspirationroute)},
                     MyJourneysViewModel(repo),
                    navCreate = {navigationController.navigate(createroute)})
             }

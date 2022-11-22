@@ -32,7 +32,7 @@ public class MyJourneysViewModel extends ViewModel {
 
 
     public MyJourneysViewModel() {
-        Journey journey1 = new Journey("Danmark", new Date(2000,2,20), R.drawable.image1);
+        Journey journey1 = new Journey("Danmark", new Date(2000,2,20), R.drawable.image1, new ArrayList<>());
         ArrayList<Journey> journeys = new ArrayList<>();
         journeys.add(journey1);
         //Her skal der ikke laves hel ny journeydata. den skal hente hvad JourneyViewModel har gemt.
