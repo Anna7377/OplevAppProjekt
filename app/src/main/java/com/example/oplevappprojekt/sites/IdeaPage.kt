@@ -88,8 +88,9 @@ fun IdeaGrid(journey : Journey){
 
 @Composable
 fun IdeaBox(idea: Idea?) {
+    val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier
+        Box(modifier = Modifier.clickable(onClick = {dialog.value=true})
             .width(200.dp)
             .height(200.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
@@ -106,10 +107,6 @@ fun IdeaBox(idea: Idea?) {
             Text(text= "Skagen", textAlign = TextAlign.Center)
         }
         }
-}
-@Composable
-fun TapIdea(value: Boolean){
-    val dialog = remember{ mutableStateOf(value) }
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
@@ -119,4 +116,8 @@ fun TapIdea(value: Boolean){
             backgroundColor = Color(myColourString.toColorInt())
         )
     }
+}
+@Composable
+fun TapIdea(value: Boolean){
+
 }
