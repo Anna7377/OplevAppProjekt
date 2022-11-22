@@ -34,8 +34,11 @@ fun OplevApp(viewModel: AuthViewModel){
     OplevAppProjektTheme {
         val startRoute = "start"
         val mainroute = "main"
+        val profile = "profile"
         val loginRoute="logIn"
         val signupRoute="signUp"
+        val createIdea="Create idea"
+        val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
         val state = viewModel.uiState.collectAsState()
@@ -43,7 +46,7 @@ fun OplevApp(viewModel: AuthViewModel){
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
             modifier = Modifier.fillMaxSize(),
-            startDestination = inspirationroute) {
+            startDestination = mainroute) {
 
             val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
@@ -57,15 +60,24 @@ fun OplevApp(viewModel: AuthViewModel){
                 navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=mainroute){
-                mainScreen(navigationInsp = {navigationController.navigate(inspirationroute)},
+                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
                     MyJourneysViewModel(repo),
-                   navCreate = {navigationController.navigate(createroute)})
+                   navCreate = {navigationController.navigate(createroute)}, navProfile = {navigationController.navigate(profile)}, navIdeas = {navigationController.navigate(idearoute)})
             }
             composable(route=inspirationroute){
                 Inspiration()
             }
             composable(route=createroute){
-                Trip(JourneyViewModel(repo), navMain = {navigationController.navigate(mainroute)})
+                Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo))
+            }
+            composable(route=profile){
+                UserProfile()
+            }
+            composable(route=idearoute){
+                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)})
+            }
+            composable(route=createIdea){
+                CreateIdea()
             }
     }
 

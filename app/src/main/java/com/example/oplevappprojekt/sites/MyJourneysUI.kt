@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,59 +38,47 @@ class MyJourneysUI{
 }
 
 // S215722
-
 @Composable
-fun mainScreen(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit){
-    Scaffold(
-        bottomBar = { BottomBar(onClick1 = { /*TODO*/ }, onClick2 = { /*TODO*/ }) {}},
-        content = { MainPage(navigationInsp = { /*TODO*/ }, viewModel = viewModel) {}},
-        floatingActionButton = { Fab {
-            navCreate
-        }}
-    )
-}
-@Composable
-fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit){
-   Surface(modifier = Modifier.fillMaxSize()) {
-       Column(modifier = Modifier
-           .fillMaxWidth()) {
-           TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
+fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit){
+  Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
+      content =
+      {
+          Surface(modifier = Modifier.fillMaxSize()) {
+              Column(
+                  modifier = Modifier
+                      .fillMaxWidth()
+              ) {
+                  TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
 
-           if (viewModel.journeyData.journeys.isEmpty()){
-               Text(text = "No journeys")
-           } else {
-               CountryList(list = viewModel.journeyData.journeys)
-           }
-       }
-    }
-}
-
-@Composable
-fun Fab(navCreate: () -> Unit){
-    FloatingActionButton(onClick = navCreate,
-        backgroundColor = Color(myColourString.toColorInt()),
-        contentColor = Color.White) {
-    }
+                  if (viewModel.journeyData.journeys.isEmpty()) {
+                      Text(text = "No journeys")
+                  } else {
+                      CountryList(list = viewModel.journeyData.journeys, navIdeas = navIdeas)
+                  }
+              }
+          }
+      },
+  floatingActionButton = {Fob({navCreate()})})
 }
 
 @Preview
 @Composable
 fun MainPrev(){
     val myJourneysViewModel = MyJourneysViewModel()
-    MainPage({}, myJourneysViewModel, {})
+    MainPage({}, myJourneysViewModel, {}, {}, {})
 }
 
 @Composable
-fun CountryList(list: List<Journey>){
+fun CountryList(list: List<Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=it.img, country = it.country)
+            CountryCards(img=it.img, country = it.country, navIdeas)
         }
     }
 }
 @Composable
-fun CountryCards(img: Int, country: String) {
-    Card(modifier = Modifier.padding(4.dp), elevation = 4.dp) {
+fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
+    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {navIdeas()})  , elevation = 4.dp) {
 
 
         Box() {

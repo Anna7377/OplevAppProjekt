@@ -25,6 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 
+
+@Preview
+@Composable
+fun profilePrev(){
+    UserProfile()
+}
+
 @Composable
 fun UserProfile(){
     Image(

@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import java.time.format.TextStyle
 
@@ -56,15 +57,6 @@ Row(){
         color = Color.White,
 
         )
-    Text(text="+",
-        modifier = Modifier
-            .clickable(onClick = {/*TODO*/ })
-            .padding(top = 120.dp, start = 100.dp),
-        textAlign=TextAlign.Right,
-        fontSize=60.sp,
-        fontWeight = FontWeight.Light,
-        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.Black, offset = Offset(2f, 2f), blurRadius = 5f)),
-        color = Color.White)
 }
 
 
@@ -212,10 +204,20 @@ fun Bottombarprev() {
 }
 
 @Composable
+fun Fob(navCreate: ()->Unit){
+    FloatingActionButton(
+        onClick = {navCreate()},
+        backgroundColor = Color(myColourString.toColorInt()),
+        contentColor = Color.White
+    ) {
+    }
+}
+
+@Composable
 fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
     BottomAppBar(modifier = Modifier
-        .height(65.dp)) {
-        BottomNavigation {
+        .height(65.dp).padding(top=10.dp)) {
+        BottomNavigation(backgroundColor = Color(myColourString.toColorInt())) {
             BottomNavigationItem(
                 icon = {
                     Icon(
@@ -224,10 +226,7 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Inspirationskilder") },
                 selected = false,
-                onClick = {
-
-
-                })
+                onClick = {onClick1})
 
             BottomNavigationItem(
                 icon = {
@@ -237,18 +236,13 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Mine Rejser") },
                 selected = false,
-                onClick = {
-
-
-                })
+                onClick = {onClick2})
             BottomNavigationItem(
                 icon = {
                     Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "" )},
                 label = { Text(text = "Profil") },
                 selected = false,
-                onClick = {
-                })
-
+                onClick = {onClick3} )
         }
     }
 }
