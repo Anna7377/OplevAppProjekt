@@ -2,28 +2,36 @@ package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Bottom
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import java.time.format.TextStyle
 
+
+//S215722
 @Composable
 fun TopCard(ImageId: Int, text: String) {
     Card(modifier = Modifier.padding(4.dp), elevation = 4.dp,
@@ -34,7 +42,8 @@ fun TopCard(ImageId: Int, text: String) {
                 painter = painterResource(id = ImageId),
                 contentDescription = " ",
                 modifier = Modifier
-                    .fillMaxWidth().height(200.dp),
+                    .fillMaxWidth()
+                    .height(200.dp),
                 contentScale = ContentScale.Crop
             )
 Row(){
@@ -48,7 +57,9 @@ Row(){
 
         )
     Text(text="+",
-        modifier = Modifier.clickable(onClick = {/*TODO*/}).padding(top=120.dp, start=100.dp),
+        modifier = Modifier
+            .clickable(onClick = {/*TODO*/ })
+            .padding(top = 120.dp, start = 100.dp),
         textAlign=TextAlign.Right,
         fontSize=60.sp,
         fontWeight = FontWeight.Light,
@@ -77,11 +88,11 @@ fun SingleJourneyTitle(text: String){
 fun SmallTitle(text: String) {
     Text(
         text = text, color = Color(myColourString.toColorInt()),
-        fontSize = 47.sp,
+        fontSize = 40.sp,
         fontFamily = FontFamily.SansSerif,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.ExtraBold,
-        modifier=Modifier.padding(top=40.dp, bottom=50.dp)
+        modifier=Modifier.padding(top=40.dp)
     )
 }
 
@@ -127,7 +138,8 @@ fun Title(text: String) {
 }
 
 @Composable
-fun InputText(hint: String) {
+fun InputText(hint: String) : String {
+    var retText: String = ""
     Column() {
         Text(text=hint, fontSize = 20.sp, textAlign = TextAlign.Left, textDecoration = TextDecoration.Underline)
         val currentText = remember {
@@ -135,9 +147,10 @@ fun InputText(hint: String) {
         }
         TextField(value = currentText.value,
             onValueChange = { currentText.value = it })
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(15.dp))
+        retText=currentText.value.text
     }
-
+    return retText
 }
 
 @Composable
@@ -165,8 +178,8 @@ fun Logo() {
 }
 
 @Composable
-fun ChangePageText(text: String) {
-    TextButton(onClick = { /*TODO*/ }) {
+fun ChangePageText(text: String, onClick: () -> Unit) {
+    TextButton(onClick = onClick) {
         Text(text = text,
             color = Color(myColourString.toColorInt()))
 
@@ -192,3 +205,50 @@ fun BigLogo(){
 
 }
 
+@Preview
+@Composable
+fun Bottombarprev() {
+    BottomBar({}, {}, {})
+}
+
+@Composable
+fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
+    BottomAppBar(modifier = Modifier
+        .height(65.dp)) {
+        BottomNavigation {
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        "")
+                },
+                label = { Text(text = "Inspirationskilder") },
+                selected = false,
+                onClick = {
+
+
+                })
+
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Place,
+                        "")
+                },
+                label = { Text(text = "Mine Rejser") },
+                selected = false,
+                onClick = {
+
+
+                })
+            BottomNavigationItem(
+                icon = {
+                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "" )},
+                label = { Text(text = "Profil") },
+                selected = false,
+                onClick = {
+                })
+
+        }
+    }
+}

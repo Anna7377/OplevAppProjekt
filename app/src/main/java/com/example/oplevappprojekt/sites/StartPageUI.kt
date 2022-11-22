@@ -18,7 +18,7 @@ class StartPageUI{
 }
 
 @Composable
-fun StartPage(){
+fun StartPage(navigate: ()-> Unit){
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier
             .height(400.dp)
@@ -29,9 +29,7 @@ fun StartPage(){
             LogoText()
             Text(text="ALLE EVENTYR I LOMMEN", fontSize = 30.sp, color = Color(myColourString.toColorInt()),
                 modifier = Modifier.padding(bottom = 60.dp))
-            LogInButton(text = "Kom i gang") {
-
-            }
+            LogInButton(text = "Kom i gang", onClick=navigate)
         }
     }
 
@@ -42,5 +40,5 @@ fun StartPage(){
 @Preview
 @Composable
 fun StartPrev(){
-    StartPage()
+StartPage (navigate={})
 }
