@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import java.time.format.TextStyle
 
@@ -212,10 +213,20 @@ fun Bottombarprev() {
 }
 
 @Composable
+fun Fob(navCreate: ()->Unit){
+    FloatingActionButton(
+        onClick = {navCreate()},
+        backgroundColor = Color(myColourString.toColorInt()),
+        contentColor = Color.White
+    ) {
+    }
+}
+
+@Composable
 fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
     BottomAppBar(modifier = Modifier
-        .height(65.dp)) {
-        BottomNavigation {
+        .height(65.dp).padding(top=10.dp)) {
+        BottomNavigation(backgroundColor = Color(myColourString.toColorInt())) {
             BottomNavigationItem(
                 icon = {
                     Icon(
