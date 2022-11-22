@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,7 +39,7 @@ class MyJourneysUI{
 
 // S215722
 @Composable
-fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit){
+fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit){
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
@@ -52,7 +53,7 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                   if (viewModel.journeyData.journeys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = viewModel.journeyData.journeys)
+                      CountryList(list = viewModel.journeyData.journeys, navIdeas = navIdeas)
                   }
               }
           }
@@ -64,20 +65,20 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
 @Composable
 fun MainPrev(){
     val myJourneysViewModel = MyJourneysViewModel()
-    MainPage({}, myJourneysViewModel, {}, {})
+    MainPage({}, myJourneysViewModel, {}, {}, {})
 }
 
 @Composable
-fun CountryList(list: List<Journey>){
+fun CountryList(list: List<Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=it.img, country = it.country)
+            CountryCards(img=it.img, country = it.country, navIdeas)
         }
     }
 }
 @Composable
-fun CountryCards(img: Int, country: String) {
-    Card(modifier = Modifier.padding(4.dp), elevation = 4.dp) {
+fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
+    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {navIdeas()})  , elevation = 4.dp) {
 
 
         Box() {

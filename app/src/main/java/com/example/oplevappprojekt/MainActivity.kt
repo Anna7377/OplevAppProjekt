@@ -37,6 +37,8 @@ fun OplevApp(viewModel: AuthViewModel){
         val profile = "profile"
         val loginRoute="logIn"
         val signupRoute="signUp"
+        val createIdea="Create idea"
+        val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
         val state = viewModel.uiState.collectAsState()
@@ -60,7 +62,7 @@ fun OplevApp(viewModel: AuthViewModel){
             composable(route=mainroute){
                 MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
                     MyJourneysViewModel(repo),
-                   navCreate = {navigationController.navigate(createroute)}, navProfile = {navigationController.navigate(profile)})
+                   navCreate = {navigationController.navigate(createroute)}, navProfile = {navigationController.navigate(profile)}, navIdeas = {navigationController.navigate(idearoute)})
             }
             composable(route=inspirationroute){
                 Inspiration()
@@ -70,6 +72,12 @@ fun OplevApp(viewModel: AuthViewModel){
             }
             composable(route=profile){
                 UserProfile()
+            }
+            composable(route=idearoute){
+                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)})
+            }
+            composable(route=createIdea){
+                CreateIdea()
             }
     }
 

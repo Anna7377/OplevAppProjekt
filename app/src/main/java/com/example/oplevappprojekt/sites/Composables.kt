@@ -57,15 +57,6 @@ Row(){
         color = Color.White,
 
         )
-    Text(text="+",
-        modifier = Modifier
-            .clickable(onClick = {/*TODO*/ })
-            .padding(top = 120.dp, start = 100.dp),
-        textAlign=TextAlign.Right,
-        fontSize=60.sp,
-        fontWeight = FontWeight.Light,
-        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.Black, offset = Offset(2f, 2f), blurRadius = 5f)),
-        color = Color.White)
 }
 
 
