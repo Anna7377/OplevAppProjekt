@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// S215722
+// S215722 & S213370
 @Composable
 fun OplevApp(viewModel: AuthViewModel){
     OplevAppProjektTheme {
@@ -63,13 +63,13 @@ fun OplevApp(viewModel: AuthViewModel){
                    navCreate = {navigationController.navigate(createroute)}, navProfile = {navigationController.navigate(profile)})
             }
             composable(route=inspirationroute){
-                Inspiration()
+                Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
             }
             composable(route=createroute){
                 Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo))
             }
             composable(route=profile){
-                UserProfile()
+                UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)}, navMain = {navigationController.navigate(mainroute)})
             }
     }
 
