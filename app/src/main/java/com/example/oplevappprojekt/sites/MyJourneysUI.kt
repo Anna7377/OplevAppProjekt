@@ -39,9 +39,11 @@ class MyJourneysUI{
 // S215722
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit){
+
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
+
           Surface(modifier = Modifier.fillMaxSize()) {
               Column(
                   modifier = Modifier

@@ -35,6 +35,7 @@ class InspirationUI{
 }
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
+
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
         {

@@ -222,6 +222,7 @@ fun Fob(navCreate: ()->Unit){
     }
 }
 
+//S215722 & S213370
 @Composable
 fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
     BottomAppBar(modifier = Modifier
