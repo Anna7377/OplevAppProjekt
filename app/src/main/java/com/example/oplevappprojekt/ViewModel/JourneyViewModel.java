@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.oplevappprojekt.data.JourneyData;
 import com.example.oplevappprojekt.data.JourneysRepository;
+import com.example.oplevappprojekt.model.Idea;
 import com.example.oplevappprojekt.model.Journey;
 
 import java.util.ArrayList;
@@ -19,14 +20,17 @@ import java.util.ListIterator;
 
 public class JourneyViewModel extends ViewModel {
 
+
     private JourneyData journeyData;
     private JourneysRepository repo;
+
     public JourneyViewModel(JourneysRepository repo) {
         this.repo = repo;
     }
 
     private int year, month, day;
     private Date date;
+
 
     public void setDay(String day) {
         this.day = parseInt(day);
@@ -40,27 +44,20 @@ public class JourneyViewModel extends ViewModel {
         this.month = parseInt(month);
     }
 
-    public int getDay() {
-        return day;
+    public Date CreateDate(int year, int month, int day) {
+        Date date = new Date(year, month, day);
+        return date;
     }
 
-    public int getMonth() {
-        return month;
-    }
 
-    public int getYear() {
-        return year;
-    }
 
-    public Date CreateDate(int year, int month, int day){
-     Date date = new Date(year,month,day);
-     return date;
-    }
 
     public void newJourey(String country, int year, int month, int day, int img){
-        //Journey journey1 = new Journey(country, CreateDate(year, month, day), img);
-       //repo.addJourney(journey1);
+        Journey journey1 = new Journey(country, CreateDate(year, month, day), img, repo.getIdeas() );
+       repo.addJourney(journey1);
 
     }
 }
+
+
 

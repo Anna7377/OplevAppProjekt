@@ -34,6 +34,7 @@ fun OplevApp(viewModel: AuthViewModel){
     OplevAppProjektTheme {
         val startRoute = "start"
         val mainroute = "main"
+        val profile = "profile"
         val loginRoute="logIn"
         val signupRoute="signUp"
         val inspirationroute = "inspiration"
@@ -59,13 +60,16 @@ fun OplevApp(viewModel: AuthViewModel){
             composable(route=mainroute){
                 MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
                     MyJourneysViewModel(repo),
-                   navCreate = {navigationController.navigate(createroute)})
+                   navCreate = {navigationController.navigate(createroute)}, navProfile = {navigationController.navigate(profile)})
             }
             composable(route=inspirationroute){
                 Inspiration()
             }
             composable(route=createroute){
                 Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo))
+            }
+            composable(route=profile){
+                UserProfile()
             }
     }
 

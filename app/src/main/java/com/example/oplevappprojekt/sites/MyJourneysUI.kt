@@ -38,30 +38,38 @@ class MyJourneysUI{
 
 // S215722
 @Composable
-fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit){
-   Surface(modifier = Modifier.fillMaxSize()) {
-       Column(modifier = Modifier
-           .fillMaxWidth()) {
-           TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
-           FloatingActionButton(onClick = navCreate,
-               backgroundColor = Color(myColourString.toColorInt()),
-               contentColor = Color.White) {
-           }
+fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit){
+  Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
+      content =
+      {
+          Surface(modifier = Modifier.fillMaxSize()) {
+              Column(
+                  modifier = Modifier
+                      .fillMaxWidth()
+              ) {
+                  TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
+                  FloatingActionButton(
+                      onClick = navCreate,
+                      backgroundColor = Color(myColourString.toColorInt()),
+                      contentColor = Color.White
+                  ) {
+                  }
 
-           if (viewModel.journeyData.journeys.isEmpty()){
-               Text(text = "No journeys")
-           } else {
-               CountryList(list = viewModel.journeyData.journeys)
-           }
-       }
-    }
+                  if (viewModel.journeyData.journeys.isEmpty()) {
+                      Text(text = "No journeys")
+                  } else {
+                      CountryList(list = viewModel.journeyData.journeys)
+                  }
+              }
+          }
+      })
 }
 
 @Preview
 @Composable
 fun MainPrev(){
     val myJourneysViewModel = MyJourneysViewModel()
-    MainPage({}, myJourneysViewModel, {})
+    MainPage({}, myJourneysViewModel, {}, {})
 }
 
 @Composable

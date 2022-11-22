@@ -20,4 +20,7 @@ class HardcodedJourneysRepository : JourneysRepository {
     override fun getJourneys(): List<Journey> {
         return journeys
     }
+   override fun getIdeas(): List<Idea>{
+        return myideas
+    }
 }
