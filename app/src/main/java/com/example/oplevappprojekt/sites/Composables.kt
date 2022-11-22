@@ -234,17 +234,13 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Mine Rejser") },
                 selected = false,
-                onClick = {
-
-
-                })
+                onClick = {onClick2})
             BottomNavigationItem(
                 icon = {
                     Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "" )},
                 label = { Text(text = "Profil") },
                 selected = false,
-                onClick = {
-                } )
+                onClick = {onClick3} )
         }
     }
 }
