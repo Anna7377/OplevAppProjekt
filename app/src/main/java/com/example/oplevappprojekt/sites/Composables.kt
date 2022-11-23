@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Bottom
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import java.time.format.TextStyle
 
@@ -53,15 +57,6 @@ Row(){
         color = Color.White,
 
         )
-    Text(text="+",
-        modifier = Modifier
-            .clickable(onClick = {/*TODO*/ })
-            .padding(top = 120.dp, start = 100.dp),
-        textAlign=TextAlign.Right,
-        fontSize=60.sp,
-        fontWeight = FontWeight.Light,
-        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.Black, offset = Offset(2f, 2f), blurRadius = 5f)),
-        color = Color.White)
 }
 
 
@@ -85,18 +80,20 @@ fun SingleJourneyTitle(text: String){
 fun SmallTitle(text: String) {
     Text(
         text = text, color = Color(myColourString.toColorInt()),
-        fontSize = 47.sp,
+        fontSize = 40.sp,
         fontFamily = FontFamily.SansSerif,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.ExtraBold,
-        modifier=Modifier.padding(top=40.dp, bottom=50.dp)
+        modifier=Modifier.padding(top=40.dp)
     )
 }
 
 
 @Composable
-fun ScrollableTextField(){
+fun ScrollableTextField()  {
     val scrollstate= rememberScrollState()
+    val currentText = remember {
+        mutableStateOf(TextFieldValue()) }
     Column(modifier= Modifier
         .verticalScroll(scrollstate)
         .border(
@@ -107,8 +104,7 @@ fun ScrollableTextField(){
         )
         .width(300.dp)
         .height(600.dp)){
-        val currentText = remember {
-            mutableStateOf(TextFieldValue()) }
+
         TextField(onValueChange = { currentText.value = it } ,
             modifier = Modifier.width(300.dp),
             placeholder = { Text(text="Indsæt inspirationskilder...") },
@@ -119,7 +115,8 @@ fun ScrollableTextField(){
                 unfocusedIndicatorColor = Color.Transparent)
         )
 
-    } }
+    }
+}
 
 val myColourString = "#455467"
 
@@ -201,10 +198,53 @@ fun BigLogo(){
         ,painter = painterResource(id = R.drawable.logo_photo), contentDescription = "")
 
 }
-@Composable
-fun BottomMenu(navigateInsp: ()-> Unit, navigateMain: ()->Unit, navigateprof:()->Unit) {
-        BottomNavigation(backgroundColor = Color(myColourString.toColorInt()), contentColor = Color.White) {
 
+@Preview
+@Composable
+fun Bottombarprev() {
+    BottomBar({}, {}, {})
+}
+
+@Composable
+fun Fob(navCreate: ()->Unit){
+    FloatingActionButton(
+        onClick = {navCreate()},
+        backgroundColor = Color(myColourString.toColorInt()),
+        contentColor = Color.White
+    ) {
     }
 }
 
+@Composable
+fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
+    BottomAppBar(modifier = Modifier
+        .height(65.dp).padding(top=10.dp)) {
+        BottomNavigation(backgroundColor = Color(myColourString.toColorInt())) {
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        "")
+                },
+                label = { Text(text = "Inspirationskilder") },
+                selected = false,
+                onClick = onClick1)
+
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Place,
+                        "")
+                },
+                label = { Text(text = "Mine Rejser") },
+                selected = false,
+                onClick = onClick2)
+            BottomNavigationItem(
+                icon = {
+                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "" )},
+                label = { Text(text = "Profil") },
+                selected = false,
+                onClick = onClick3 )
+        }
+    }
+}
