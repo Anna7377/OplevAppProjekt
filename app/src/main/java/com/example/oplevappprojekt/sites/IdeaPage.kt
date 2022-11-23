@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.data.JourneyData
 import com.example.oplevappprojekt.data.JourneysRepository
 import com.example.oplevappprojekt.model.Idea
@@ -30,28 +31,28 @@ import java.util.*
 
 typealias ComposableFun = @Composable () -> Unit
 
+//s215722
+
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({})
+MyJourneyPage({}, MyJourneysViewModel())
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit){
+fun MyJourneyPage(navCreate: ()-> Unit, viewModel: MyJourneysViewModel){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
-            TopCard(ImageId = R.drawable.image8, text = "Denmark")
+
 
             val idea = Idea("titel", "desc")
-            val idea2 = Idea("titel", "desc")
-            val idea3 = Idea("titel", "desc")
-            val idea4 = Idea("titel", "desc")
-            val idea5 = Idea("titel", "desc")
+            val idea2 = Idea("statue", "husk 50 kr til billeder")
+            val idea3 = Idea("Restaurant x", "drik milkshake her")
 
-            val myideas = arrayListOf(idea, idea2, idea3, idea4, idea5)
-
+            val myideas = arrayListOf(idea, idea2, idea3)
             val journey = Journey("Denmark", Date(1), R.drawable.image10, myideas)
+            TopCard(ImageId = journey.img, text = journey.country)
             IdeaGrid(journey = journey)}
         }
     },
@@ -77,7 +78,7 @@ fun IdeaGrid(journey : Journey){
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(null) }
+                index, function ->  item { IdeaBox(journey.IdeaList.get(index)) }
         }
 
 
@@ -109,8 +110,22 @@ fun IdeaBox(idea: Idea?) {
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
-            title = { Text(text="Skagen", color = Color.White) },
-            text={ Text(text="Husk at tage madpakker med", color = Color.White) },
+            title = {
+                if (idea != null) {
+                    Text(text=idea.title, color = Color.White)
+                }
+                else {
+                    Text(text="titel", color = Color.White)
+                }
+            },
+            text={
+                if (idea != null) {
+                    Text(text=idea.desc, color = Color.White)
+                }
+                else {
+                    Text(text="description", color = Color.White)
+                }
+            },
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
         )

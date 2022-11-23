@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 
+//s215726
 @Composable
 fun CreateIdea(navIdeas: ()->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
@@ -76,7 +77,7 @@ fun CreateIdea(navIdeas: ()->Unit) {
     }}
 
 @Composable
-fun Title()  {
+fun Title() : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -100,11 +101,11 @@ fun Title()  {
         },
 
         )
-
+return text
 }
 
 @Composable
-fun Descriptions() {
+fun Descriptions() : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -128,5 +129,5 @@ fun Descriptions() {
         },
 
         )
-
+return text
 }

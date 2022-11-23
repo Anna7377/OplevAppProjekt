@@ -2,6 +2,7 @@ package com.example.oplevappprojekt.sites
 
 object Countries{
 
+    //s215726
 val countries = listOf(
     "Afghanistan",
     "Albanien",

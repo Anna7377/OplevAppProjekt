@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
+import com.example.oplevappprojekt.R;
 import com.example.oplevappprojekt.data.JourneyData;
 import com.example.oplevappprojekt.data.JourneysRepository;
 import com.example.oplevappprojekt.model.Idea;
@@ -17,8 +18,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.ThreadLocalRandom;
 
+// s215722
 public class JourneyViewModel extends ViewModel {
+
 
 
     private JourneyData journeyData;
@@ -48,7 +52,6 @@ public class JourneyViewModel extends ViewModel {
         Date date = new Date(year, month, day);
         return date;
     }
-
 
 
 

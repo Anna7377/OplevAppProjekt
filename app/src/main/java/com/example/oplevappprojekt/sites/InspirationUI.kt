@@ -44,7 +44,7 @@ fun Inspiration(){
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             SmallTitle(text = "Mine Inspirationskilder")
-            ScrollableTextField()
+           ScrollableTextField()
         }
 
         }
