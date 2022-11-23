@@ -47,8 +47,6 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()->Unit
 
 }
 
-
-
 @Preview
 @Composable
 fun LoginPrev() {
