@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 
+
 // S215722
 
 // val currentText = remember {
@@ -37,12 +38,16 @@ import androidx.core.graphics.toColorInt
 
 var temp: String =""
 
+
+// S215722 & S213370
+
 class InspirationUI{
 
 }
 
 
 @Composable
+
 fun Inspiration(){
     val currentText = rememberSaveable {
         mutableStateOf(temp)
@@ -85,6 +90,31 @@ fun Inspiration(){
         }
 
         }
+
+fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
+
+    Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
+        content =
+        {
+
+            Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+                Column(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp)
+                        .absoluteOffset(15.dp, 15.dp)
+                ) {
+                    Logo()
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    SmallTitle(text = "Mine Inspirationskilder")
+                    ScrollableTextField()
+                }
+
+            }
+        })
+
+
 }
 
 
@@ -92,7 +122,7 @@ fun Inspiration(){
 @Preview
 @Composable
 fun InspirationPrev(){
-    Inspiration()
+    Inspiration({}, {})
 }
 
 
