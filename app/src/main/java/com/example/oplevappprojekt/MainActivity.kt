@@ -14,22 +14,31 @@ import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+
+
 import com.example.oplevappprojekt.data.JourneyRepository
+
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
+
 import com.google.firebase.firestore.ktx.firestore
 
 
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
+
 import java.util.*
 
 
 class MainActivity : ComponentActivity() {
+
+
+
     private val repository = JourneyRepository(firestore = Firebase.firestore)
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         runBlocking {

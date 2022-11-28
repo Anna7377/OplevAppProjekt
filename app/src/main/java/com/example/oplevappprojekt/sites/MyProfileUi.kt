@@ -22,7 +22,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 
+
+//s215726 &
+
 //S213370
+
 
 @Preview
 @Composable

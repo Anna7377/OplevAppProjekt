@@ -57,15 +57,6 @@ Row(){
         color = Color.White,
 
         )
-    Text(text="+",
-        modifier = Modifier
-            .clickable(onClick = {/*TODO*/ })
-            .padding(top = 120.dp, start = 100.dp),
-        textAlign=TextAlign.Right,
-        fontSize=60.sp,
-        fontWeight = FontWeight.Light,
-        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.Black, offset = Offset(2f, 2f), blurRadius = 5f)),
-        color = Color.White)
 }
 
 
@@ -99,8 +90,10 @@ fun SmallTitle(text: String) {
 
 
 @Composable
-fun ScrollableTextField(){
+fun ScrollableTextField()  {
     val scrollstate= rememberScrollState()
+    val currentText = remember {
+        mutableStateOf(TextFieldValue()) }
     Column(modifier= Modifier
         .verticalScroll(scrollstate)
         .border(
@@ -111,8 +104,7 @@ fun ScrollableTextField(){
         )
         .width(300.dp)
         .height(600.dp)){
-        val currentText = remember {
-            mutableStateOf(TextFieldValue()) }
+
         TextField(onValueChange = { currentText.value = it } ,
             modifier = Modifier.width(300.dp),
             placeholder = { Text(text="Indsæt inspirationskilder...") },
@@ -123,7 +115,8 @@ fun ScrollableTextField(){
                 unfocusedIndicatorColor = Color.Transparent)
         )
 
-    } }
+    }
+}
 
 val myColourString = "#455467"
 
