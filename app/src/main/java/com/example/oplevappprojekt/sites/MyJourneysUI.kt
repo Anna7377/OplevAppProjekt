@@ -44,7 +44,7 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
       content =
       {
 
-          Surface(modifier = Modifier.fillMaxSize()) {
+          Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
               Column(
                   modifier = Modifier
                       .fillMaxWidth()

@@ -35,7 +35,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()->Unit
             val mail = InputText("Mail")
            val pass = InputText("Password")
             Spacer(modifier = Modifier.height(60.dp))
-            LogInButton(text = "Log Ind", onClick = {viewModel.TryLogIn(mail, pass)} )
+            LogInButton(text = "Log Ind", onClick = {navMain()} )
             Spacer(modifier = Modifier.height(40.dp))
             ChangePageText("Ny til Oplev? Opret Bruger Nu!", navigation)
             if(viewModel.isLoggedin()){
