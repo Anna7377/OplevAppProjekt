@@ -14,11 +14,15 @@ import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
+import java.util.*
+
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,10 +78,10 @@ fun OplevApp(viewModel: AuthViewModel){
                 UserProfile()
             }
             composable(route=idearoute){
-                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)})
+                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}, MyJourneysViewModel())
             }
             composable(route=createIdea){
-                CreateIdea()
+                CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
     }
 

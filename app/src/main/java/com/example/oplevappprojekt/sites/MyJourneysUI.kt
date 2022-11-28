@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
-import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -18,12 +14,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
@@ -34,7 +27,6 @@ import java.util.*
 
 //S213370 & S215722
 class MyJourneysUI{
-
 }
 
 // S215722
@@ -48,7 +40,7 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
-                  TopCard(ImageId = R.drawable.image10, text = "Mine Rejser")
+                  TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
 
                   if (viewModel.journeyData.journeys.isEmpty()) {
                       Text(text = "No journeys")
