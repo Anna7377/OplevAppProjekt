@@ -41,35 +41,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:330839135150:android:5362fbff9e5f4b63d56e3f",
-        "android_client_info": {
-          "package_name": "com.sohail.firestorejetpack"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "330839135150-u05m1j3g3br5r2tqis51v116qr6cpnl7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDpEoNTKxnDLdeL3U0XRtzmGoIBa7CYPbk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "330839135150-u05m1j3g3br5r2tqis51v116qr6cpnl7.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

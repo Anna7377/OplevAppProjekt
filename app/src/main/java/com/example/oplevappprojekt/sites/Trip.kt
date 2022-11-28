@@ -23,7 +23,6 @@ import com.example.oplevappprojekt.data.JourneysRepository
 import java.util.Date
 
 
-//s215726
 val myColor = "#455467"
 
 
@@ -121,9 +120,7 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
                     //fra dropdown og ikke de hardkodede værdier.
 
-                    viewModel.newJourey(selectedItem,
-                        2020, 2, 2,
-                        R.drawable.image11)
+                    viewModel.newJourey(selectedItem, 2020, 2, 2, R.drawable.image10)
                     navMain()},
                     shape = RoundedCornerShape(60.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
