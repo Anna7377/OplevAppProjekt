@@ -47,82 +47,61 @@ class InspirationUI{
 
 
 @Composable
-
-fun Inspiration(){
+fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
     val currentText = rememberSaveable {
         mutableStateOf(temp)
     }
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        Column(modifier = Modifier
-            .height(20.dp)
-            .width(20.dp)
-            .absoluteOffset(15.dp, 15.dp)) {
-            Logo()
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            SmallTitle(text = "Mine Inspirationskilder")
-            val scrollstate= rememberScrollState()
-
-            Column(modifier= Modifier
-
-                .verticalScroll(scrollstate)
-                .border(
-                    width = 3.dp,
-                    color = Color(
-                        myColourString.toColorInt()
-                    )
-                )
-                .width(300.dp)
-                .height(600.dp)){
-
-                TextField(onValueChange = { currentText.value = it } ,
-                    modifier = Modifier.width(300.dp),
-                    placeholder = { Text(text="Indsæt inspirationskilder...") },
-                    value = currentText.value,
-                    colors= TextFieldDefaults.
-                    textFieldColors(backgroundColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent)
-                )
-                temp = currentText.value
-
-            }
-        }
-
-        }
-
-fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
-
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
-        {
+        {  Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+            Column(
+                modifier = Modifier
+                    .height(20.dp)
+                    .width(20.dp)
+                    .absoluteOffset(15.dp, 15.dp)
+            ) {
+                Logo()
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                SmallTitle(text = "Mine Inspirationskilder")
+                val scrollstate = rememberScrollState()
 
-            Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
                 Column(
                     modifier = Modifier
-                        .height(20.dp)
-                        .width(20.dp)
-                        .absoluteOffset(15.dp, 15.dp)
+
+                        .verticalScroll(scrollstate)
+                        .border(
+                            width = 3.dp,
+                            color = Color(
+                                myColourString.toColorInt()
+                            )
+                        )
+                        .width(300.dp)
+                        .height(600.dp)
                 ) {
-                    Logo()
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    SmallTitle(text = "Mine Inspirationskilder")
-                    ScrollableTextField()
-                }
 
-            }
-        })
+                    TextField(
+                        onValueChange = { currentText.value = it },
+                        modifier = Modifier.width(300.dp),
+                        placeholder = { Text(text = "Indsæt inspirationskilder...") },
+                        value = currentText.value,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        )
+                    )
+                    temp = currentText.value
+
+                }
 
 
 }
+        }
+        } ) }
 
 
 
-@Preview
-@Composable
-fun InspirationPrev(){
-    Inspiration({}, {})
-}
+
 
 

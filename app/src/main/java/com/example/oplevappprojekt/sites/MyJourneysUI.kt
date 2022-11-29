@@ -34,9 +34,6 @@ class MyJourneysUI{
 
 fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit){
 
-fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit){
-
-
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
