@@ -37,7 +37,7 @@ fun profilePrev(){
 @Composable
 fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
 
-    Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
+    Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInspo()}, onClick2 = {navMain()}, onClick3 = {})},
         content =
         {
 
