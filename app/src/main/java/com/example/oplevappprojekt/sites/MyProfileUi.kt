@@ -4,11 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,15 +22,25 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 
+
 //s215726 &
+
+//S213370
+
+
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile()
+    UserProfile({}, {})
 }
 
 @Composable
-fun UserProfile(){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
+
+    Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInspo()}, onClick2 = {navMain()}, onClick3 = {})},
+        content =
+        {
+
     Image(
         painter = painterResource(id = R.drawable.oplev_logo_lille),
         contentDescription = "logo",
@@ -138,6 +145,8 @@ fun UserProfile(){
                 color = Color.White)
         }
     }
+})
 }
+
 
 
