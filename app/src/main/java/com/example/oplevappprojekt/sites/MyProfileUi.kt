@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 //s215726 &
@@ -31,12 +35,11 @@ import com.example.oplevappprojekt.R
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {})
+    UserProfile({}, {}, AuthViewModel(), Auth())
 }
 
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
-
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, state: Auth){
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
         {
@@ -58,7 +61,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
     ) {
 
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Min Profil",
+        Text(text = "Min Profil ",
             textAlign = TextAlign.Center,
             color = Color(myColourString.toColorInt()),
             fontSize = 50.sp,
@@ -91,7 +94,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
 
         ) {
             Text(
-                text = "Navn:",
+                text = "Navn: " + state.userName,
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
@@ -100,7 +103,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
 
 
             Text(
-                text = "E-mail:",
+                text = "E-mail: " + state.mail,
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier
@@ -120,8 +123,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
         }
         Spacer(modifier = Modifier.height(90.dp))
 
-        Button(onClick = {
-        },
+        Button(onClick = { Firebase.auth.currentUser },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(40.dp)
@@ -134,7 +136,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit){
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {
+        Button(onClick = { viewModel.deleteUser()
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier

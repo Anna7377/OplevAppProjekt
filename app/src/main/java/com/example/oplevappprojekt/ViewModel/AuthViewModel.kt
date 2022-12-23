@@ -2,9 +2,13 @@ package com.example.oplevappprojekt.ViewModel
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -19,78 +23,66 @@ data class Auth(
 val mail:String="",
 val password:String="",
 val userName:String="",
-val newMail:String="",
-val newPass:String="",
-val confPass:String="",
 val isLoggedIn:Boolean=false,
-val isLoading:Boolean=false,
-val isSuccessLogin:Boolean=false,
-val signUpError:String?=null,
-val loginError:String?=null,
-val GDPRcheck:Boolean=false
+val GDPRcheck:Boolean=false,
 )
 
-class AuthViewModel():Activity(){
+class AuthViewModel:ViewModel(){
     private lateinit var auth:FirebaseAuth
-    private val _uiState=MutableStateFlow(Auth())
-    val uiState=_uiState.asStateFlow()
+    private val _uiState = mutableStateOf(Auth())
+    val uiState: State<Auth> = _uiState
 
-    public override fun onCreate(savedInstanceState:Bundle?){
-        super.onCreate(savedInstanceState)
-        auth=Firebase.auth
-    }
-
-    public override fun onStart(){
-        super.onStart()
-        val currentUser=auth.currentUser
-    }
-
-var loggedIn: Boolean = false
-    fun SignUp(mail:String, pass:String,confPass:String) {
+    fun SignUp(mail:String, pass:String,confPass:String, name: String, context: Context, activity: Activity) {
         System.out.println(mail + pass + confPass)
         if (mail.isEmpty() || pass.isEmpty() || confPass.isEmpty()) {
-            Toast.makeText(this, "Pleasefilloutallcells", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Pleasefilloutallcells", Toast.LENGTH_SHORT).show()
         } else {
             if (confPass != pass) {
-                Toast.makeText(this, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
             } else {
-                Firebase.auth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(this)
+                Firebase.auth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(activity)
                 { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
-                        loggedIn=true
-                        val user = auth.currentUser
+                        val user = Firebase.auth.currentUser
+                        updateUI(user, true)
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            context, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        updateUI(null, false)
                     }
                 }
             }
         }
     }
-    fun TryLogIn(mail: String, pass: String){
-        _uiState.update{
-            it.copy(
-                mail=mail,
-                password =pass,
-            )
-        }
-        SignIn(mail, pass)
-    }
-    fun SignIn(mail: String, pass: String){
-        Firebase.auth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(this){
-                task -> if(task.isSuccessful){
+
+    fun SignIn(mail: String, pass: String, context: Context, activity: Activity){
+        Firebase.auth.signInWithEmailAndPassword(mail, pass)
+            .addOnCompleteListener(activity){ task ->
+            if(task.isSuccessful){
             Log.d(TAG, "SignInSuccess")
-            val user = auth.currentUser
-            _uiState.update { it.copy(isLoggedIn = true, mail=mail, password = pass) }
-            loggedIn = true
-        }
-            else {
+            val user = Firebase.auth.currentUser
+            updateUI(user, true)
+        } else {
                 Log.w(TAG, "SignInFail")
+            Toast.makeText(
+                context, "Authentication failed.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
+                updateUI(null, false)
         }
     }
-    fun isLoggedin() : Boolean {
-        return loggedIn
+
+    fun updateUI(user: FirebaseUser?, isSuccessful : Boolean) {
+        _uiState.value = _uiState.value.copy(isLoggedIn = isSuccessful)}
+
+    fun deleteUser(){
+        Firebase.auth.currentUser!!.delete()
     }
+
 }
 

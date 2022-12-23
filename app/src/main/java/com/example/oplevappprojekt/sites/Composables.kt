@@ -148,9 +148,9 @@ fun InputText(hint: String) : String {
 }
 
 @Composable
-fun LogInButton(text: String, onClick: () -> Unit) {
+fun LogInButton(text: String, onClick: () -> Unit, enabled: Boolean) {
     Button(
-        onClick = onClick, colors = ButtonDefaults.buttonColors(
+        onClick = onClick, enabled=enabled, colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(myColourString.toColorInt()),
             contentColor = Color.White
         )

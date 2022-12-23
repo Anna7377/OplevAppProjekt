@@ -2,16 +2,22 @@ package com.example.oplevappprojekt.sites
 
 
 
+import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 // S215722
 
@@ -19,12 +25,14 @@ class LogInUI {
 }
 
 @Composable
-fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()->Unit) {
+fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit, state: Auth) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        Column(modifier = Modifier
-            .height(20.dp)
-            .width(20.dp)
-            .absoluteOffset(15.dp, 15.dp)) {
+        Column(
+            modifier = Modifier
+                .height(20.dp)
+                .width(20.dp)
+                .absoluteOffset(15.dp, 15.dp)
+        ) {
             Logo()
         }
 
@@ -33,25 +41,36 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()->Unit
             Title("Log Ind")
             Spacer(modifier = Modifier.height(40.dp))
             val mail = InputText("Mail")
-           val pass = InputText("Password")
+            val pass = InputText("Password")
             Spacer(modifier = Modifier.height(60.dp))
-            LogInButton(text = "Log Ind", onClick = {navMain()} )
+            val enabled: Boolean
+            if (mail.isNotEmpty() && pass.isNotEmpty()) {
+                enabled = true
+            } else {
+                enabled = false
+            }
+            var text: String = ""
+            val context = LocalContext.current
+            val activity = LocalContext.current as Activity
+            LogInButton(text = "Log Ind", onClick = {
+                viewModel.SignIn(mail, pass, context, activity)
+                if (state.isLoggedIn) {
+                    navMain()
+            }
+                else{
+                    text = "log in failed"
+                }
+            }, enabled)
+            Text(text=text)
             Spacer(modifier = Modifier.height(40.dp))
             ChangePageText("Ny til Oplev? Opret Bruger Nu!", navigation)
-            if(viewModel.isLoggedin()){
-                navMain()
-            }
 
         }
+
     }
-
 }
 
 
 
-@Preview
-@Composable
-fun LoginPrev() {
-    LoginPage(navigation = {}, viewModel = AuthViewModel(), {})
-}
+
 
