@@ -35,11 +35,12 @@ import com.google.firebase.ktx.Firebase
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {}, AuthViewModel(), Auth(), {})
+    UserProfile({}, {}, AuthViewModel(), {})
 }
 
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, state: Auth, navStart:()->Unit){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit){
+   val state = viewModel.uiState.value
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
         {

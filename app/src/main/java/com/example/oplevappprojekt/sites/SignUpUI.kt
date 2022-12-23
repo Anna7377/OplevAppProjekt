@@ -26,7 +26,7 @@ class SignInUI{
 
 @Composable
 fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Unit, state: Auth) {
-
+val state = viewModel.uiState.value
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
@@ -76,8 +76,7 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Opret", onClick = {
-                viewModel.SignUp(mail, pass, confpass, name, context, activity)
-                viewModel.SignIn(mail, pass, context, activity)
+                viewModel.SignUp(mail, pass, context, activity)
                 if (state.isLoggedIn){
                     navMain()
                 }

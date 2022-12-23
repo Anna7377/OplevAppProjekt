@@ -82,7 +82,7 @@ fun OplevApp(viewModel: AuthViewModel){
                     StartPage(navigate = { navigationController.navigate(loginRoute) })
             }
             composable(route=loginRoute){
-                LoginPage(navigation = {navigationController.navigate(signupRoute)}, viewModel = AuthViewModel(), navMain = {navigationController.navigate(mainroute)}, Auth())
+                LoginPage(navigation = {navigationController.navigate(signupRoute)}, viewModel = AuthViewModel(), navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=signupRoute){
                 SignUpPage(viewModel = AuthViewModel(), navigation = {navigationController.navigate(loginRoute)},
@@ -100,7 +100,7 @@ fun OplevApp(viewModel: AuthViewModel){
                 Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo))
             }
             composable(route=profile){
-                UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)}, navMain = {navigationController.navigate(mainroute)}, viewModel = AuthViewModel(), state= Auth(), navStart = {navigationController.navigate(startRoute)})
+                UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)}, navMain = {navigationController.navigate(mainroute)}, viewModel = AuthViewModel(), navStart = {navigationController.navigate(startRoute)})
             }
             composable(route=idearoute){
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}, MyJourneysViewModel())

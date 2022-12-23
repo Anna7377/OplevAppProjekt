@@ -25,7 +25,9 @@ class LogInUI {
 }
 
 @Composable
-fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit, state: Auth) {
+fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit) {
+    val state = viewModel.uiState.value
+
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(
             modifier = Modifier
@@ -52,15 +54,12 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             var text: String = ""
             val context = LocalContext.current
             val activity = LocalContext.current as Activity
+
             LogInButton(text = "Log Ind", onClick = {
                 viewModel.SignIn(mail, pass, context, activity)
-               if (state.isLoggedIn) {
+                if (state.isLoggedIn) {
                     navMain()
-            }
-                else{
-                    text = "log in failed"
                 }
-
             }, enabled)
             Text(text=text)
             Spacer(modifier = Modifier.height(40.dp))
@@ -70,8 +69,3 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
     }
 }
-
-
-
-
-
