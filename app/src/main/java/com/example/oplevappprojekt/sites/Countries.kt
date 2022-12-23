@@ -141,6 +141,7 @@ val countries = listOf(
     "Oman",
     "Pakistan",
     "Palau Republikken",
+        "Palestine",
     "Panama",
     "Papua Ny Guinea",
     "Paraguay",
