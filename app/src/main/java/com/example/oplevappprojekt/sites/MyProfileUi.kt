@@ -35,11 +35,11 @@ import com.google.firebase.ktx.Firebase
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {}, AuthViewModel(), Auth())
+    UserProfile({}, {}, AuthViewModel(), Auth(), {})
 }
 
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, state: Auth){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, state: Auth, navStart:()->Unit){
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
         {
@@ -123,7 +123,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
         }
         Spacer(modifier = Modifier.height(90.dp))
 
-        Button(onClick = { Firebase.auth.currentUser },
+        Button(onClick = { navStart},
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(40.dp)

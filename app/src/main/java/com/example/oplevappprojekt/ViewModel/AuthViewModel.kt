@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -46,6 +47,7 @@ class AuthViewModel:ViewModel(){
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = Firebase.auth.currentUser
                         updateUI(user, true)
+                        _uiState.value = _uiState.value.copy(userName = name, mail=mail)
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
@@ -66,6 +68,7 @@ class AuthViewModel:ViewModel(){
             Log.d(TAG, "SignInSuccess")
             val user = Firebase.auth.currentUser
             updateUI(user, true)
+                _uiState.value = _uiState.value.copy(mail=mail)
         } else {
                 Log.w(TAG, "SignInFail")
             Toast.makeText(
@@ -81,7 +84,7 @@ class AuthViewModel:ViewModel(){
         _uiState.value = _uiState.value.copy(isLoggedIn = isSuccessful)}
 
     fun deleteUser(){
-        Firebase.auth.currentUser!!.delete()
+        auth.currentUser?.delete()
     }
 
 }

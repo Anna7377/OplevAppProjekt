@@ -77,6 +77,7 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
 
             LogInButton(text = "Opret", onClick = {
                 viewModel.SignUp(mail, pass, confpass, name, context, activity)
+                viewModel.SignIn(mail, pass, context, activity)
                 if (state.isLoggedIn){
                     navMain()
                 }

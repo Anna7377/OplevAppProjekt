@@ -54,12 +54,13 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             val activity = LocalContext.current as Activity
             LogInButton(text = "Log Ind", onClick = {
                 viewModel.SignIn(mail, pass, context, activity)
-                if (state.isLoggedIn) {
+               if (state.isLoggedIn) {
                     navMain()
             }
                 else{
                     text = "log in failed"
                 }
+
             }, enabled)
             Text(text=text)
             Spacer(modifier = Modifier.height(40.dp))
