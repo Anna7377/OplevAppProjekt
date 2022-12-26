@@ -56,16 +56,10 @@ var usertext: String = ""
 // S215722 & S213370
 
 class InspirationUI{
-
 }
-
 
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
-    inspdb.get().addOnSuccessListener { documentSnapshot ->
-        val insp = documentSnapshot.toObject<InspirationText>()
-        usertext = insp?.text.toString()
-    }
 
     val currentText = rememberSaveable {
         mutableStateOf(usertext)
