@@ -76,7 +76,7 @@ val state = viewModel.uiState.value
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Opret", onClick = {
-                viewModel.SignUp(mail, pass, context, activity)
+                viewModel.SignUp(mail, pass, confpass, context, activity)
                 if (state.isLoggedIn){
                     navMain()
                 }

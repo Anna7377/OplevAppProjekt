@@ -124,7 +124,8 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
         }
         Spacer(modifier = Modifier.height(90.dp))
 
-        Button(onClick = { navStart},
+        Button(onClick = { viewModel.logout()
+            navStart},
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(40.dp)

@@ -19,13 +19,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
+
 //s215722
 data class Auth(
-    val mail:String="",
+    val mail:String="_",
     val password:String="",
     val userName:String="",
-    val isLoggedIn:Boolean=false,
-    val GDPRcheck:Boolean=false,
+    val isLoggedIn:Boolean=false
 )
 
 class AuthViewModel:ViewModel(){
@@ -33,13 +33,19 @@ class AuthViewModel:ViewModel(){
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 
-    fun SignUp(email: String, password: String, baseContext: Context, activity: Activity) {
+    fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity) {
         // [START create_user_with_email]
+        if (confPass != password) {
+            Toast.makeText(baseContext, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
+        }
+        else{
+
         Firebase.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
+                    _uiState.value=_uiState.value.copy(mail=email)
                     val user = Firebase.auth.currentUser
                     updateUI( true)
                 } else {
@@ -51,6 +57,7 @@ class AuthViewModel:ViewModel(){
                     ).show()
                     updateUI(false)
                 }
+                }
             }
         // [END create_user_with_email]
     }
@@ -60,8 +67,10 @@ class AuthViewModel:ViewModel(){
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
+                    _uiState.value = _uiState.value.copy(mail=email)
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
+                    val user = Firebase.auth.currentUser
                     updateUI(true)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -83,6 +92,10 @@ class AuthViewModel:ViewModel(){
 
     fun deleteUser(){
         auth.currentUser?.delete()
+    }
+    fun logout(){
+        FirebaseAuth.getInstance().signOut()
+        _uiState.value = _uiState.value.copy(isLoggedIn = false)
     }
 
 }
