@@ -30,6 +30,7 @@ import java.util.Date
 //s215726
 val myColor = "#455467"
 
+
 private val repository = JourneyRepository(firestore = Firebase.firestore)
 
 @Composable

@@ -79,7 +79,6 @@ fun OplevApp(viewModel: AuthViewModel){
             modifier = Modifier.fillMaxSize(),
             startDestination = startRoute
             ) {
-
             val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
                     StartPage(navigate = { navigationController.navigate(loginRoute) })}

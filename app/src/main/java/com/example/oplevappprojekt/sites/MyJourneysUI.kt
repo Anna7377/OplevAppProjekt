@@ -20,7 +20,6 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.example.scrollablelistofbuttons.data.Datasource
 import com.example.scrollablelistofbuttons.model.ScrollableList
 import java.util.*
 
@@ -109,13 +108,6 @@ fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
 
 
 //S213370
-
-@Composable
-fun ScrollableList() {
-    OplevAppProjektTheme {
-        ScrollableList(scrollableList = Datasource().loadScrollableList())
-    }
-}
 
 @Composable
 fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Modifier) {
