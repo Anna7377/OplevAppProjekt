@@ -45,10 +45,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         runBlocking {
-            repository.addJourney(journey = com.example.oplevappprojekt.data.Journey(
-                country = "Japan",
-                tripName = "AsianTrip"
-            ))
+
         }
 
         super.onCreate(savedInstanceState)

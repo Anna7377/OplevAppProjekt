@@ -56,7 +56,7 @@ public class JourneyViewModel extends ViewModel {
 
 
     public void newJourey(String country, int year, int month, int day, int img){
-        Journey journey1 = new Journey(country, CreateDate(year, month, day), img, repo.getIdeas() );
+        Journey journey1 = new Journey(country, CreateDate(year, month, day).toString(), img, repo.getIdeas() );
        repo.addJourney(journey1);
 
     }
