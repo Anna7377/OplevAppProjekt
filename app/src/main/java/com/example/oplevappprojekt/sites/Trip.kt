@@ -19,6 +19,7 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import com.example.oplevappprojekt.data.Journey
 import com.example.oplevappprojekt.data.JourneyRepository
 import com.example.oplevappprojekt.data.JourneysRepository
 import com.example.oplevappprojekt.sites.Countries
@@ -32,6 +33,7 @@ val myColor = "#455467"
 
 
 private val repository = JourneyRepository(firestore = Firebase.firestore)
+private val repo = HardcodedJourneysRepository()
 
 @Composable
 fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
@@ -113,8 +115,9 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .padding(30.dp)
                     .offset(y = 160.dp)
             )
-            viewModel.setDay(Dato())
-           viewModel.setMonth(Month())
+            val dato = Dato()
+           val month = Month()
+            val year = Year()
            viewModel.setYear(Year())
 
             Column(
@@ -127,7 +130,8 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     onClick = {
                         //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
                         //fra dropdown og ikke de hardkodede værdier.
-
+                        HardcodedJourneysRepository()
+                            .addJourney(com.example.oplevappprojekt.model.Journey(country = selectedItem, date = dato + "/" + month + "/"+year, img = R.drawable.image8 ))
                         viewModel.newJourey(
                             selectedItem,
                             2020, 2, 2,

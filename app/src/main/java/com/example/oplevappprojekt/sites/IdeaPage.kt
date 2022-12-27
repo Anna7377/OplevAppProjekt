@@ -51,7 +51,7 @@ fun MyJourneyPage(navCreate: ()-> Unit, viewModel: MyJourneysViewModel){
             val idea3 = Idea("Restaurant x", "drik milkshake her")
 
             val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", Date(1), R.drawable.image10, myideas)
+            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
             TopCard(ImageId = journey.img, text = journey.country)
             IdeaGrid(journey = journey)}
         }

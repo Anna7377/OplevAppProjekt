@@ -11,8 +11,8 @@ class HardcodedJourneysRepository : JourneysRepository {
     val idea: Idea = Idea("my idea", "Hi")
     val myideas = arrayListOf(idea)
     private val journeys = mutableListOf(
-        Journey("Denmark", Date(1), R.drawable.image9, myideas ),
-        Journey("Iran", Date(2), R.drawable.image8, myideas)
+        Journey("Denmark", "2", R.drawable.image9, myideas ),
+        Journey("Iran", "2", R.drawable.image8, myideas)
     )
     override fun addJourney(journey: Journey) {
         journeys.add(journey)

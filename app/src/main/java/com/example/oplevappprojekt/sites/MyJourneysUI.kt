@@ -43,7 +43,6 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
                       .fillMaxWidth()
               ) {
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-
                   if (viewModel.journeyData.journeys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
