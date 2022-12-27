@@ -107,12 +107,7 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                     )
                     usertext = currentText.value
 
-                }
-
-
-}
-        }
-        } )
+                } } } } )
     var  inspirationdata= hashMapOf(
         "text" to usertext)
 inspdb.set(inspirationdata)
