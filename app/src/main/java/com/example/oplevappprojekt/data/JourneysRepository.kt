@@ -2,6 +2,7 @@ package com.example.oplevappprojekt.data
 
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
+import java.util.concurrent.Flow
 
 // s215722
 interface JourneysRepository {

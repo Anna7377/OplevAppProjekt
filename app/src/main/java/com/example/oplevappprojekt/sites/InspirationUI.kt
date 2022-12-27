@@ -29,6 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import org.checkerframework.checker.units.qual.K
 
 
 // S215722
@@ -37,7 +41,8 @@ import androidx.core.graphics.toColorInt
    // mutableStateOf(TextFieldValue()) }
 
 var temp: String =""
-
+val inspdb = Firebase.firestore.collection("inspirationtext")
+var inspirationdata = hashMapOf("text" to temp)
 
 // S215722 & S213370
 
@@ -92,13 +97,17 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                         )
                     )
                     temp = currentText.value
-
+                    inspirationdata= hashMapOf(
+                        "text" to temp)
                 }
 
 
 }
         }
-        } ) }
+        } )
+inspdb.document(Firebase.auth.currentUser?.uid.toString()).set(inspirationdata)
+
+}
 
 
 

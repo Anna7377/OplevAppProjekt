@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.sites
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -24,8 +25,8 @@ class SignInUI{
 }
 
 @Composable
-fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Unit) {
-
+fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Unit, state: Auth) {
+val state = viewModel.uiState.value
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
@@ -38,7 +39,8 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
             Spacer(modifier = Modifier.height(70.dp))
             Title("Opret Bruger")
             Spacer(modifier = Modifier.height(10.dp))
-            InputText("Navn")
+
+            val name = InputText("Navn")
            val mail: String = InputText("Mail")
 
            val pass= InputText("Kodeord")
@@ -61,12 +63,28 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: ()->Unit, navMain: ()-> Uni
                 )
                 check=isChecked.value
             }
+            val enabled: Boolean
             Spacer(modifier = Modifier.height(5.dp))
-            LogInButton(text = "Opret", onClick = {viewModel.SignUp(mail, pass, confpass)})
-            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
-            if(viewModel.isLoggedin()){
-                navMain()
+            if(check && mail.isNotEmpty() && pass.isNotEmpty()){
+                enabled = true
+            }
+            else {
+                enabled = false
+            }
+
+            val context = LocalContext.current
+            val activity = LocalContext.current as Activity
+
+            LogInButton(text = "Opret", onClick = {
+                viewModel.SignUp(mail, pass, confpass, context, activity)
+                if (state.isLoggedIn){
+                    navMain()
                 }
+                }, enabled)
+
+            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
+
+
 
         }
     }
@@ -92,5 +110,5 @@ fun GDPR(){
 @Preview
 @Composable
 fun SignInPrev(){
-    SignUpPage(AuthViewModel(), {}, {})
+    SignUpPage(AuthViewModel(), {}, {}, Auth())
 }

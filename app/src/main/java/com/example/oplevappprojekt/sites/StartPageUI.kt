@@ -29,7 +29,7 @@ fun StartPage(navigate: ()-> Unit){
             LogoText()
             Text(text="ALLE EVENTYR I LOMMEN", fontSize = 30.sp, color = Color(myColourString.toColorInt()),
                 modifier = Modifier.padding(bottom = 60.dp))
-            LogInButton(text = "Kom i gang", onClick=navigate)
+            LogInButton(text = "Kom i gang", onClick=navigate, enabled = true)
         }
     }
 

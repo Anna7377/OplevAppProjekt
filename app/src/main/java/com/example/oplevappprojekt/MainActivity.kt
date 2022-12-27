@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
@@ -22,6 +23,8 @@ import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 
 import com.google.firebase.firestore.ktx.firestore
 
@@ -69,23 +72,22 @@ fun OplevApp(viewModel: AuthViewModel){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
-        val state = viewModel.uiState.collectAsState()
+        val state = viewModel.uiState.value
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
             modifier = Modifier.fillMaxSize(),
-            startDestination = loginRoute) {
-
+            startDestination = startRoute
+            ) {
             val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
-                    StartPage(navigate = { navigationController.navigate(loginRoute) })
-            }
+                    StartPage(navigate = { navigationController.navigate(loginRoute) })}
             composable(route=loginRoute){
                 LoginPage(navigation = {navigationController.navigate(signupRoute)}, viewModel = AuthViewModel(), navMain = {navigationController.navigate(mainroute)})
             }
             composable(route=signupRoute){
                 SignUpPage(viewModel = AuthViewModel(), navigation = {navigationController.navigate(loginRoute)},
-                navMain = {navigationController.navigate(mainroute)})
+                navMain = {navigationController.navigate(mainroute)}, Auth())
             }
             composable(route=mainroute){
                 MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
@@ -99,7 +101,10 @@ fun OplevApp(viewModel: AuthViewModel){
                 Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo))
             }
             composable(route=profile){
-                UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)}, navMain = {navigationController.navigate(mainroute)})
+                UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)},
+                    navMain = {navigationController.navigate(mainroute)},
+                    viewModel = AuthViewModel(),
+                    navStart = {navigationController.navigate(startRoute)})
             }
             composable(route=idearoute){
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}, MyJourneysViewModel())
@@ -108,6 +113,4 @@ fun OplevApp(viewModel: AuthViewModel){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
     }
-
-
 }}
