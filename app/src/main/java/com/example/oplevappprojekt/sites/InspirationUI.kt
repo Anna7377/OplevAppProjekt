@@ -1,5 +1,7 @@
 package com.example.oplevappprojekt.sites
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
@@ -29,8 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.data.InspirationText
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.checkerframework.checker.units.qual.K
 
@@ -40,21 +46,23 @@ import org.checkerframework.checker.units.qual.K
 // val currentText = remember {
    // mutableStateOf(TextFieldValue()) }
 
-var temp: String =""
+
 val inspdb = Firebase.firestore.collection("inspirationtext")
-var inspirationdata = hashMapOf("text" to temp)
+    .document(
+        Firebase.auth.currentUser
+            ?.uid.toString())
+var usertext: String = ""
 
 // S215722 & S213370
 
 class InspirationUI{
-
 }
-
 
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
+
     val currentText = rememberSaveable {
-        mutableStateOf(temp)
+        mutableStateOf(usertext)
     }
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
@@ -88,7 +96,8 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                     TextField(
                         onValueChange = { currentText.value = it },
                         modifier = Modifier.width(300.dp),
-                        placeholder = { Text(text = "Indsæt inspirationskilder...") },
+                        placeholder = {
+                            Text(text = "Indsæt inspirationskilder...") },
                         value = currentText.value,
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent,
@@ -96,16 +105,12 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                             unfocusedIndicatorColor = Color.Transparent
                         )
                     )
-                    temp = currentText.value
-                    inspirationdata= hashMapOf(
-                        "text" to temp)
-                }
+                    usertext = currentText.value
 
-
-}
-        }
-        } )
-inspdb.document(Firebase.auth.currentUser?.uid.toString()).set(inspirationdata)
+                } } } } )
+    var  inspirationdata= hashMapOf(
+        "text" to usertext)
+inspdb.set(inspirationdata)
 
 }
 

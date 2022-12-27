@@ -95,6 +95,7 @@ class AuthViewModel:ViewModel(){
     }
     fun logout(){
         FirebaseAuth.getInstance().signOut()
+        System.out.println("In Logout")
         _uiState.value = _uiState.value.copy(isLoggedIn = false)
     }
 
