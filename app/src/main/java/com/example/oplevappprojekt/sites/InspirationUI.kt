@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.data.InspirationRepository
 import com.example.oplevappprojekt.data.InspirationText
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
@@ -51,7 +52,8 @@ val inspdb = Firebase.firestore.collection("inspirationtext")
     .document(
         Firebase.auth.currentUser
             ?.uid.toString())
-var usertext: String = ""
+val repo = InspirationRepository()
+var usertext = ""
 
 // S215722 & S213370
 
@@ -60,10 +62,11 @@ class InspirationUI{
 
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
-
+    usertext = repo.read()
     val currentText = rememberSaveable {
         mutableStateOf(usertext)
     }
+
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
         {  Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
@@ -110,6 +113,7 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                 } } } } )
     var  inspirationdata= hashMapOf(
         "text" to usertext)
+
 inspdb.set(inspirationdata)
 
 }
