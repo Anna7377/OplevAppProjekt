@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.data.Journey
 import com.example.oplevappprojekt.data.JourneyRepository
@@ -32,11 +34,9 @@ import java.util.Date
 val myColor = "#455467"
 
 
-private val repository = JourneyRepository(firestore = Firebase.firestore)
-private val repo = HardcodedJourneysRepository()
 
 @Composable
-fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
+fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit, viewModel2: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -137,6 +137,8 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                             2020, 2, 2,
                             R.drawable.image11
                         )
+                        viewModel2.addJourney(selectedItem, date = dato + "/" + month + "/"+year)
+
                         navMain()
                     },
                     shape = RoundedCornerShape(60.dp),
