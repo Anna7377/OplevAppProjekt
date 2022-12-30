@@ -53,7 +53,7 @@ val inspdb = Firebase.firestore.collection("inspirationtext")
         Firebase.auth.currentUser
             ?.uid.toString())
 val repo = InspirationRepository()
-var usertext = ""
+var usertext = repo.read()
 
 // S215722 & S213370
 
@@ -62,7 +62,6 @@ class InspirationUI{
 
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
-    usertext = repo.read()
     val currentText = rememberSaveable {
         mutableStateOf(usertext)
     }
@@ -111,10 +110,10 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                     usertext = currentText.value
 
                 } } } } )
-    var  inspirationdata= hashMapOf(
-        "text" to usertext)
 
-inspdb.set(inspirationdata)
+repo.update(usertext, Firebase.auth.currentUser?.uid.toString())
+
+
 
 }
 
