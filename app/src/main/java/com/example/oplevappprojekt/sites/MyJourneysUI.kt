@@ -35,9 +35,8 @@ class MyJourneysUI{
 @Composable
 
 fun  MainPage(navigationInsp: ()-> Unit,
-              viewModel: MyJourneysViewModel,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
-viewModel2: Journeysviewmodel, state: journeyState){
+viewModel: Journeysviewmodel, state: journeyState){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
@@ -49,8 +48,8 @@ viewModel2: Journeysviewmodel, state: journeyState){
                       .fillMaxWidth()
               ) {
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  viewModel2.getJourneys()
-                  if (viewModel.journeyData.journeys.isEmpty()) {
+                  viewModel.getJourneys()
+                  if (state.userjourneys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
                       CountryList(list = state.userjourneys, navIdeas = navIdeas)

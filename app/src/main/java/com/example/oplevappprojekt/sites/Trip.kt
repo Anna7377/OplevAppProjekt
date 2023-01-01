@@ -36,7 +36,7 @@ val myColor = "#455467"
 
 
 @Composable
-fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit, viewModel2: Journeysviewmodel) {
+fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -118,8 +118,6 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit, viewModel2: Journeysvie
             val dato = Dato()
            val month = Month()
             val year = Year()
-           viewModel.setYear(Year())
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -130,15 +128,7 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit, viewModel2: Journeysvie
                     onClick = {
                         //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
                         //fra dropdown og ikke de hardkodede værdier.
-                        HardcodedJourneysRepository()
-                            .addJourney(com.example.oplevappprojekt.model.Journey(country = selectedItem, date = dato + "/" + month + "/"+year, img = R.drawable.image8 ))
-                        viewModel.newJourey(
-                            selectedItem,
-                            2020, 2, 2,
-                            R.drawable.image11
-                        )
-                        viewModel2.addJourney(selectedItem, date = dato + "/" + month + "/"+year)
-
+                        viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
                         navMain()
                     },
                     shape = RoundedCornerShape(60.dp),
@@ -311,13 +301,6 @@ fun Year() : String {
     )
     return selectedItem
 }
-@Composable
-fun CreateButton(createJ: ()->Unit) {
-
-}
-
-
-
 
 
 

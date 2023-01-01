@@ -2,10 +2,13 @@ package com.example.oplevappprojekt.ViewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.sql.Timestamp
+import java.time.Instant
 
 import java.util.Date
 
@@ -13,7 +16,7 @@ import java.util.Date
 data class Journey(
     val country: String = "",
     val date: String = "",
-    val UserID: String = ""
+    val UserID: String = "",
 )
 
 data class Idea(
@@ -41,6 +44,7 @@ class Journeysviewmodel {
     val journeylist: ArrayList<Journey> = arrayListOf(Journey("Denmark", date="25/08/02", "XYZ"))
     val idea = Firebase.firestore.collection("ideas")
     val idealist: ArrayList<Idea> = arrayListOf()
+    val repo = HardcodedJourneysRepository()
 
     fun getJourneys() {
         journeys.get().addOnSuccessListener { documents ->
@@ -54,8 +58,8 @@ class Journeysviewmodel {
        val journey = hashMapOf(
             "country" to country,
             "userID" to Firebase.auth.currentUser?.uid.toString(),
-            "date" to date
-        )
+            "date" to date,
+       "time" to Timestamp(System.currentTimeMillis()))
         journeys.document().set(journey)
     }
 

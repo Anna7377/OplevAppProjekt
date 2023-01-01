@@ -26,14 +26,6 @@ public class MyJourneysViewModel extends ViewModel {
        journeyData.setJourneys(repo.getJourneys());
    }
 
-    public JourneyData getJourneyData() {
-        return journeyData;
-    }
-
-    public void setJourneyData(JourneyData journeyData) {
-        this.journeyData = journeyData;
-    }
-
     public static int randomImg(){
 
         int i = ThreadLocalRandom.current().nextInt(0, 5);
@@ -53,12 +45,4 @@ public class MyJourneysViewModel extends ViewModel {
         return img;
     }
 
-    public MyJourneysViewModel() {
-        Journey journey1 = new Journey("Danmark", new Date(2000,2,20).toString(), randomImg(), new ArrayList<>());
-        ArrayList<Journey> journeys = new ArrayList<>();
-        journeys.add(journey1);
-        //Her skal der ikke laves hel ny journeydata. den skal hente hvad JourneyViewModel har gemt.
-        setJourneyData(new JourneyData());
-        getJourneyData().setJourneys(journeys);
-    }
 }

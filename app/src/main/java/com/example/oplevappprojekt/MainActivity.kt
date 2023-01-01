@@ -85,17 +85,16 @@ fun OplevApp(viewModel: AuthViewModel){
             }
             composable(route=mainroute){
                 MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
-                    MyJourneysViewModel(repo),
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                state = journeyState(), viewModel2 = Journeysviewmodel())
+                state = journeyState(), viewModel = Journeysviewmodel())
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
             }
             composable(route=createroute){
-                Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = JourneyViewModel(repo), viewModel2 = Journeysviewmodel())
+                Trip(navMain = {navigationController.navigate(mainroute)}, viewModel = Journeysviewmodel())
             }
             composable(route=profile){
                 UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)},
