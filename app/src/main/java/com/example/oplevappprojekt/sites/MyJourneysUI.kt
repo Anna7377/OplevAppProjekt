@@ -35,7 +35,7 @@ class MyJourneysUI{
 @Composable
 
 fun  MainPage(navigationInsp: ()-> Unit,
-              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
+              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit, navCategories: ()-> Unit,
 viewModel: Journeysviewmodel, state: journeyState){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
@@ -52,7 +52,7 @@ viewModel: Journeysviewmodel, state: journeyState){
                   if (state.userjourneys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = state.userjourneys, navIdeas = navIdeas)
+                      CountryList(list = state.userjourneys, navIdeas = navIdeas, navCategories)
                   }
               }
           }
@@ -62,21 +62,27 @@ viewModel: Journeysviewmodel, state: journeyState){
 
 
 @Composable
-fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
+fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit,
+navCategories: () -> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=R.drawable.image11,
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = Journeysviewmodel(),
-                date=it.date)
+                date=it.date, navCategories = navCategories
+                )
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel, navCategories: () -> Unit) {
 
-    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
-        navIdeas()})  , elevation = 4.dp) {
+    Card(modifier = Modifier
+        .padding(4.dp)
+        .clickable(onClick = {
+            viewModel.selectJourney(country = country, date = date)
+            navCategories()
+        })  , elevation = 4.dp) {
 
         Box() {
             Image(

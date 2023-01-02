@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
         runBlocking {
 
         }
-
         super.onCreate(savedInstanceState)
 
         setContent {
@@ -66,6 +65,8 @@ fun OplevApp(viewModel: AuthViewModel){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val createcategory="create category"
+        val categorypage="categorypage"
         val state = viewModel.uiState.value
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -88,7 +89,7 @@ fun OplevApp(viewModel: AuthViewModel){
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                state = journeyState(), viewModel = Journeysviewmodel())
+                state = journeyState(), viewModel = Journeysviewmodel(), navCategories={navigationController.navigate(categorypage)})
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -108,5 +109,12 @@ fun OplevApp(viewModel: AuthViewModel){
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
+            composable(route= categorypage){
+                CategoryPage(navCategories = { navigationController.navigate(createcategory) }, Journeysviewmodel(), journeyState() )
+            }
+            composable(route=createcategory){
+                CreateCategory(navCategories = {navigationController.navigate(categorypage)} )
+            }
     }
-}}
+
+} }

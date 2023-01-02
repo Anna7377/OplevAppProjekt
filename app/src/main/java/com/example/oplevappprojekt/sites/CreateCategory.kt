@@ -16,7 +16,6 @@ import androidx.core.graphics.toColorInt
 
 // s213370
 
-// Mangler navigation
 @Composable
 fun CreateCategory(navCategories: ()->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
