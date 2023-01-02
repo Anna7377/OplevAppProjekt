@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
@@ -26,6 +27,7 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
+import com.example.oplevappprojekt.ui.theme.Teal200
 
 // s213370
 
@@ -50,6 +52,17 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
             val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
             TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
             Text(text = state.currentdate.toString())
+
+            Button(onClick = { /*TODO*/ },
+                modifier = Modifier.padding(20.dp).width(380.dp).height(70.dp).clip(
+                    RoundedCornerShape(15)),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(myColourString.toColorInt()),
+                    contentColor = Color.White)) {
+                Text(text = "Kategori", fontSize = 20.sp)
+                
+            }
+
             IdeaGrid(journey = journey)}
     }
     },
