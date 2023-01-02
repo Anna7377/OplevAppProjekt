@@ -20,12 +20,9 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.model.ScrollableList
 import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 //S213370 & S215722
@@ -48,18 +45,16 @@ viewModel: Journeysviewmodel, state: journeyState){
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
+                  var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  runBlocking {
-                  repository.getJourneys() }
-
-                  if (state.userjourneys.isEmpty()) {
+                 // runBlocking {
+                 //journeylist = repository.getJourneys() }
+                      journeylist = state.userjourneys
+                  if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = repository.journeylist, navIdeas = navIdeas)
-                  }
-              }
-          }
-      },
+                      CountryList(list = journeylist, navIdeas = navIdeas)
+                  } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 

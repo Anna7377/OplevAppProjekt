@@ -1,61 +1,40 @@
 package com.example.oplevappprojekt
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.oplevappprojekt.ViewModel.*
-import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-
-
-import com.example.oplevappprojekt.data.JourneyRepository
-
-import com.example.oplevappprojekt.model.Journey
+import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.sites.*
-
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-
-import com.google.firebase.firestore.ktx.firestore
-
-
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
-
-import java.util.*
 
 
 class MainActivity : ComponentActivity() {
 
 
 
-    private val repository = JourneyRepository(firestore = Firebase.firestore)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        runBlocking {
-
-        }
-
         super.onCreate(savedInstanceState)
 
         setContent {
-            OplevApp(viewModel = AuthViewModel())
+            OplevApp()
         }
     }
 }
 
 // S215722
 @Composable
-fun OplevApp(viewModel: AuthViewModel){
+fun OplevApp(){
     OplevAppProjektTheme {
         val startRoute = "start"
         val mainroute = "main"
@@ -66,14 +45,12 @@ fun OplevApp(viewModel: AuthViewModel){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
-        val state = viewModel.uiState.value
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
             modifier = Modifier.fillMaxSize(),
             startDestination = startRoute
             ) {
-            val repo = HardcodedJourneysRepository()
             composable(route = startRoute) {
                     StartPage(navigate = { navigationController.navigate(loginRoute) })}
             composable(route=loginRoute){

@@ -21,8 +21,7 @@ data class journeyState(
     var currentJourney: Journey? = null,
     var currentcountry: String? = null,
     var currentdate: String? = null,
-var userjourneys: ArrayList<Journey> = arrayListOf()
-)
+var userjourneys: ArrayList<Journey> = arrayListOf())
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
@@ -32,7 +31,7 @@ class Journeysviewmodel {
     fun getJourneys() {
         var journeys: ArrayList<Journey> = arrayListOf()
         runBlocking{
-            journeys = repo.getJourneys()
+          //  journeys = repo.getJourneys()
         }
         _uiState.value = _uiState.value.copy(userjourneys = journeys)
     }
