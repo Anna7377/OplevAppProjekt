@@ -8,5 +8,5 @@ interface CategoryRepository {
     fun addCategory(category:Categories)
     fun getCategories() : List<Categories>
     fun addIdea(idea: Idea)
-    fun getIdea(): List<Idea>
+    fun getIdeas(): List<Idea>
 }
