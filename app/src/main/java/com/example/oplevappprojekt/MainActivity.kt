@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,21 +18,15 @@ import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 
 import com.example.oplevappprojekt.data.JourneyRepository
 
-import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.sites.*
 
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 
 import com.google.firebase.firestore.ktx.firestore
 
 
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
-
-import java.util.*
 
 
 class MainActivity : ComponentActivity() {
@@ -72,6 +65,7 @@ fun OplevApp(viewModel: AuthViewModel){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val changepassword="password"
         val state = viewModel.uiState.value
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -104,13 +98,20 @@ fun OplevApp(viewModel: AuthViewModel){
                 UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)},
                     navMain = {navigationController.navigate(mainroute)},
                     viewModel = AuthViewModel(),
-                    navStart = {navigationController.navigate(startRoute)})
+                    navStart = {navigationController.navigate(startRoute)},
+                    navChange = {navigationController.navigate(changepassword)})
             }
             composable(route=idearoute){
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}, MyJourneysViewModel())
             }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
+            }
+            composable(route=changepassword){
+                Password(
+                    viewModel = AuthViewModel(),
+                    navigation = { navigationController.navigate(profile)},
+                )
             }
     }
 }}

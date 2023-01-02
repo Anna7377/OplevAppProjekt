@@ -3,7 +3,7 @@ package com.example.oplevappprojekt.sites
 object Countries{
 
     //s215726
-val countries = listOf(
+val countries: List<String> = listOf(
     "Afghanistan",
     "Albanien",
     "Algeriet",

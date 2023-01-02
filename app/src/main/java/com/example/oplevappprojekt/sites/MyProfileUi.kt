@@ -32,14 +32,14 @@ import com.google.firebase.ktx.Firebase
 //S213370
 
 
-@Preview
+/*@Preview
 @Composable
 fun profilePrev(){
     UserProfile({}, {}, AuthViewModel(), {})
-}
+}*/
 
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit, navChange:()-> Unit){
    val state = viewModel.uiState.value
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
@@ -62,7 +62,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
     ) {
 
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Min Profil ",
+        Text(text = "Min Profil",
             textAlign = TextAlign.Center,
             color = Color(myColourString.toColorInt()),
             fontSize = 50.sp,
@@ -122,7 +122,13 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
 
         }
-        Spacer(modifier = Modifier.height(90.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TextButton(onClick = {navChange()}) {
+            Text("Skift kodeord",
+            color = Color(myColourString.toColorInt()))
+        }
+
 
         Button(onClick = { viewModel.logout()
             navStart},

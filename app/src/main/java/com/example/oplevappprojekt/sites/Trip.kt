@@ -19,19 +19,13 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.data.JourneyRepository
 import com.example.oplevappprojekt.data.JourneysRepository
-import com.example.oplevappprojekt.sites.Countries
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import java.util.Date
 
 
 //s215726
 val myColor = "#455467"
 
-
-private val repository = JourneyRepository(firestore = Firebase.firestore)
 
 @Composable
 fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
@@ -62,7 +56,7 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
             var selectedItem by remember {
                 mutableStateOf("Vælg land")
             }
-            var list = Countries.countries
+            var list = listOf("Danmark", "Usa", "Norge", "England")
 
             MaterialTheme(
                 content ={
@@ -123,18 +117,14 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .fillMaxSize()
                     .offset(y = 275.dp)
             ){
-                Button(
-                    onClick = {
-                        //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
-                        //fra dropdown og ikke de hardkodede værdier.
+                Button(onClick = {
+                    //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
+                    //fra dropdown og ikke de hardkodede værdier.
 
-                        viewModel.newJourey(
-                            selectedItem,
-                            2020, 2, 2,
-                            R.drawable.image11
-                        )
-                        navMain()
-                    },
+                    viewModel.newJourey(selectedItem,
+                        2020, 2, 2,
+                        R.drawable.image11)
+                    navMain()},
                     shape = RoundedCornerShape(60.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                 ) {
