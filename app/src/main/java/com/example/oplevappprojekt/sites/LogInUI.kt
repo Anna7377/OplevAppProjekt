@@ -18,6 +18,7 @@ import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 
 // S215722
 
@@ -56,7 +57,8 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Log Ind", onClick = {
-                viewModel.SignIn(mail, pass, context, activity)
+                runBlocking {
+                viewModel.SignIn(mail, pass, context, activity) }
                 if (state.isLoggedIn) {
                     navMain()
                 }

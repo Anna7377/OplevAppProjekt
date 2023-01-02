@@ -18,71 +18,63 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.model.Journey
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.model.ScrollableList
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.runBlocking
 
 
 //S213370 & S215722
 class MyJourneysUI{
 }
-
+val repository = HardcodedJourneysRepository()
 // S215722
-@Composable
 
+
+@Composable
 fun  MainPage(navigationInsp: ()-> Unit,
-              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit, navCategories: ()-> Unit,
+              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel, state: journeyState){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
-
           Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
               Column(
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
+                  var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  viewModel.getJourneys()
-                  if (state.userjourneys.isEmpty()) {
+                 // runBlocking {
+                 //journeylist = repository.getJourneys() }
+                      journeylist = state.userjourneys
+                  if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = state.userjourneys, navIdeas = navIdeas, navCategories)
-                  }
-              }
-          }
-      },
+                      CountryList(list = journeylist, navIdeas = navIdeas)
+                  } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 
 
 @Composable
-fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit,
-navCategories: () -> Unit){
+fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=R.drawable.image11,
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = Journeysviewmodel(),
-                date=it.date, navCategories = navCategories
-                )
+                date=it.date)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel, navCategories: () -> Unit) {
+fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
-    Card(modifier = Modifier
-        .padding(4.dp)
-        .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date)
-            navCategories()
-        })  , elevation = 4.dp) {
+    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
+        navIdeas()})  , elevation = 4.dp) {
 
         Box() {
             Image(

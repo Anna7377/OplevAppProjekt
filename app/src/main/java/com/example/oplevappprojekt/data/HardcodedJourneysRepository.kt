@@ -1,32 +1,41 @@
 package com.example.oplevappprojekt.data
 
-import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
-import java.util.*
-import kotlin.collections.ArrayList
+import com.example.oplevappprojekt.ViewModel.Journey
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.sql.Timestamp
 
 //s215722
-class HardcodedJourneysRepository : JourneysRepository {
-    val idea: Idea = Idea("my idea", "Hi")
-    val myideas = arrayListOf(idea)
-    private val journeys = mutableListOf(
-        Journey("Denmark", "2", R.drawable.image9, myideas ),
-        Journey("Iran", "2", R.drawable.image8, myideas)
+class HardcodedJourneysRepository {
+    val uid = Firebase.auth.currentUser?.uid.toString()
+    val journeys = Firebase.firestore.collection("journeys")
+    var journeylist: ArrayList<Journey> = arrayListOf(
+        Journey(
+            "Denmark",
+            date = "25/08/02",
+            time = Timestamp(System.currentTimeMillis()),
+            userID = "XYZ"))
+
+    /*
+   suspend fun getJourneys(): ArrayList<Journey> {
+        journeylist = journeys.whereEqualTo("userID", uid).get()
+            .await()
+            .toObjects<Journey>() as ArrayList<Journey>
+       return withContext(Dispatchers.IO){ journeylist } }
+     */
+
+fun addJourney(country: String, date: String){
+    val journey = hashMapOf(
+        "country" to country,
+        "userID" to uid,
+        "date" to date,
+        "time" to Timestamp(System.currentTimeMillis())
     )
-    override fun addJourney(journey: Journey) {
-        journeys.add(journey)
-    }
-
-    override fun getJourneys(): List<Journey> {
-        return journeys
-    }
-
-    override fun getIdeas(): List<Idea> {
-        return myideas
-    }
-
-    override fun addIdea(idea: Idea) {
-        myideas.add(idea)
-    }
-}
+    // journeylist.add(Journey(country = country, date=date, time = Timestamp((System.currentTimeMillis())), userID = uid))
+  //   System.out.println(journeylist.get(1).country)
+    journeys.document().set(journey) } }
