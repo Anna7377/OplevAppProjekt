@@ -4,21 +4,24 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import kotlinx.coroutines.runBlocking
+import java.sql.Timestamp
 import java.util.concurrent.ThreadLocalRandom
 
 //s215722
 data class Journey(
     val country: String = "",
     val date: String = "",
-    val UserID: String = "",
+    val time: java.sql.Timestamp = Timestamp(System.currentTimeMillis()),
+    val userID: String = "",
 )
 
 data class journeyState(
-    val isJourneySelected: Boolean = false,
-    val currentJourney: Journey? = null,
-    val currentcountry: String? = null,
-    val currentdate: String? = null,
-val userjourneys: ArrayList<Journey> = arrayListOf(Journey("Denmark", date="25/08/02", "XYZ"))
+    var isJourneySelected: Boolean = false,
+    var currentJourney: Journey? = null,
+    var currentcountry: String? = null,
+    var currentdate: String? = null,
+var userjourneys: ArrayList<Journey> = arrayListOf()
 )
 
 class Journeysviewmodel {
@@ -27,8 +30,11 @@ class Journeysviewmodel {
     val repo = HardcodedJourneysRepository()
 
     fun getJourneys() {
-        val journeyslist = repo.getJourneys()
-        _uiState.value = _uiState.value.copy(userjourneys = journeyslist)
+        var journeys: ArrayList<Journey> = arrayListOf()
+        runBlocking{
+            journeys = repo.getJourneys()
+        }
+        _uiState.value = _uiState.value.copy(userjourneys = journeys)
     }
 
     fun addJourney(country: String, date: String) {

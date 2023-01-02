@@ -52,10 +52,6 @@ import org.checkerframework.checker.units.qual.K
    // mutableStateOf(TextFieldValue()) }
 
 
-val inspdb = Firebase.firestore.collection("inspirationtext")
-    .document(
-        Firebase.auth.currentUser
-            ?.uid.toString())
 val repo = InspirationRepository()
 // S215722 & S213370
 
@@ -112,7 +108,6 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                             unfocusedIndicatorColor = Color.Transparent
                         )
                     )
-                   // usertext = currentText.value
 
                 } } } } )
 repo.update(currentText.value, Firebase.auth.currentUser?.uid.toString())

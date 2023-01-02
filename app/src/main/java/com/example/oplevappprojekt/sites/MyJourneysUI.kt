@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.model.ScrollableList
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,10 +31,11 @@ import kotlin.collections.ArrayList
 //S213370 & S215722
 class MyJourneysUI{
 }
-
+val repository = HardcodedJourneysRepository()
 // S215722
-@Composable
 
+
+@Composable
 fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel, state: journeyState){
@@ -40,18 +43,19 @@ viewModel: Journeysviewmodel, state: journeyState){
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
-
           Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
               Column(
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  viewModel.getJourneys()
+                  runBlocking {
+                  repository.getJourneys() }
+
                   if (state.userjourneys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = state.userjourneys, navIdeas = navIdeas)
+                      CountryList(list = repository.journeylist, navIdeas = navIdeas)
                   }
               }
           }
