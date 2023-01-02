@@ -57,8 +57,6 @@ val inspdb = Firebase.firestore.collection("inspirationtext")
         Firebase.auth.currentUser
             ?.uid.toString())
 val repo = InspirationRepository()
-//var usertext =  repo.read()
-
 // S215722 & S213370
 
 class InspirationUI{
@@ -117,11 +115,7 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                    // usertext = currentText.value
 
                 } } } } )
-
-repo.update(currentText.toString(), Firebase.auth.currentUser?.uid.toString())
-
-
-
+repo.update(currentText.value, Firebase.auth.currentUser?.uid.toString())
 }
 
 

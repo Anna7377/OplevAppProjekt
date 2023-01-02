@@ -18,7 +18,7 @@ import kotlinx.coroutines.tasks.await
 
 data class InspirationText(
     val text: String = " ",
-    val ID: String = " "
+    val userID: String = " "
 )
 
 class InspirationRepository() {
@@ -27,14 +27,18 @@ class InspirationRepository() {
      suspend fun read() : String {
          var text: InspirationText? = InspirationText("Z", "")
          val uid = Firebase.auth.currentUser?.uid.toString()
-         System.out.println(uid)
         /* GlobalScope.launch(Dispatchers.IO) {
          }
-
          */
          text = currentCollection().document(uid).get().await()
              .toObject<InspirationText>()
-             return withContext(Dispatchers.IO){ text?.text.toString() }
+         System.out.println("text is: " + text?.text)
+         var outputtext = ""
+         if (text != null) {
+             outputtext=text.text
+         }
+         System.out.println("outputtext is: " + outputtext)
+             return withContext(Dispatchers.IO){ outputtext }
      }
 
     fun update(insp: String, ID: String) {
