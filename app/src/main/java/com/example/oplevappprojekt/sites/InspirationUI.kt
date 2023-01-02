@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.border
+
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.rememberScrollableState
@@ -39,6 +40,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.checkerframework.checker.units.qual.K
 
 
@@ -53,7 +57,7 @@ val inspdb = Firebase.firestore.collection("inspirationtext")
         Firebase.auth.currentUser
             ?.uid.toString())
 val repo = InspirationRepository()
-var usertext = repo.read()
+//var usertext =  repo.read()
 
 // S215722 & S213370
 
@@ -63,7 +67,10 @@ class InspirationUI{
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
     val currentText = rememberSaveable {
-        mutableStateOf(usertext)
+        mutableStateOf("")
+    }
+    runBlocking {
+        currentText.value = repo.read()
     }
 
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
@@ -107,11 +114,11 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                             unfocusedIndicatorColor = Color.Transparent
                         )
                     )
-                    usertext = currentText.value
+                   // usertext = currentText.value
 
                 } } } } )
 
-repo.update(usertext, Firebase.auth.currentUser?.uid.toString())
+repo.update(currentText.toString(), Firebase.auth.currentUser?.uid.toString())
 
 
 

@@ -24,17 +24,17 @@ data class InspirationText(
 class InspirationRepository() {
 
 
-     fun read() : String {
+     suspend fun read() : String {
          var text: InspirationText? = InspirationText("Z", "")
          val uid = Firebase.auth.currentUser?.uid.toString()
          System.out.println(uid)
-         GlobalScope.launch(Dispatchers.IO) {
-            val text2 = currentCollection().document(uid).get().await()
-                 .toObject<InspirationText>()
-             text=text2
-             delay(3000L)
+        /* GlobalScope.launch(Dispatchers.IO) {
          }
-         return text.toString()
+
+         */
+         text = currentCollection().document(uid).get().await()
+             .toObject<InspirationText>()
+             return withContext(Dispatchers.IO){ text?.text.toString() }
      }
 
     fun update(insp: String, ID: String) {
