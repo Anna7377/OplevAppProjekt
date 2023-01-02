@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,9 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
-import com.example.oplevappprojekt.data.JourneyData
-import com.example.oplevappprojekt.data.JourneysRepository
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.model.Idea
 import java.util.*
 
@@ -36,12 +34,12 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, MyJourneysViewModel())
+MyJourneyPage({}, Journeysviewmodel(), journeyState())
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit, viewModel: MyJourneysViewModel){
+fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -51,8 +49,9 @@ fun MyJourneyPage(navCreate: ()-> Unit, viewModel: MyJourneysViewModel){
             val idea3 = Idea("Restaurant x", "drik milkshake her")
 
             val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", Date(1), R.drawable.image10, myideas)
-            TopCard(ImageId = journey.img, text = journey.country)
+            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
+            TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
+            Text(text = state.currentdate.toString())
             IdeaGrid(journey = journey)}
         }
     },
@@ -90,7 +89,8 @@ fun IdeaGrid(journey : Journey){
 fun IdeaBox(idea: Idea?) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier.clickable(onClick = {dialog.value=true})
+        Box(modifier = Modifier
+            .clickable(onClick = { dialog.value = true })
             .width(200.dp)
             .height(200.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)

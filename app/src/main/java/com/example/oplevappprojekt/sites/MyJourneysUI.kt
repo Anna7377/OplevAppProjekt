@@ -17,37 +17,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.model.ScrollableList
+import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 //S213370 & S215722
 class MyJourneysUI{
 }
-
+val repository = HardcodedJourneysRepository()
 // S215722
-@Composable
 
-fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit){
+
+@Composable
+fun  MainPage(navigationInsp: ()-> Unit,
+              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
+viewModel: Journeysviewmodel, state: journeyState){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
-
           Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
               Column(
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
+                  runBlocking {
+                  repository.getJourneys() }
 
-                  if (viewModel.journeyData.journeys.isEmpty()) {
+                  if (state.userjourneys.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = viewModel.journeyData.journeys, navIdeas = navIdeas)
+                      CountryList(list = repository.journeylist, navIdeas = navIdeas)
                   }
               }
           }
@@ -55,25 +63,23 @@ fun  MainPage(navigationInsp: ()-> Unit, viewModel: MyJourneysViewModel, navCrea
   floatingActionButton = {Fob({navCreate()})})
 }
 
-@Preview
-@Composable
-fun MainPrev(){
-    val myJourneysViewModel = MyJourneysViewModel()
-    MainPage({}, myJourneysViewModel, {}, {}, {})
-}
 
 @Composable
-fun CountryList(list: List<Journey>, navIdeas: ()-> Unit){
+fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=it.img, country = it.country, navIdeas)
-        }
-    }
-}
-@Composable
-fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
-    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {navIdeas()})  , elevation = 4.dp) {
+            CountryCards(img=R.drawable.image11,
+                country = it.country,
+                navIdeas=navIdeas,
+                viewModel = Journeysviewmodel(),
+                date=it.date)
+        } } }
 
+@Composable
+fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+
+    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
+        navIdeas()})  , elevation = 4.dp) {
 
         Box() {
             Image(
@@ -83,9 +89,7 @@ fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(194.dp),
-                contentScale = ContentScale.Crop
-            )
-
+                contentScale = ContentScale.Crop )
             Text(
                 text = country,
                 modifier = Modifier.padding(16.dp),
@@ -97,12 +101,7 @@ fun CountryCards(img: Int, country: String, navIdeas: ()-> Unit) {
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
-
-            )
-
-        }
-    }
-}
+            ) } } }
 
 
 
