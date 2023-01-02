@@ -17,9 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.oplevappprojekt.ViewModel.JourneyViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.data.Journey
 import com.example.oplevappprojekt.data.JourneyRepository

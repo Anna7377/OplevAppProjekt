@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,10 +23,7 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.MyJourneysViewModel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.data.JourneyData
-import com.example.oplevappprojekt.data.JourneysRepository
 import com.example.oplevappprojekt.model.Idea
 import java.util.*
 

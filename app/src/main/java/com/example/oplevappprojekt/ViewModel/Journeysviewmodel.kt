@@ -2,31 +2,15 @@ package com.example.oplevappprojekt.ViewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import java.sql.Timestamp
-import java.time.Instant
-
-import java.util.Date
+import java.util.concurrent.ThreadLocalRandom
 
 //s215722
 data class Journey(
     val country: String = "",
     val date: String = "",
     val UserID: String = "",
-)
-
-data class Idea(
-    val title: String,
-    val desc: String,
-    val journeyID: String
-)
-
-data class category(
-    val title: String
 )
 
 data class journeyState(
@@ -40,40 +24,32 @@ val userjourneys: ArrayList<Journey> = arrayListOf(Journey("Denmark", date="25/0
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
     val uiState: State<journeyState> = _uiState
-    val journeys = Firebase.firestore.collection("journeys")
-    val journeylist: ArrayList<Journey> = arrayListOf(Journey("Denmark", date="25/08/02", "XYZ"))
-    val idea = Firebase.firestore.collection("ideas")
-    val idealist: ArrayList<Idea> = arrayListOf()
     val repo = HardcodedJourneysRepository()
 
     fun getJourneys() {
-        journeys.get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                if (document.get("userID")?.equals(Firebase.auth.currentUser?.uid) == true) {
-                    journeylist.add(document.toObject())
-                } }
-        _uiState.value=_uiState.value.copy(userjourneys = journeylist)} }
-
-    fun addJourney(country: String, date: String){
-       val journey = hashMapOf(
-            "country" to country,
-            "userID" to Firebase.auth.currentUser?.uid.toString(),
-            "date" to date,
-       "time" to Timestamp(System.currentTimeMillis()))
-        journeys.document().set(journey)
+        val journeyslist = repo.getJourneys()
+        _uiState.value = _uiState.value.copy(userjourneys = journeyslist)
     }
 
-    fun selectJourney(country: String, date: String){
-_uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date)
+    fun addJourney(country: String, date: String) {
+        repo.addJourney(country = country, date = date)
     }
 
-    fun getIdeas(){
-        idea.get().addOnSuccessListener { documents ->
-      for (document in documents){
-          if(document.get("Document ID")?.equals(Firebase.auth.currentUser?.uid) ==true){
-              idealist.add(document.toObject())
-          } } } }
+    fun selectJourney(country: String, date: String) {
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date)
+    }
 
-fun getIdeaslist():ArrayList<Idea>{
-    return idealist
-} }
+    fun randomImg(): Int {
+        val i = ThreadLocalRandom.current().nextInt(0, 5)
+        var img: Int = R.drawable.image6
+        when (i) {
+            1 -> img = R.drawable.image1
+            2 -> img = R.drawable.image2
+            3 -> img = R.drawable.image3
+            4 -> img = R.drawable.image4
+            5 -> img = R.drawable.image5
+        }
+        return img
+    }
+}
+
