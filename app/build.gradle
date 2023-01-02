@@ -78,7 +78,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
     def nav_version = "2.5.3"
-
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // From https://firebase.google.com/docs/android/setup#kotlin+ktx

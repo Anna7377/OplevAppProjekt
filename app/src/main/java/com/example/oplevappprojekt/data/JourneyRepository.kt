@@ -27,6 +27,7 @@ class JourneyRepository(private val firestore: FirebaseFirestore) : JourneyRepo 
         currentCollection().add(journey)
     }
 val userJourneys: ArrayList<com.example.oplevappprojekt.data.Journey> = arrayListOf()
+
     override suspend fun getJourneys(): List<com.example.oplevappprojekt.data.Journey> {
         currentCollection().get().addOnSuccessListener { documents ->
             for (document in documents) {

@@ -6,5 +6,4 @@ import com.example.oplevappprojekt.model.Journey
 //s215722
 class JourneyData {
     var journeys = mutableListOf<Journey>()
-
 }

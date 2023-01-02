@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -33,7 +34,7 @@ class AuthViewModel:ViewModel(){
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 
-    fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity) {
+    fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity, name: String) {
         // [START create_user_with_email]
         if (confPass != password) {
             Toast.makeText(baseContext, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
@@ -46,7 +47,6 @@ class AuthViewModel:ViewModel(){
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
                     _uiState.value=_uiState.value.copy(mail=email)
-                    val user = Firebase.auth.currentUser
                     updateUI( true)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -56,6 +56,10 @@ class AuthViewModel:ViewModel(){
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(false)
+                    SignIn(email, password, baseContext, activity)
+                    val user = hashMapOf("mail" to email,
+                    "username" to name)
+                    Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.toString()).set(user)
                 }
                 }
             }

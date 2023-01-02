@@ -25,7 +25,6 @@ public class JourneyViewModel extends ViewModel {
 
 
 
-    private JourneyData journeyData;
     private JourneysRepository repo;
 
     public JourneyViewModel(JourneysRepository repo) {
