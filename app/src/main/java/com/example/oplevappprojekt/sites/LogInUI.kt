@@ -50,7 +50,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             if (mail.isNotEmpty() && pass.isNotEmpty()) {
                 enabled = true
             } else {
-                enabled = false
+                enabled = true
             }
             var text: String = ""
             val context = LocalContext.current
@@ -58,7 +58,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn(mail, pass, context, activity) }
+                viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
                 if (state.isLoggedIn) {
                     navMain()
                 }
