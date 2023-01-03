@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.runBlocking
 
 
@@ -79,7 +80,7 @@ val state = viewModel.uiState.value
             LogInButton(text = "Opret", onClick = {
                 runBlocking {
                 viewModel.SignUp(mail, pass, confpass, context, activity, name) }
-                if (viewModel.uiState.value.isLoggedIn){
+                if (FirebaseAuth.getInstance().currentUser!=null){
                     navMain()
                 }
                 }, enabled)
