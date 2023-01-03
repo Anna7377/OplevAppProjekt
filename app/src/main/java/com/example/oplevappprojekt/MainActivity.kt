@@ -49,6 +49,7 @@ fun OplevApp(){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val changepassword="password"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
@@ -81,7 +82,8 @@ fun OplevApp(){
                 UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)},
                     navMain = {navigationController.navigate(mainroute)},
                     viewModel = authviewmodel,
-                    navStart = {navigationController.navigate(startRoute)})
+                    navStart = {navigationController.navigate(startRoute)},
+                    navChange = {navigationController.navigate(changepassword)})
             }
             composable(route=idearoute
                 //,arguments = listOf(navArgument("country"){type= NavType.StringType},
@@ -97,6 +99,12 @@ fun OplevApp(){
                         ,journeyviewmodel, country = "") }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
+            }
+            composable(route=changepassword){
+                Password(
+                    viewModel = AuthViewModel(),
+                    navigation = { navigationController.navigate(profile)},
+                )
             }
     }
 }}
