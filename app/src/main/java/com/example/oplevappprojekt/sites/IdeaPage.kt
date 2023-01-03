@@ -50,8 +50,9 @@ fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, state: jou
 
             val myideas = arrayListOf(idea, idea2, idea3)
             val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-            TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
-            Text(text = state.currentdate.toString())
+            TopCard(ImageId = R.drawable.image10,
+                text = viewModel.uiState.value.currentcountry.toString())
+            Text(text = viewModel.uiState.value.currentdate.toString())
             IdeaGrid(journey = journey)}
         }
     },

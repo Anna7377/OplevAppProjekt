@@ -28,10 +28,7 @@ import kotlinx.coroutines.runBlocking
 //S213370 & S215722
 class MyJourneysUI{
 }
-val repository = HardcodedJourneysRepository()
 // S215722
-
-
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
