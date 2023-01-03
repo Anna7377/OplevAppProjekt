@@ -65,7 +65,7 @@ fun OplevApp(){
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                state = journeyState(), viewModel = Journeysviewmodel())
+                viewModel = Journeysviewmodel())
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})

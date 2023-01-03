@@ -79,7 +79,7 @@ val state = viewModel.uiState.value
             LogInButton(text = "Opret", onClick = {
                 runBlocking {
                 viewModel.SignUp(mail, pass, confpass, context, activity, name) }
-                if (state.isLoggedIn){
+                if (viewModel.uiState.value.isLoggedIn){
                     navMain()
                 }
                 }, enabled)

@@ -59,7 +59,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
                 viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
-                if (state.isLoggedIn) {
+                if (viewModel.uiState.value.isLoggedIn) {
                     navMain()
                 }
             }, enabled)
