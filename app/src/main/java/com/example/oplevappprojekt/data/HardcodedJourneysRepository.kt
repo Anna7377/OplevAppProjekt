@@ -18,7 +18,6 @@ class HardcodedJourneysRepository {
 
 
    suspend fun getJourneys(): ArrayList<Journey> {
-       System.out.println("user ID is:" + uid)
         journeylist = journeys.whereEqualTo("userID", uid).get()
             .await()
             .toObjects<Journey>() as ArrayList<Journey>
@@ -32,4 +31,6 @@ fun addJourney(country: String, date: String){
         "date" to date,
         "time" to Timestamp(System.currentTimeMillis())
     )
+    // journeylist.add(Journey(country = country, date=date, time = Timestamp((System.currentTimeMillis())), userID = uid))
+  //   System.out.println(journeylist.get(1).country)
     journeys.document().set(journey) } }

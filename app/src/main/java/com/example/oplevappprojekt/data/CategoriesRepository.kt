@@ -7,11 +7,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.toObject
 
 
-//s215718 & s213370
+//s215718
 
 data class Categories(
     val journeyID: String = "",
-    val title: String = ""
+    val title: String = "",
+    val img: Int
 )
 
 interface CategoryRepo {
@@ -26,7 +27,7 @@ class CategoriesRepository(private val firestore: FirebaseFirestore) : CategoryR
 
     val userCategories: ArrayList<com.example.oplevappprojekt.data.Categories> = arrayListOf()
     override suspend fun getCategories(): List<Categories> {
-        currentCollection().get().addOnSuccesListener { documents ->
+        currentCollection().get().addOnSuccessListener { documents ->
             for (document in documents) {
                 if (document.get("Document ID")?.equals(Firebase.auth.currentUser?.uid) == true) {
                     userCategories.add(document.toObject())
@@ -40,8 +41,10 @@ class CategoriesRepository(private val firestore: FirebaseFirestore) : CategoryR
     private fun currentCollection(): CollectionReference = firestore.collection(CATEGORY_COLLECTION)
 
     companion object {
-        private const val CATEGORY_COLLECTION = "categories"
+        private const val CATEGORY_COLLECTION = "Categories"
     }
 
 }
+
+
 

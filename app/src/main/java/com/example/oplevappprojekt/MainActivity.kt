@@ -7,11 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
@@ -66,7 +64,7 @@ fun OplevApp(){
                 navMain = {navigationController.navigate(mainroute)}, Auth())
             }
             composable(route=mainroute){
-                MainPage(navController = navigationController, navigationInsp = {navigationController.navigate(inspirationroute)},
+                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
@@ -88,15 +86,9 @@ fun OplevApp(){
             composable(route=idearoute
                 //,arguments = listOf(navArgument("country"){type= NavType.StringType},
               // navArgument("date"){type= NavType.StringType}
-            )
-                   // ){ navBackStackEntry ->
-                /* Extracting the id from the route */
-              //  val country = navBackStackEntry.arguments?.getString("country")
-                /* We check if is null */
-                //country?.let
-                    {
+            ) {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, country = "") }
+                        ,journeyviewmodel, journeyState()) }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }

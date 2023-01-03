@@ -25,7 +25,6 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.model.Idea
-import java.util.*
 
 typealias ComposableFun = @Composable () -> Unit
 
@@ -34,12 +33,12 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), "")
+MyJourneyPage({}, Journeysviewmodel(), journeyState())
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: String){
+fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 

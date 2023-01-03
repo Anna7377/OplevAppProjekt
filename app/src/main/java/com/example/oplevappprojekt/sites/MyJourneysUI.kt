@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
@@ -31,7 +30,7 @@ class MyJourneysUI{
 }
 // S215722
 @Composable
-fun  MainPage(navController: NavController, navigationInsp: ()-> Unit,
+fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel){
 
