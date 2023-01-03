@@ -19,9 +19,6 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.data.Journey
-import com.example.oplevappprojekt.data.JourneyRepository
-import com.example.oplevappprojekt.data.JourneysRepository
 import com.example.oplevappprojekt.sites.Countries
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

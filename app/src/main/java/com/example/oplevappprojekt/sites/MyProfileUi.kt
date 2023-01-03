@@ -145,7 +145,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(onClick = { viewModel.deleteUser()
-        },
+       navStart() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(40.dp)

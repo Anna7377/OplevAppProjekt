@@ -18,6 +18,7 @@ import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 
 // S215722
 
@@ -49,15 +50,16 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             if (mail.isNotEmpty() && pass.isNotEmpty()) {
                 enabled = true
             } else {
-                enabled = false
+                enabled = true
             }
             var text: String = ""
             val context = LocalContext.current
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Log Ind", onClick = {
-                viewModel.SignIn(mail, pass, context, activity)
-                if (state.isLoggedIn) {
+                runBlocking {
+                viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
+                if (viewModel.uiState.value.isLoggedIn) {
                     navMain()
                 }
             }, enabled)

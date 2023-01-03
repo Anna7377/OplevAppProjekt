@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import kotlinx.coroutines.runBlocking
 
 
 // S215722
@@ -76,8 +77,9 @@ val state = viewModel.uiState.value
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Opret", onClick = {
-                viewModel.SignUp(mail, pass, confpass, context, activity, name)
-                if (state.isLoggedIn){
+                runBlocking {
+                viewModel.SignUp(mail, pass, confpass, context, activity, name) }
+                if (viewModel.uiState.value.isLoggedIn){
                     navMain()
                 }
                 }, enabled)

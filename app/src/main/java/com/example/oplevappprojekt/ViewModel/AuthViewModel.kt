@@ -18,7 +18,8 @@ import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 
 
 //s215722
@@ -34,7 +35,7 @@ class AuthViewModel:ViewModel(){
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 
-    fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity, name: String) {
+   suspend fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity, name: String) {
         // [START create_user_with_email]
         if (confPass != password) {
             Toast.makeText(baseContext, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
@@ -56,12 +57,13 @@ class AuthViewModel:ViewModel(){
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(false)
-                    SignIn(email, password, baseContext, activity)
+                    runBlocking {
+                    SignIn(email, password, baseContext, activity) }
                     val user = hashMapOf("mail" to email,
                     "username" to name)
                     Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.toString()).set(user)
                 }
-                }
+                }.await()
             }
         // [END create_user_with_email]
 
@@ -85,7 +87,7 @@ class AuthViewModel:ViewModel(){
 
     }
 
-    fun SignIn(email: String, password: String, baseContext: Context, activity: Activity) {
+  suspend fun SignIn(email: String, password: String, baseContext: Context, activity: Activity) {
         // [START sign_in_with_email]
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
@@ -104,7 +106,7 @@ class AuthViewModel:ViewModel(){
                     ).show()
                     updateUI( false)
                 }
-            }
+            }.await()
         // [END sign_in_with_email]
     }
 
@@ -114,7 +116,7 @@ class AuthViewModel:ViewModel(){
 
 
     fun deleteUser(){
-        auth.currentUser?.delete()
+        Firebase.auth.currentUser?.delete()
     }
     fun logout(){
         FirebaseAuth.getInstance().signOut()

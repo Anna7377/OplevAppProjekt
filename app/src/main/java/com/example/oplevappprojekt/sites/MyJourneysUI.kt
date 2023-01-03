@@ -20,12 +20,9 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import com.example.scrollablelistofbuttons.model.ScrollableList
 import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 //S213370 & S215722
@@ -38,7 +35,7 @@ val repository = HardcodedJourneysRepository()
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
-viewModel: Journeysviewmodel, state: journeyState){
+viewModel: Journeysviewmodel){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
@@ -48,18 +45,15 @@ viewModel: Journeysviewmodel, state: journeyState){
                   modifier = Modifier
                       .fillMaxWidth()
               ) {
+                  var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  runBlocking {
-                  repository.getJourneys() }
-
-                  if (state.userjourneys.isEmpty()) {
+                 viewModel.getJourneys()
+                      journeylist = viewModel.uiState.value.userjourneys
+                  if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = repository.journeylist, navIdeas = navIdeas)
-                  }
-              }
-          }
-      },
+                      CountryList(list = journeylist, navIdeas = navIdeas)
+                  } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 

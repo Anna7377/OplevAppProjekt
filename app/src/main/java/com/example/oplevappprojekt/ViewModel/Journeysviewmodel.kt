@@ -6,13 +6,15 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import kotlinx.coroutines.runBlocking
 import java.sql.Timestamp
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
+import kotlin.collections.ArrayList
 
 //s215722
 data class Journey(
     val country: String = "",
     val date: String = "",
-    val time: java.sql.Timestamp = Timestamp(System.currentTimeMillis()),
+    val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
 )
 
@@ -21,8 +23,7 @@ data class journeyState(
     var currentJourney: Journey? = null,
     var currentcountry: String? = null,
     var currentdate: String? = null,
-var userjourneys: ArrayList<Journey> = arrayListOf()
-)
+var userjourneys: ArrayList<Journey> = arrayListOf())
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
