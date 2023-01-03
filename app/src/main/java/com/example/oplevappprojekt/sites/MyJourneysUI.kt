@@ -35,7 +35,7 @@ val repository = HardcodedJourneysRepository()
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
-viewModel: Journeysviewmodel, state: journeyState){
+viewModel: Journeysviewmodel){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
@@ -47,9 +47,8 @@ viewModel: Journeysviewmodel, state: journeyState){
               ) {
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                 // runBlocking {
-                 //journeylist = repository.getJourneys() }
-                      journeylist = state.userjourneys
+                 viewModel.getJourneys()
+                      journeylist = viewModel.uiState.value.userjourneys
                   if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
