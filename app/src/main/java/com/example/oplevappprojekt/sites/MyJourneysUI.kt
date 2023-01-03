@@ -64,13 +64,14 @@ fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.opleva
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
-                date=it.date)
+                date=it.date,
+            ID=it.JourneyID)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
-    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
+    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date, ID =ID)
         navIdeas()})
         , elevation = 4.dp) {
 

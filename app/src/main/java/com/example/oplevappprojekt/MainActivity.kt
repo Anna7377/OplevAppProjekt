@@ -94,7 +94,8 @@ fun OplevApp(){
                 //country?.let
                     {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, country = "") }
+                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
+                ) }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }

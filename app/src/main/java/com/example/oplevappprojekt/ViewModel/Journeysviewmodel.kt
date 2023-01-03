@@ -16,11 +16,12 @@ data class Journey(
     val date: String = "",
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
+    var JourneyID: String = ""
 )
 
 data class journeyState(
     var isJourneySelected: Boolean = false,
-    var currentJourney: Journey? = null,
+    var currentJourneyID: String? = null,
     var currentcountry: String? = null,
     var currentdate: String? = null,
 var userjourneys: ArrayList<Journey> = arrayListOf())
@@ -42,8 +43,16 @@ class Journeysviewmodel {
         repo.addJourney(country = country, date = date)
     }
 
-    fun selectJourney(country: String, date: String) {
-        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date)
+    fun selectJourney(country: String, date: String, ID: String) {
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
+    }
+    fun deselect(){
+        _uiState.value = _uiState.value.copy(isJourneySelected = false)
+    }
+
+    fun editJourney(country: String, date: String, ID: String){
+        repo.editJourney(country=country, date=date, journeyID = ID)
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
     }
 
     fun randomImg(): Int {

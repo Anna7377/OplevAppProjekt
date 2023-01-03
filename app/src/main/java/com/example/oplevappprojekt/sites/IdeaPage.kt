@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
@@ -34,12 +35,12 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), "")
+MyJourneyPage({}, Journeysviewmodel(), "", {})
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: String){
+fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: String, navEdit: () -> Unit){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -53,6 +54,7 @@ fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: S
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
+            editJourney(navEdit = {navEdit()})
             IdeaGrid(journey = journey)}
         }
     },
@@ -130,5 +132,11 @@ fun IdeaBox(idea: Idea?) {
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
         )
+    }
+}
+
+@Composable
+fun editJourney(navEdit: () -> Unit){
+    Button(onClick = {navEdit()}) {
     }
 }
