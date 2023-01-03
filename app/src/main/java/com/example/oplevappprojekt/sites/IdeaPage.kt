@@ -1,5 +1,11 @@
 package com.example.oplevappprojekt.sites
 
+import android.app.AlertDialog
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -7,6 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,14 +26,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.model.Idea
+import com.example.oplevappprojekt.model.Journey
 import java.util.*
+
 
 typealias ComposableFun = @Composable () -> Unit
 
@@ -61,6 +68,7 @@ navMain: () -> Unit){
             Row{
                 editJourney(navEdit = {navEdit()})
                 deleteJourney(navMain = {navMain()}, viewModel = viewModel)
+                genLink(viewModel = viewModel)
             }
 
             IdeaGrid(journey = journey)}
@@ -146,13 +154,37 @@ fun IdeaBox(idea: Idea?) {
 @Composable
 fun editJourney(navEdit: () -> Unit){
     Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
-        Text(text="Rediger Rejse")
+        Text(text="Rediger Rejse", color = Color.White)
     }
 }
 @Composable
-fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel){
-Button(onClick = {navMain()
-viewModel.deleteJourney()}) {
+fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
+    Button(onClick = {
+        navMain()
+        viewModel.deleteJourney()
+    }, colors = ButtonDefaults.buttonColors(Color.Red)) {
+        Text(text="Slet Rejse", color = Color.White)
+    } }
 
+@Composable
+fun genLink(viewModel: Journeysviewmodel){
+    val dialog = remember{mutableStateOf(false)}
+
+    if(dialog.value){
+        AlertDialog(onDismissRequest = {dialog.value=false},
+            title = { Text(text="Inviter Medarrangør", color = Color.White) },
+            text={ SelectionContainer() {
+                Text(text= viewModel.uiState.value.currentJourneyID.toString(),
+                color = Color.White, ) }},
+            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
+            backgroundColor = Color(myColourString.toColorInt()))
+    }
+    Button(onClick = {dialog.value=true}) {
+Text("Inviter Medarrangør")
+    }
 }
-}
+
+
+
+
+
