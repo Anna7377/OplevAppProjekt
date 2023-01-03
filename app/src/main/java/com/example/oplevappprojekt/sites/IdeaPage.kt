@@ -34,12 +34,12 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), journeyState())
+MyJourneyPage({}, Journeysviewmodel(), "")
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
+fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: String){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 

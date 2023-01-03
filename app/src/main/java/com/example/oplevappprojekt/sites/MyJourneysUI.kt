@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
@@ -30,7 +31,7 @@ class MyJourneysUI{
 }
 // S215722
 @Composable
-fun  MainPage(navigationInsp: ()-> Unit,
+fun  MainPage(navController: NavController, navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel){
 
@@ -49,20 +50,20 @@ viewModel: Journeysviewmodel){
                   if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = journeylist, navIdeas = navIdeas)
+                      CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
                   } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 
 
 @Composable
-fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
+fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=R.drawable.image11,
                 country = it.country,
                 navIdeas=navIdeas,
-                viewModel = Journeysviewmodel(),
+                viewModel = viewmodel,
                 date=it.date)
         } } }
 
@@ -70,7 +71,8 @@ fun CountryList(list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, 
 fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
     Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
-        navIdeas()})  , elevation = 4.dp) {
+        navIdeas()})
+        , elevation = 4.dp) {
 
         Box() {
             Image(
