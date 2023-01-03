@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -14,8 +15,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
@@ -41,14 +44,14 @@ viewModel: Journeysviewmodel){
           Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
               Column(
                   modifier = Modifier
-                      .fillMaxWidth()
+                      .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
                  viewModel.getJourneys()
                       journeylist = viewModel.uiState.value.userjourneys
                   if (journeylist.isEmpty()) {
-                      Text(text = "No journeys")
+                      Text(text = "Ingen Rejser", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
                   } else {
                       CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
                   } } } },
@@ -136,17 +139,6 @@ fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Mo
         }
     }
 }
-
-
-@Composable
-private fun ScrollableList(scrollableList: List<ScrollableList>, modifier: Modifier = Modifier){
-    LazyColumn {
-        items(scrollableList){ scrollableList ->
-            CountryCard(scrollablelistofbuttons = scrollableList)
-        }
-    }
-}
-
 
 @Preview
 @Composable

@@ -57,6 +57,7 @@ class Journeysviewmodel {
 
     fun deleteJourney(){
         repo.deleteJourney(uiState.value.currentJourneyID.toString())
+        getJourneys()
     }
 
 
