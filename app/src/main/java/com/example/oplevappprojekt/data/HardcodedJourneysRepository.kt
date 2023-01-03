@@ -57,4 +57,8 @@ fun editJourney(journeyID: String, date: String, country: String){
     journeys.document(journeyID).set(journey)
 }
 
+    fun deleteJourney(ID: String){
+        journeys.document(ID).delete()
+    }
+
 }

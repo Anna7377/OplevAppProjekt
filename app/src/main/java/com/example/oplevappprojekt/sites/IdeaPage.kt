@@ -35,12 +35,16 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), "", {})
+MyJourneyPage({}, Journeysviewmodel(), "", {}, {})
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: String, navEdit: () -> Unit){
+fun MyJourneyPage(navCreate: ()-> Unit,
+                  viewModel: Journeysviewmodel,
+                  country: String,
+                  navEdit: () -> Unit,
+navMain: () -> Unit){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -54,7 +58,11 @@ fun MyJourneyPage(navCreate: ()-> Unit, viewModel: Journeysviewmodel, country: S
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
-            editJourney(navEdit = {navEdit()})
+            Row{
+                editJourney(navEdit = {navEdit()})
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
+            }
+
             IdeaGrid(journey = journey)}
         }
     },
@@ -137,6 +145,14 @@ fun IdeaBox(idea: Idea?) {
 
 @Composable
 fun editJourney(navEdit: () -> Unit){
-    Button(onClick = {navEdit()}) {
+    Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+        Text(text="Rediger Rejse")
     }
+}
+@Composable
+fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel){
+Button(onClick = {navMain()
+viewModel.deleteJourney()}) {
+
+}
 }

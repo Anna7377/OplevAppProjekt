@@ -55,6 +55,12 @@ class Journeysviewmodel {
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
     }
 
+    fun deleteJourney(){
+        repo.deleteJourney(uiState.value.currentJourneyID.toString())
+    }
+
+
+
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6
