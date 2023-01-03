@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
@@ -58,11 +59,10 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
-                if (viewModel.uiState.value.isLoggedIn) {
-                    navMain()
-                }
-            }, enabled)
+                viewModel.SignIn("tester@gmail.com", "test123", context, activity) }
+               if(FirebaseAuth.getInstance().currentUser!=null)
+                    navMain() }
+            , enabled)
             Text(text=text)
             Spacer(modifier = Modifier.height(40.dp))
             ChangePageText("Ny til Oplev? Opret Bruger Nu!", navigation)
