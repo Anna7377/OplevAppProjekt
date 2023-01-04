@@ -66,7 +66,7 @@ fun OplevApp(){
                 navMain = {navigationController.navigate(mainroute)}, Auth())
             }
             composable(route=mainroute){
-                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
+                MainPage(navController = navigationController, navigationInsp = {navigationController.navigate(inspirationroute)},
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
@@ -87,11 +87,17 @@ fun OplevApp(){
             }
             composable(route=idearoute
                 //,arguments = listOf(navArgument("country"){type= NavType.StringType},
-               // navArgument("date"){type= NavType.StringType})
-                    ){
+              // navArgument("date"){type= NavType.StringType}
+            )
+                   // ){ navBackStackEntry ->
+                /* Extracting the id from the route */
+              //  val country = navBackStackEntry.arguments?.getString("country")
+                /* We check if is null */
+                //country?.let
+                    {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, journeyState())
-            }
+                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
+                , navMain = {navigationController.navigate(mainroute)}) }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
