@@ -12,10 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -39,7 +36,9 @@ class MainActivity : ComponentActivity() {
 fun OplevApp(){
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
+        val currentJourney = journeyviewmodel.uiState.value.currentJourneyID
         val authviewmodel = AuthViewModel()
+        val ideavm = Ideaviewmodel()
         val startRoute = "start"
         val mainroute = "main"
         val profile = "profile"
@@ -97,7 +96,7 @@ fun OplevApp(){
                         ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
                 , navMain = {navigationController.navigate(mainroute)}) }
             composable(route=createIdea){
-                CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
+                CreateIdea(navIdeas = {navigationController.navigate(idearoute)}, ideavm, JourneyID = currentJourney.toString())
             }
     }
 }}

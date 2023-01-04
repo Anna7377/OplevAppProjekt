@@ -15,10 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.Ideaviewmodel
 
 //s215726
 @Composable
-fun CreateIdea(navIdeas: ()->Unit) {
+fun CreateIdea(navIdeas: ()->Unit, viewmodel: Ideaviewmodel, JourneyID: String) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -52,17 +53,20 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(60.dp))
-                    Title()
+                   val title = Title()
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Descriptions()
+                    val desc = Descriptions()
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Button(onClick = {navIdeas()},
+                    Button(onClick = {viewmodel.addIdea(title = title, desc = desc,
+                        JourneyID = JourneyID,
+                    categoryID = "")
+                        navIdeas()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -101,6 +105,7 @@ fun Title() : String {
         },
 
         )
+
 return text
 }
 
