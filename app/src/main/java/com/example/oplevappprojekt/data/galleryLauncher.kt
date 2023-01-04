@@ -20,21 +20,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PickImageFromGallery()
-        }
-    }
-}
-
 @Composable
-fun PickImageFromGallery() {
+fun PickImageFromGallery() : Bitmap? {
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
@@ -76,7 +68,7 @@ fun PickImageFromGallery() {
             Text(text = "Pick Image")
         }
     }
-
+return bitmap.value
 }
 
 
