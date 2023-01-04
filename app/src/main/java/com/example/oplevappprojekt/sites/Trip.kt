@@ -19,6 +19,7 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import com.example.oplevappprojekt.data.PickImageFromGallery
 import com.example.oplevappprojekt.sites.Countries
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -113,6 +114,7 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             val dato = Dato()
            val month = Month()
             val year = Year()
+            PickImageFromGallery()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

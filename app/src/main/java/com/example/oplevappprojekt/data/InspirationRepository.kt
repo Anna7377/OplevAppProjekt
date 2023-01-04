@@ -15,7 +15,6 @@ data class InspirationText(
 
 class InspirationRepository {
 
-
      suspend fun read() : String {
          val text: InspirationText?
          val uid = Firebase.auth.currentUser?.uid.toString()
