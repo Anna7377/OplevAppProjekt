@@ -117,22 +117,22 @@ fun UserProfile(){
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
-                .height(40.dp)
-                .width(110.dp)
+                .height(30.dp)
+                .width(100.dp)
 
         )  {
             Text(text = "Log ud",
                 color = Color.White)
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(onClick = {
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
-                .height(40.dp)
-                .width(110.dp)
+                .height(30.dp)
+                .width(100.dp)
         ){
             Text(text = "Slet profil",
                 color = Color.White)
