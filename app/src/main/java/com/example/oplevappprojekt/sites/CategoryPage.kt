@@ -52,7 +52,9 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
             TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
             Text(text = state.currentdate.toString())
 
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = {
+
+            },
                 modifier = Modifier.padding(20.dp).width(380.dp).height(70.dp).clip(
                     RoundedCornerShape(15)),
                 colors = ButtonDefaults.buttonColors(

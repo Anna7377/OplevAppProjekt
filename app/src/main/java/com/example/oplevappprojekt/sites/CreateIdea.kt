@@ -15,10 +15,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
 //s215726
 @Composable
 fun CreateIdea(navIdeas: ()->Unit) {
+    val vm = CategoryViewModel()
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -52,17 +54,20 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(60.dp))
-                    Title()
+                    Title(vm)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Descriptions()
+                    Descriptions(vm)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Button(onClick = {navIdeas()},
+                    Button(onClick = {
+                        vm.addCategory(vm.tmpTitle, vm.tmpDesc)
+                        navIdeas()
+                     },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -77,7 +82,7 @@ fun CreateIdea(navIdeas: ()->Unit) {
     }}
 
 @Composable
-fun Title() : String {
+fun Title(vm: CategoryViewModel) : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -92,7 +97,11 @@ fun Title() : String {
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            text = newText},
+            run {
+                vm.tmpTitle = newText
+                text = newText
+            }
+             },
         label ={
             Text(text = "Titel:",
                 color = Color.Gray,
@@ -105,7 +114,7 @@ return text
 }
 
 @Composable
-fun Descriptions() : String {
+fun Descriptions(vm: CategoryViewModel) : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -120,7 +129,10 @@ fun Descriptions() : String {
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            text = newText},
+            run {
+                vm.tmpDesc = newText
+                text = newText
+            }},
         label ={
             Text(text = "Beskrivelse:",
                 color = Color.Gray,

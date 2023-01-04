@@ -7,57 +7,44 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 
 //s215718
 
-data class category(
-    val title: String =""
+data class Category(
+    val journeyID: String = "",
+    val title: String = "",
+    val img: String = ""
 )
 
 data class categoryState(
-    val isCategorySelected: Boolean = false,
-    val currentCategory:Categories? = null,
-    val userCategories: ArrayList<Categories> = arrayListOf(Categories("","",0))
+    var isCategorySelected: Boolean = false,
+    var currentCategory:Category? = null,
+    var currenttitle: String? = null,
+    var userCategories: ArrayList<Category> = arrayListOf(Category())
 )
 
 class CategoryViewModel {
     private val _uiState = mutableStateOf(categoryState())
     val uiState: State<categoryState> = _uiState
-    val categories = Firebase.firestore.collection("Categories")
-    val idea = Firebase.firestore.collection("ideas")
-    val idealist: ArrayList<Idea> = arrayListOf()
+    val rep = Categories()
+    var tmpTitle: String = ""
+    var tmpDesc: String = ""
 
-    fun getCategories() {
-        categories.get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                if (document.get("userID")?.equals(Firebase.auth.currentUser?.uid) == true) {
-                }
-            }
+
+     fun getCategories() {
+        var categories: ArrayList<Category> = arrayListOf()
+        runBlocking {
+            categories = rep.getCategories()
+        }
         }
 
-        fun addCategories(title: String) {
-            val categories = hashMapOf(
-                "category" to title,
-                "userID" to Firebase.auth.currentUser?.uid.toString()
-            )
+    fun addCategory(title: String, img: String){
+        rep.addCategory(title = title, img = img)
+    }
 
-        }
-
-
-        fun getIdeas() {
-            idea.get().addOnSuccessListener { documents ->
-                for (document in documents) {
-                    if (document.get("Document ID")
-                            ?.equals(Firebase.auth.currentUser?.uid) == true
-                    ) {
-                        idealist.add(document.toObject())
-                    }
-                }
-            }
-        }
-
-        fun getIdeaslist(): ArrayList<Idea> {
-            return idealist
-        }
+    fun selectCategory(title: String,img: Int){
+        _uiState.value = _uiState.value.copy(currenttitle = title)
     }
 }
+

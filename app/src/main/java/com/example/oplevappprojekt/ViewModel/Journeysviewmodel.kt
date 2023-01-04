@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import kotlinx.coroutines.runBlocking
-import java.sql.Timestamp
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
