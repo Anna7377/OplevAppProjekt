@@ -1,32 +1,64 @@
 package com.example.oplevappprojekt.data
 
-import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
-import java.util.*
-import kotlin.collections.ArrayList
+import android.app.DownloadManager.Query
+import com.example.oplevappprojekt.ViewModel.Journey
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.sql.Timestamp
 
 //s215722
-class HardcodedJourneysRepository : JourneysRepository {
-    val idea: Idea = Idea("my idea", "Hi")
-    val myideas = arrayListOf(idea)
-    private val journeys = mutableListOf(
-        Journey("Denmark", Date(1), R.drawable.image9, myideas ),
-        Journey("Iran", Date(2), R.drawable.image8, myideas)
+class HardcodedJourneysRepository {
+    val uid = Firebase.auth.currentUser?.uid.toString()
+    val journeys = Firebase.firestore.collection("journeys")
+    var journeylist: ArrayList<Journey> = arrayListOf()
+    val IDs : ArrayList<String> = arrayListOf()
+
+
+   suspend fun getJourneys(): ArrayList<Journey> {
+
+       /*  journeylist = journeys.whereEqualTo("userID", uid).get()
+            .await()
+            .toObjects<Journey>() as ArrayList<Journey>
+        */
+       val journeydocs = journeys.whereEqualTo("userID", uid).get()
+           .await()
+       journeylist = journeydocs.toObjects<Journey>() as ArrayList<Journey>
+       for(i in 0..journeydocs.size()-1) {
+       IDs.add(journeydocs.documents.get(i).id)
+       journeylist.get(i).JourneyID=IDs.get(i)
+       System.out.println(journeylist.get(i).JourneyID)}
+
+       return withContext(Dispatchers.IO){ journeylist } }
+
+
+fun addJourney(country: String, date: String){
+    val journey = hashMapOf(
+        "country" to country,
+        "userID" to uid,
+        "date" to date,
+        "time" to Timestamp(System.currentTimeMillis())
     )
-    override fun addJourney(journey: Journey) {
-        journeys.add(journey)
+    journeys.document().set(journey) }
+
+fun editJourney(journeyID: String, date: String, country: String){
+    val journey = hashMapOf(
+        "country" to country,
+        "userID" to uid,
+        "date" to date,
+        "time" to Timestamp(System.currentTimeMillis())
+    )
+    journeys.document(journeyID).set(journey)
+}
+
+    fun deleteJourney(ID: String){
+        journeys.document(ID).delete()
     }
 
-    override fun getJourneys(): List<Journey> {
-        return journeys
-    }
-
-    override fun getIdeas(): List<Idea> {
-        return myideas
-    }
-
-    override fun addIdea(idea: Idea) {
-        myideas.add(idea)
-    }
 }

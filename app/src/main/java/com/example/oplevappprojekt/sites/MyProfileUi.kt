@@ -4,11 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,16 +21,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
 
 //s215726 &
+
+//S213370
+
+
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile()
+    UserProfile({}, {}, AuthViewModel(), {})
 }
 
 @Composable
-fun UserProfile(){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit){
+   val state = viewModel.uiState.value
+    Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
+        content =
+        {
+
     Image(
         painter = painterResource(id = R.drawable.oplev_logo_lille),
         contentDescription = "logo",
@@ -51,7 +62,7 @@ fun UserProfile(){
     ) {
 
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Min Profil",
+        Text(text = "Min Profil ",
             textAlign = TextAlign.Center,
             color = Color(myColourString.toColorInt()),
             fontSize = 50.sp,
@@ -84,7 +95,7 @@ fun UserProfile(){
 
         ) {
             Text(
-                text = "Navn:",
+                text = "Navn: " + state.userName,
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
@@ -93,7 +104,7 @@ fun UserProfile(){
 
 
             Text(
-                text = "E-mail:",
+                text = "E-mail: " + state.mail,
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier
@@ -113,8 +124,8 @@ fun UserProfile(){
         }
         Spacer(modifier = Modifier.height(90.dp))
 
-        Button(onClick = {
-        },
+        Button(onClick = { viewModel.logout()
+            navStart()},
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(30.dp)
@@ -127,8 +138,8 @@ fun UserProfile(){
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(onClick = {
-        },
+        Button(onClick = { viewModel.deleteUser()
+       navStart() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
                 .height(30.dp)
@@ -138,6 +149,8 @@ fun UserProfile(){
                 color = Color.White)
         }
     }
+})
 }
+
 
 

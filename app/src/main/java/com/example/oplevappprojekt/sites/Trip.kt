@@ -17,9 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.oplevappprojekt.ViewModel.JourneyViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.data.JourneysRepository
+import com.example.oplevappprojekt.sites.Countries
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.Date
 
 
@@ -27,8 +29,9 @@ import java.util.Date
 val myColor = "#455467"
 
 
+
 @Composable
-fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
+fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -56,7 +59,7 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
             var selectedItem by remember {
                 mutableStateOf("Vælg land")
             }
-            var list = listOf("Danmark", "Usa", "Norge", "England")
+            var list = Countries.countries
 
             MaterialTheme(
                 content ={
@@ -107,24 +110,25 @@ fun Trip(viewModel: JourneyViewModel, navMain: ()->Unit) {
                     .padding(30.dp)
                     .offset(y = 160.dp)
             )
-            viewModel.setDay(Dato())
-           viewModel.setMonth(Month())
-           viewModel.setYear(Year())
-
+            val dato = Dato()
+           val month = Month()
+            val year = Year()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .offset(y = 275.dp)
             ){
-                Button(onClick = {
-                    //Der skal sørges for, at der på nedenstående newJourney() metode tager værdier
-                    //fra dropdown og ikke de hardkodede værdier.
-
-                    viewModel.newJourey(selectedItem,
-                        2020, 2, 2,
-                        R.drawable.image11)
-                    navMain()},
+                var onClick = {viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
+                navMain() }
+                if(viewModel.uiState.value.isJourneySelected){
+                    onClick = {viewModel.editJourney(country = selectedItem,
+                        date =dato + "/" + month + "/"+year,
+                        ID=viewModel.uiState.value.currentJourneyID.toString())
+                    navMain()}
+                }
+                Button(
+                    onClick = onClick,
                     shape = RoundedCornerShape(60.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                 ) {
@@ -144,7 +148,7 @@ fun Dato(): String {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("10")
+        mutableStateOf("Dag")
     }
 
     var list = listOf("1", "2", "3", "4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31")
@@ -199,7 +203,7 @@ fun Month() : String {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("10")
+        mutableStateOf("Måned")
     }
     var list = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
 
@@ -250,7 +254,7 @@ fun Year() : String {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("2020")
+        mutableStateOf("År")
     }
     var list = listOf("2020", "2021", "2022", "2023","2024","2025","2026","2027","2028","2029","2030")
 
@@ -295,13 +299,6 @@ fun Year() : String {
     )
     return selectedItem
 }
-@Composable
-fun CreateButton(createJ: ()->Unit) {
-
-}
-
-
-
 
 
 
