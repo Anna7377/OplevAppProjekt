@@ -40,8 +40,8 @@ class Ideaviewmodel {
         _uiState.value = _uiState.value.copy(userideas = ideas)
     }
 
-    fun addIdea(title: String, categoryID: String, JourneyID: String, desc: String) {
-        repo.addIdea(categoryID = categoryID, JourneyID = JourneyID)
+    fun addIdea(title: String, categoryID: String, JourneyID: String, description: String) {
+        repo.addIdea(categoryID = categoryID, JourneyID = JourneyID, description = description, title = title)
     }
 
     fun selectIdea(categoryID: String, JourneyID: String, title: String) {
@@ -51,8 +51,8 @@ class Ideaviewmodel {
         _uiState.value = _uiState.value.copy(isIdeaSelected = false)
     }
 
-    fun editIdea(categoryID: String, JourneyID: String, title: String){
-        repo.editIdea(categoryID = categoryID, JourneyID = JourneyID, title = title)
+    fun editIdea(categoryID: String, JourneyID: String, title: String, description: String){
+        repo.editIdea(categoryID = categoryID, JourneyID = JourneyID, title = title, description = description)
         _uiState.value = _uiState.value.copy(currentcategoryID = categoryID, currentJourneyID = JourneyID, currenttitle = title, isIdeaSelected = true)
     }
 

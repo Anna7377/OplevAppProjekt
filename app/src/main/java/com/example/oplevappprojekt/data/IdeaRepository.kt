@@ -38,21 +38,25 @@ class IdeaRepository {
             return withContext(Dispatchers.IO){ idealist } }
 
 
-        fun addIdea(categoryID: String, JourneyID: String){
+        fun addIdea(categoryID: String, JourneyID: String, title: String, description: String){
             val idea = hashMapOf(
                 "categoryID" to categoryID,
                 "userID" to uid,
                 "JourneyID" to JourneyID,
-                "time" to Timestamp(System.currentTimeMillis())
+                "time" to Timestamp(System.currentTimeMillis()),
+                "title" to title,
+                "desc" to description
             )
             ideas.document().set(idea) }
 
-        fun editIdea(categoryID: String, JourneyID: String, title: String){
+        fun editIdea(categoryID: String, JourneyID: String, title: String, description: String){
             val idea = hashMapOf(
                 "categoryID" to categoryID,
                 "userID" to uid,
                 "JourneyID" to JourneyID,
-                "time" to Timestamp(System.currentTimeMillis())
+                "time" to Timestamp(System.currentTimeMillis()),
+                "title" to title,
+                "desc" to description
             )
             ideas.document(JourneyID).set(idea)
         }

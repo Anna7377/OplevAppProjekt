@@ -63,7 +63,7 @@ fun CreateIdea(navIdeas: ()->Unit, viewmodel: Ideaviewmodel, JourneyID: String) 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Button(onClick = {viewmodel.addIdea(title = title, desc = desc,
+                    Button(onClick = {viewmodel.addIdea(title = title, description = desc,
                         JourneyID = JourneyID,
                     categoryID = "")
                         navIdeas()},
