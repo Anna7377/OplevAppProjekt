@@ -22,10 +22,9 @@ class Categories {
     }
 
 
-    fun addCategory(title:String, img:String){
+    fun addCategory(title:String){
         val category = hashMapOf(
             "title" to title,
-            "img" to img,
             "journeyID" to jid
         )
         categories.add(category)

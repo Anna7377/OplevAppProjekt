@@ -31,7 +31,7 @@ class MyJourneysUI{
 // S215722
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit,
-              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
+              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit, navCategories:() -> Unit,
 viewModel: Journeysviewmodel){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
@@ -49,28 +49,29 @@ viewModel: Journeysviewmodel){
                   if (journeylist.isEmpty()) {
                       Text(text = "No journeys")
                   } else {
-                      CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
+                      CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel, navCategories = navCategories)
                   } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 
 
 @Composable
-fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
+fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit,navCategories: () -> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=R.drawable.image11,
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
-                date=it.date)
+                date=it.date,
+                navCategories = navCategories)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(img: Int, country: String, date: String, navIdeas: ()-> Unit,navCategories: () -> Unit, viewModel: Journeysviewmodel) {
 
     Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date)
-        navIdeas()})
+        navCategories()})
         , elevation = 4.dp) {
 
         Box() {

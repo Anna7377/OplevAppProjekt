@@ -20,7 +20,6 @@ import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 //s215726
 @Composable
 fun CreateIdea(navIdeas: ()->Unit) {
-    val vm = CategoryViewModel()
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -54,18 +53,16 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(60.dp))
-                    Title(vm)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Descriptions(vm)
+
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
                     Button(onClick = {
-                        vm.addCategory(vm.tmpTitle, vm.tmpDesc)
                         navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
@@ -82,7 +79,7 @@ fun CreateIdea(navIdeas: ()->Unit) {
     }}
 
 @Composable
-fun Title(vm: CategoryViewModel) : String {
+fun Title() : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -96,11 +93,9 @@ fun Title(vm: CategoryViewModel) : String {
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
-        onValueChange = {newText ->
-            run {
-                vm.tmpTitle = newText
-                text = newText
-            }
+        onValueChange = {newText -> {
+
+        }
              },
         label ={
             Text(text = "Titel:",
@@ -114,7 +109,7 @@ return text
 }
 
 @Composable
-fun Descriptions(vm: CategoryViewModel) : String {
+fun Descriptions() : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -129,10 +124,7 @@ fun Descriptions(vm: CategoryViewModel) : String {
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            run {
-                vm.tmpDesc = newText
-                text = newText
-            }},
+            },
         label ={
             Text(text = "Beskrivelse:",
                 color = Color.Gray,

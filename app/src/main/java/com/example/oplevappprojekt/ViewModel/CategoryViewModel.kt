@@ -29,7 +29,7 @@ class CategoryViewModel {
     val uiState: State<categoryState> = _uiState
     val rep = Categories()
     var tmpTitle: String = ""
-    var tmpDesc: String = ""
+
 
 
      fun getCategories() {
@@ -37,10 +37,11 @@ class CategoryViewModel {
         runBlocking {
             categories = rep.getCategories()
         }
-        }
+         _uiState.value = _uiState.value.copy(userCategories = categories)
+    }
 
-    fun addCategory(title: String, img: String){
-        rep.addCategory(title = title, img = img)
+    fun addCategory(title: String){
+        rep.addCategory(title = title)
     }
 
     fun selectCategory(title: String,img: Int){

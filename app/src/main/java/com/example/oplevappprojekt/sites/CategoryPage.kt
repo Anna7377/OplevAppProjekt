@@ -40,34 +40,33 @@ fun Preview(){
 fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
     Scaffold(content = {
         Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize()) {
 
 
-            val idea = Idea("titel", "desc")
-            val idea2 = Idea("statue", "husk 50 kr til billeder")
-            val idea3 = Idea("Restaurant x", "drik milkshake her")
+                val idea = Idea("titel", "desc")
+                val idea2 = Idea("statue", "husk 50 kr til billeder")
+                val idea3 = Idea("Restaurant x", "drik milkshake her")
 
-            val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-            TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
-            Text(text = state.currentdate.toString())
+                val myideas = arrayListOf(idea, idea2, idea3)
+                val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
+                TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
+                Text(text = state.currentdate.toString())
 
-            Button(onClick = {
+                Button(onClick = {
 
-            },
-                modifier = Modifier.padding(20.dp).width(380.dp).height(70.dp).clip(
-                    RoundedCornerShape(15)),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(myColourString.toColorInt()),
-                    contentColor = Color.White)) {
-                Text(text = "Kategori", fontSize = 20.sp)
-                
-            }
+                },
+                    modifier = Modifier.padding(20.dp).width(380.dp).height(70.dp).clip(
+                        RoundedCornerShape(15)),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(myColourString.toColorInt()),
+                        contentColor = Color.White)) {
+                    Text(text = "Kategori", fontSize = 20.sp)
 
-            IdeaGrid(journey = journey)}
-    }
+                }
+
+                IdeaGrid(journey = journey)}
+        }
     },
         floatingActionButton = {Fob(navCreate = navCategories)})
 }
-
 
