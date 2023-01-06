@@ -15,25 +15,29 @@ class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
     var journeylist: ArrayList<Journey> = arrayListOf()
-    var coljourneylist: ArrayList<colJourney> = arrayListOf()
     val IDs : ArrayList<String> = arrayListOf()
 
-
    suspend fun getJourneys(): ArrayList<Journey> {
+       var coljourneylist: ArrayList<Journey> = arrayListOf()
+       val colIDs : ArrayList<String> = arrayListOf()
 
-       /*  journeylist = journeys.whereEqualTo("userID", uid).get()
-            .await()
-            .toObjects<Journey>() as ArrayList<Journey>
-        */
        val journeydocs = journeys.whereEqualTo("userID", uid).get()
            .await()
        journeylist = journeydocs.toObjects<Journey>() as ArrayList<Journey>
        for(i in 0..journeydocs.size()-1) {
        IDs.add(journeydocs.documents.get(i).id)
-       journeylist.get(i).JourneyID=IDs.get(i)
-       System.out.println(journeylist.get(i).JourneyID)}
+       journeylist.get(i).JourneyID=IDs.get(i) }
+
        val coldocs =  Firebase.firestore.collection("users")
-           .document(uid).collection("coljourneys")
+           .document(uid).collection("coljourneys").get().await()
+      coljourneylist = coldocs.toObjects<Journey>() as ArrayList<Journey>
+       for(i in 0..coldocs.size()-1){
+           colIDs.add(coldocs.documents.get(i).id)
+           coljourneylist.get(i).JourneyID=colIDs.get(i)
+           journeylist.add(coljourneylist.get(i))
+       }
+
+
 
 
 
