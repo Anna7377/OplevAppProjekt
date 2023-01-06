@@ -22,4 +22,9 @@ fun addJourney(orig: String){
    _uiState.value = _uiState.value.copy(retText = ret )
 }
 
+   fun uncollab(orig: String){
+      runBlocking {
+         colrepo.uncollab(orig)
+      }
+   }
 }

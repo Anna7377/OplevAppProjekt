@@ -75,8 +75,8 @@ fun OplevApp(){
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                viewModel = journeyviewmodel, navInvite = {navigationController.navigate(inviteroute)})
-                viewModel = journeyviewmodel, navCategories = {navigationController.navigate(categorypage)})
+                viewModel = journeyviewmodel, navInvite = {navigationController.navigate(inviteroute)},
+                navCategories = {navigationController.navigate(categorypage)})
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -96,10 +96,7 @@ fun OplevApp(){
               // navArgument("date"){type= NavType.StringType}
             ) {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
-                , navMain = {navigationController.navigate(mainroute)}) }
-                        ,journeyviewmodel, journeyState()) }
-
+                        , viewModel = journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}, navMain = {navigationController.navigate(mainroute)})
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
@@ -122,4 +119,4 @@ fun OplevApp(){
                 invite(viewmodel = colviewmodel)
             }
     }
-}}
+}}}

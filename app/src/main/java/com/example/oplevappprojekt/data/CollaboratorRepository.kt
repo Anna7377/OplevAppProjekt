@@ -36,13 +36,13 @@ class CollaboratorRepository {
                 "originalJourneyID" to orig,
                 "country" to original["country"].toString(),
                 "date" to original["date"].toString(),
-                "time" to Timestamp(System.currentTimeMillis())
+                "time" to Timestamp(System.currentTimeMillis()),
+            "isPinned" to false
             )
             currentCollection.document().set(journey)
         }
         return ret
     }
-
 
     suspend fun uncollab(orig: String) {
         val del = currentCollection.whereEqualTo("originaljourneyID", orig).get().await()

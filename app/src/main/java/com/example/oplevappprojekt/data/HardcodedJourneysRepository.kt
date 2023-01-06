@@ -38,13 +38,20 @@ class HardcodedJourneysRepository {
        }
 
 
-
-
-
        return withContext(Dispatchers.IO){ journeylist } }
 
+    suspend fun isCollaborated(ID: String) : Boolean{
+        val db = Firebase.firestore.collection("users")
+            .document(uid).collection("coljourneys").document(ID).get().await()
+        var iscol = false
+        if(db.exists()){
+            iscol = true
+        }
+        return iscol
+    }
 
-fun addJourney(country: String, date: String){
+
+    fun addJourney(country: String, date: String){
     val journey = hashMapOf(
         "country" to country,
         "userID" to uid,
