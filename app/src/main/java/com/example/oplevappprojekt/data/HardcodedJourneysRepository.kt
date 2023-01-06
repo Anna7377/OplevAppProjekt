@@ -1,10 +1,7 @@
 package com.example.oplevappprojekt.data
 
-import android.app.DownloadManager.Query
 import com.example.oplevappprojekt.ViewModel.Journey
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -18,6 +15,7 @@ class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
     var journeylist: ArrayList<Journey> = arrayListOf()
+    var coljourneylist: ArrayList<colJourney> = arrayListOf()
     val IDs : ArrayList<String> = arrayListOf()
 
 
@@ -34,6 +32,10 @@ class HardcodedJourneysRepository {
        IDs.add(journeydocs.documents.get(i).id)
        journeylist.get(i).JourneyID=IDs.get(i)
        System.out.println(journeylist.get(i).JourneyID)}
+       val coldocs =  Firebase.firestore.collection("users")
+           .document(uid).collection("coljourneys")
+
+
 
        return withContext(Dispatchers.IO){ journeylist } }
 
@@ -43,7 +45,7 @@ fun addJourney(country: String, date: String){
         "country" to country,
         "userID" to uid,
         "date" to date,
-        "time" to Timestamp(System.currentTimeMillis())
+        "time" to Timestamp(System.currentTimeMillis()),
     )
     journeys.document().set(journey) }
 

@@ -114,7 +114,9 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             val dato = Dato()
            val month = Month()
             val year = Year()
-            PickImageFromGallery()
+
+            val image =  PickImageFromGallery()
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

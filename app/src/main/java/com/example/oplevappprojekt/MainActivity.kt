@@ -12,10 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -39,6 +36,7 @@ class MainActivity : ComponentActivity() {
 fun OplevApp(){
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
+        val colviewmodel = CollaboratorViewmodel()
         val authviewmodel = AuthViewModel()
         val startRoute = "start"
         val mainroute = "main"
@@ -49,6 +47,7 @@ fun OplevApp(){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val inviteroute="invite"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
@@ -69,7 +68,7 @@ fun OplevApp(){
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                viewModel = journeyviewmodel)
+                viewModel = journeyviewmodel, navInvite = {navigationController.navigate(inviteroute)})
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -98,6 +97,9 @@ fun OplevApp(){
                 , navMain = {navigationController.navigate(mainroute)}) }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
+            }
+            composable(route=inviteroute){
+                invite(viewmodel = colviewmodel)
             }
     }
 }}

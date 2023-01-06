@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.ViewModel
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.example.oplevappprojekt.R
@@ -16,7 +17,8 @@ data class Journey(
     val date: String = "",
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
-    var JourneyID: String = ""
+    var JourneyID: String = "",
+    val originaljourneyID: String = " "
 )
 
 data class journeyState(
