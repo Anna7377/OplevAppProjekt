@@ -46,6 +46,7 @@ class AuthViewModel:ViewModel(){
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
+
                     Log.d(TAG, "createUserWithEmail:success")
                     _uiState.value=_uiState.value.copy(mail=email)
                     updateUI( true)
@@ -67,23 +68,7 @@ class AuthViewModel:ViewModel(){
             }
         // [END create_user_with_email]
 
-    /*
 
-    // [START auth_differentiate_link]
-    Firebase.auth.fetchSignInMethodsForEmail(email)
-        .addOnSuccessListener { result ->
-            val signInMethods = result.signInMethods!!
-            if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
-                // User can sign in with email/password
-            } else if (signInMethods.contains(EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
-                // User can sign in with email/link
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.e(TAG, "Error getting sign in methods for user", exception)
-        }
-          // [END auth_differentiate_link]
-     */
 
     }
 
@@ -136,19 +121,22 @@ class AuthViewModel:ViewModel(){
 
     }
 
-}}
+}
 
-/*
-    fun emailVerification
-    val user = Firebase.auth.currentUser
 
-user!!.sendEmailVerification()
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(TAG, "E-mail er blevet sendt.")
+   fun emailVerification(){
+        FirebaseAuth.getInstance()
+        val user = Firebase.auth.currentUser
+
+        user!!.sendEmailVerification()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Verifikations e-mail er blevet sendt.")
+                }
             }
-        }
- */
+    }
+}
+
 
 
 /*
