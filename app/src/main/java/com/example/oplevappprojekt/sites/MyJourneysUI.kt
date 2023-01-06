@@ -38,6 +38,7 @@ fun  MainPage(navController: NavController, navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel, navInvite: ()->Unit){
 
+
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
@@ -151,6 +152,7 @@ fun joinJourney(navJoin: ()-> Unit){
         Text(text = "bliv medarrangør", color = Color.White)
     }
 }
+
 
 @Preview
 @Composable

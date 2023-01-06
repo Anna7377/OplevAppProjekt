@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
 //s215726
 @Composable
@@ -52,17 +53,18 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(60.dp))
-                    Title()
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Descriptions()
+
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    Button(onClick = {navIdeas()},
+                    Button(onClick = {
+                        navIdeas()
+                     },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -91,8 +93,10 @@ fun Title() : String {
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
-        onValueChange = {newText ->
-            text = newText},
+        onValueChange = {newText -> {
+
+        }
+             },
         label ={
             Text(text = "Titel:",
                 color = Color.Gray,
@@ -120,7 +124,7 @@ fun Descriptions() : String {
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            text = newText},
+            },
         label ={
             Text(text = "Beskrivelse:",
                 color = Color.Gray,

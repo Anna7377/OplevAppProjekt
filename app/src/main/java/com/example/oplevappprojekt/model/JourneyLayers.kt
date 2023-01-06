@@ -15,3 +15,10 @@ data class Idea(
     val title: String,
     val desc: String
 )
+
+// s215718 & s213370
+data class Categories(
+    val desc: String,
+    val JPEG: Int,
+    var IdeaList: MutableList<Idea> = mutableListOf<Idea>()
+)
