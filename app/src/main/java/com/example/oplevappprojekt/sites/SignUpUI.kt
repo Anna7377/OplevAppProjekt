@@ -79,7 +79,9 @@ val state = viewModel.uiState.value
 
             LogInButton(text = "Opret", onClick = {
                 runBlocking {
-                viewModel.SignUp(mail, pass, confpass, context, activity, name) }
+                viewModel.SignUp(mail, pass, confpass, context, activity, name)
+                    }
+                viewModel.emailVerification()
                 if (FirebaseAuth.getInstance().currentUser!=null){
                     navMain()
                 }
