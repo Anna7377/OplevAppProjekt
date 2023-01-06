@@ -13,7 +13,8 @@ data class Journey(
 
 data class Idea(
     val title: String,
-    val desc: String
+    val desc: String,
+    var IdeaList: MutableList<Idea> = mutableListOf<Idea>()
 )
 
 // s215718 & s213370

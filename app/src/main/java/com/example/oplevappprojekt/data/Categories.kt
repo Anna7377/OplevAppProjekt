@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-//s215718
+//s215718 & s213370
 
 class Categories {
     val categories = Firebase.firestore.collection("categories")

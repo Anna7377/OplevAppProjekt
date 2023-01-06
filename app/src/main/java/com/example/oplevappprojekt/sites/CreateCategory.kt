@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
-// s213370
+// s215718 & s213370
 
 @Composable
 fun CreateCategory(navCategories: ()->Unit) {

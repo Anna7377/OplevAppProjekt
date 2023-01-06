@@ -10,10 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -38,6 +35,7 @@ fun OplevApp(){
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
         val authviewmodel = AuthViewModel()
+        val categoryviewmodel = CategoryViewModel()
         val startRoute = "start"
         val mainroute = "main"
         val profile = "profile"
@@ -47,6 +45,9 @@ fun OplevApp(){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val changepassword="password"
+        val createcategory="createcategory"
+        val categorypage = "categorypage"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
@@ -66,7 +67,7 @@ fun OplevApp(){
                 MainPage(navController = navigationController, navigationInsp = {navigationController.navigate(inspirationroute)},
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
-                    navIdeas = {navigationController.navigate(idearoute)},
+                    navIdeas = {navigationController.navigate(categorypage)},
                 viewModel = journeyviewmodel)
             }
             composable(route=inspirationroute){
@@ -86,7 +87,7 @@ fun OplevApp(){
                 //,arguments = listOf(navArgument("country"){type= NavType.StringType},
               // navArgument("date"){type= NavType.StringType}
             ) {
-                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
+                MyJourneyPage(navCreate = {navigationController.navigate(createcategory)}
                         ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
                 , navMain = {navigationController.navigate(mainroute)}) }
             composable(route=createIdea){
@@ -103,9 +104,11 @@ fun OplevApp(){
 
             }
             composable(route=categorypage){
-                CategoryPage(navCategories =
-                {navigationController.navigate(createcategory)},
-                    Journeysviewmodel(), journeyState() )
+                CategoryPage(navCreate = {navigationController.navigate(createcategory)},
+                navCategories = {navigationController.navigate(categorypage)},
+                navigationInsp = {navigationController.navigate(inspirationroute)},
+                navProfile = {navigationController.navigate(inspirationroute)},
+                    navIdeas = {navigationController.navigate(idearoute)}, viewModel = categoryviewmodel)
             }
     }
 }}

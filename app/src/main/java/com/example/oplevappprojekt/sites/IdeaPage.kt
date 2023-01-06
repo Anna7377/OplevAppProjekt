@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.Category
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
@@ -71,7 +73,7 @@ navMain: () -> Unit){
                 genLink(viewModel = viewModel)
             }
 
-            IdeaGrid(journey = journey)}
+            IdeaGrid(journey = journey, category = Category())}
         }
     },
         floatingActionButton = {Fob(navCreate = navCreate)})
@@ -80,7 +82,7 @@ navMain: () -> Unit){
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(journey : Journey){
+fun IdeaGrid(journey : Journey, category : Category){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in journey.IdeaList){
@@ -88,9 +90,15 @@ fun IdeaGrid(journey : Journey){
        val tempIdea: ComposableFun = {
            IdeaBox(idea = idea)
        }
-
        itemsinColumn.add(tempIdea)
    }
+
+    for (idea in category.IdeaList){
+        val tempIdea: ComposableFun = {
+            IdeaBox(idea = idea)
+        }
+        itemsinColumn.add(tempIdea)
+    }
 
 
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
