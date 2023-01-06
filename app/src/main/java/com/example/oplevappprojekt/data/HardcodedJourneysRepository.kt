@@ -28,13 +28,20 @@ class HardcodedJourneysRepository {
        IDs.add(journeydocs.documents.get(i).id)
        journeylist.get(i).JourneyID=IDs.get(i) }
 
-       val coldocs =  Firebase.firestore.collection("users")
-           .document(uid).collection("coljourneys").get().await()
+       val docref =Firebase.firestore.collection("users")
+           .document(uid).collection("coljourneys")
+       val coldocs = docref.get().await()
       coljourneylist = coldocs.toObjects<Journey>() as ArrayList<Journey>
        for(i in 0..coldocs.size()-1){
+           val jouneyID = coljourneylist.get(i).JourneyID
+           if(journeys.document(jouneyID).get().await().exists()){
            colIDs.add(coldocs.documents.get(i).id)
            coljourneylist.get(i).JourneyID=colIDs.get(i)
-           journeylist.add(coljourneylist.get(i))
+           journeylist.add(coljourneylist.get(i)) }
+           else{
+               val delcol = docref.whereEqualTo("originaljourneyID", jouneyID).limit(1).get().await().documents.get(0).id
+               docref.document(delcol).delete()
+           }
        }
 
 
