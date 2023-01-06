@@ -90,8 +90,10 @@ fun SmallTitle(text: String) {
 
 
 @Composable
-fun ScrollableTextField(){
+fun ScrollableTextField()  {
     val scrollstate= rememberScrollState()
+    val currentText = remember {
+        mutableStateOf(TextFieldValue()) }
     Column(modifier= Modifier
         .verticalScroll(scrollstate)
         .border(
@@ -102,8 +104,7 @@ fun ScrollableTextField(){
         )
         .width(300.dp)
         .height(600.dp)){
-        val currentText = remember {
-            mutableStateOf(TextFieldValue()) }
+
         TextField(onValueChange = { currentText.value = it } ,
             modifier = Modifier.width(300.dp),
             placeholder = { Text(text="Indsæt inspirationskilder...") },
@@ -114,7 +115,8 @@ fun ScrollableTextField(){
                 unfocusedIndicatorColor = Color.Transparent)
         )
 
-    } }
+    }
+}
 
 val myColourString = "#455467"
 
@@ -146,9 +148,9 @@ fun InputText(hint: String) : String {
 }
 
 @Composable
-fun LogInButton(text: String, onClick: () -> Unit) {
+fun LogInButton(text: String, onClick: () -> Unit, enabled: Boolean) {
     Button(
-        onClick = onClick, colors = ButtonDefaults.buttonColors(
+        onClick = onClick, enabled=enabled, colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(myColourString.toColorInt()),
             contentColor = Color.White
         )
@@ -226,7 +228,7 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Inspirationskilder") },
                 selected = false,
-                onClick = {onClick1})
+                onClick = onClick1)
 
             BottomNavigationItem(
                 icon = {
@@ -236,13 +238,13 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 },
                 label = { Text(text = "Mine Rejser") },
                 selected = false,
-                onClick = {onClick2})
+                onClick = onClick2)
             BottomNavigationItem(
                 icon = {
                     Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "" )},
                 label = { Text(text = "Profil") },
                 selected = false,
-                onClick = {onClick3} )
+                onClick = onClick3 )
         }
     }
 }
