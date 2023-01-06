@@ -11,9 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
 
 // S215722
@@ -54,7 +59,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("alberthalkjaer@gmail.com", "Albert99", context, activity) }
+                viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
                if(FirebaseAuth.getInstance().currentUser!=null)
                     navMain() }
             , enabled)

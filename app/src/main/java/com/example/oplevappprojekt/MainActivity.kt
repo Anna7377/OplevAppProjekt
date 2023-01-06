@@ -47,9 +47,6 @@ fun OplevApp(){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
-        val createcategory="create category"
-        val categorypage="categeory page"
-        val changepassword="password"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
@@ -66,11 +63,11 @@ fun OplevApp(){
                 navMain = {navigationController.navigate(mainroute)}, Auth())
             }
             composable(route=mainroute){
-                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
+                MainPage(navController = navigationController, navigationInsp = {navigationController.navigate(inspirationroute)},
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                viewModel = journeyviewmodel, navCategories = {navigationController.navigate(categorypage)})
+                viewModel = journeyviewmodel)
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -90,8 +87,8 @@ fun OplevApp(){
               // navArgument("date"){type= NavType.StringType}
             ) {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, journeyState()) }
-
+                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
+                , navMain = {navigationController.navigate(mainroute)}) }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }
