@@ -27,6 +27,7 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
+
 // s215718 & s213370
 
 
@@ -58,6 +59,7 @@ fun CategoryList(viewModel: CategoryViewModel, list: ArrayList<com.example.oplev
         items(list){
             CategoryCards( img = R.drawable.image10,
             ID = it.journeyID,
+            il = it.categoryID,
             viewModel = viewModel,
             category = it.title,
             navIdeas = navIdeas)
@@ -66,11 +68,11 @@ fun CategoryList(viewModel: CategoryViewModel, list: ArrayList<com.example.oplev
 
 
 @Composable
-fun CategoryCards(img:Int, category: String, ID: String, navIdeas: () -> Unit,viewModel: CategoryViewModel ){
+fun CategoryCards(img:Int, category: String, ID: String, il: String, navIdeas: () -> Unit,viewModel: CategoryViewModel ){
     Card(modifier = Modifier
         .padding(20.dp)
         .clickable {
-            viewModel.selectCategory(title = category, ID = ID)
+            viewModel.selectCategory(title = category, ID = ID, il = il)
             navIdeas()
         }){
     Box() {
@@ -89,50 +91,3 @@ fun CategoryCards(img:Int, category: String, ID: String, navIdeas: () -> Unit,vi
                 .clip(RoundedCornerShape(15))
         ) } }
     }
-
-
-
-
-
-            /*
-        } = {
-        Surface {
-            Column(modifier = Modifier.fillMaxSize()) {
-
-
-
-                var categorylist: ArrayList<com.example.oplevappprojekt.ViewModel.Category>
-                TopCard(ImageId = R.drawable.image10, text ="Kategorier")
-                viewModel.getCategories()
-                categorylist = viewModel.uiState.value.userCategories
-                if (categorylist.isEmpty()){
-                    Text(text = "Ingen Kategorier")
-                }else{
-                    CategoryList(list = categorylist,navIdeas = navIdeas, viewModel = viewModel, navCategories = navCategories)
-                }
-
-
-                Button(onClick = {
-
-                },
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .width(380.dp)
-                        .height(70.dp)
-                        .clip(
-                            RoundedCornerShape(15)
-                        ),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(myColourString.toColorInt()),
-                        contentColor = Color.White)) {
-                    Text(text = "Kategorier", fontSize = 20.sp)
-
-                }
-
-                IdeaGrid(journey = journey)}
-        }
-    },
-        floatingActionButton = {Fob(navCreate = navCategories)})
-}
-
-*/

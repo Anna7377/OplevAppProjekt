@@ -29,13 +29,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// S215722
+// S215722 & s215718 & s213370
 @Composable
 fun OplevApp(){
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
         val authviewmodel = AuthViewModel()
         val categoryviewmodel = CategoryViewModel()
+        val ideaviewmodel = Ideaviewmodel()
         val startRoute = "start"
         val mainroute = "main"
         val profile = "profile"
@@ -84,12 +85,13 @@ fun OplevApp(){
                     navChange = {navigationController.navigate(changepassword)})
             }
             composable(route=idearoute
-                //,arguments = listOf(navArgument("country"){type= NavType.StringType},
-              // navArgument("date"){type= NavType.StringType}
             ) {
-                MyJourneyPage(navCreate = {navigationController.navigate(createcategory)}
-                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
-                , navMain = {navigationController.navigate(mainroute)}) }
+                MyJourneyPage(navCreate = {navigationController.navigate(createIdea)},
+                   navIdeas = {navigationController.navigate(idearoute)},
+                    navProfile = {navigationController.navigate(inspirationroute)},
+                    navigationInsp = {navigationController.navigate(inspirationroute)},
+                    viewModel = ideaviewmodel)
+            }
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
             }

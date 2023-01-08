@@ -16,13 +16,15 @@ data class Category(
     val journeyID: String = "",
     val title: String = "",
     val img: String = "",
-    var IdeaList: MutableList<Idea> = mutableListOf<Idea>()
+    val categoryID: String = "",
+    var IdeaList: MutableList<com.example.oplevappprojekt.ViewModel.Idea> = mutableListOf<com.example.oplevappprojekt.ViewModel.Idea>()
 )
 
 data class categoryState(
     var isCategorySelected: Boolean = false,
     var currentCategory:Category? = null,
-    var currentjourneyID: String? = null,
+    var currentJourneyID: String? = null,
+    var currentCategoryID: String? = null,
     var currenttitle: String? = null,
     var userCategories: ArrayList<Category> = arrayListOf(Category())
 )
@@ -43,12 +45,15 @@ class CategoryViewModel {
          _uiState.value = _uiState.value.copy(userCategories = categories)
     }
 
-    fun addCategory(title: String,){
+    fun addCategory(title: String){
         rep.addCategory(title = title)
     }
 
-    fun selectCategory(title: String,ID: String){
-        _uiState.value = _uiState.value.copy(currenttitle = title, currentjourneyID = ID, isCategorySelected = true)
+    fun selectCategory(title: String,ID: String, il: String){
+        _uiState.value = _uiState.value.copy(currenttitle = title,
+            currentJourneyID = ID,
+            currentCategoryID = il,
+            isCategorySelected = true)
     }
 }
 

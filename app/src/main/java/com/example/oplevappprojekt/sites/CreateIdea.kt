@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
+import com.example.oplevappprojekt.ViewModel.Ideaviewmodel
 
-//s215726
+//s215726 & s215718 & s213370
 @Composable
 fun CreateIdea(navIdeas: ()->Unit) {
+    val vp = Ideaviewmodel()
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -53,18 +55,18 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(60.dp))
+                    Title(vp)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
-
-
+                    Descriptions(vp)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
                     Button(onClick = {
-                        navIdeas()
-                     },
+                        vp.addIdea(vp.Title,vp.Description)
+                        navIdeas()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -77,9 +79,8 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
             })
     }}
-
 @Composable
-fun Title() : String {
+fun Title(vp : Ideaviewmodel) : String{
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -93,7 +94,9 @@ fun Title() : String {
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
-        onValueChange = {newText -> {
+        onValueChange = {newText -> run{
+            vp.Title = newText
+            text = newText
 
         }
              },
@@ -109,7 +112,7 @@ return text
 }
 
 @Composable
-fun Descriptions() : String {
+fun Descriptions(vp : Ideaviewmodel) : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -124,6 +127,10 @@ fun Descriptions() : String {
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
+            run {
+                vp.Description = newText
+                text = newText
+            }
             },
         label ={
             Text(text = "Beskrivelse:",
