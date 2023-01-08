@@ -37,10 +37,6 @@ class HardcodedJourneysRepository {
            journeylist.add(coljourneylist.get(i))
        }
 
-
-
-
-
        return withContext(Dispatchers.IO){ journeylist } }
 
 

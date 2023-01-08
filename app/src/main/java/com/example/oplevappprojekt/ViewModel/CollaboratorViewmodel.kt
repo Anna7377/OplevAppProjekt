@@ -22,4 +22,10 @@ fun addJourney(orig: String){
    _uiState.value = _uiState.value.copy(retText = ret )
 }
 
+   fun showCol(orig: String) : ArrayList<String> {
+      var col: ArrayList<String>
+      runBlocking { col = colrepo.showCol(orig) }
+      return col
+   }
+
 }

@@ -18,7 +18,7 @@ data class Journey(
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
     var JourneyID: String = "",
-    val originaljourneyID: String = " "
+    val originalJourneyID: String = " "
 )
 
 data class journeyState(
@@ -47,9 +47,6 @@ class Journeysviewmodel {
 
     fun selectJourney(country: String, date: String, ID: String) {
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
-    }
-    fun deselect(){
-        _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
     fun editJourney(country: String, date: String, ID: String){
