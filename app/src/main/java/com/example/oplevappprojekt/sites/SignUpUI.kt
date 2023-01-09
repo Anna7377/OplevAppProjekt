@@ -1,7 +1,6 @@
 package com.example.oplevappprojekt.sites
 
 import android.app.Activity
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
@@ -79,7 +77,9 @@ val state = viewModel.uiState.value
 
             LogInButton(text = "Opret", onClick = {
                 runBlocking {
-                viewModel.SignUp(mail, pass, confpass, context, activity, name) }
+                viewModel.SignUp(mail, pass, confpass, context, activity, name)
+                    }
+                viewModel.emailVerification()
                 if (FirebaseAuth.getInstance().currentUser!=null){
                     navMain()
                 }

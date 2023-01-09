@@ -9,17 +9,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.example.oplevappprojekt.ViewModel.CategoryViewModel
+import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import org.checkerframework.checker.units.qual.Current
 
-//s215726
+@Preview
 @Composable
-fun CreateIdea(navIdeas: ()->Unit) {
+fun PasswordChange(){
+    Password(AuthViewModel(), {})
+}
+
+
+@Composable
+fun Password(viewModel: AuthViewModel, navigation: () -> Unit){
+    val state = viewModel.uiState.value
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -31,7 +39,7 @@ fun CreateIdea(navIdeas: ()->Unit) {
 
             ) {
             Text(
-                text = "Opret Ide",
+                text = "Skift kodeord",
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
@@ -52,37 +60,47 @@ fun CreateIdea(navIdeas: ()->Unit) {
                 ) {
 
                     Spacer(modifier = Modifier
-                        .height(60.dp))
+                        .height(70.dp))
+                    
+                    
+                    val currentPass = CurrentPassword()
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
+                    val newPass = NewPassword()
 
+                    Spacer(modifier = Modifier
+                        .height(10.dp))
+
+                    val confirmNewPass = SaveNewPassword()
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
                     Button(onClick = {
-                        navIdeas()
-                     },
+                                     viewModel.changePassword(currentPass.toString(),newPass.toString(),confirmNewPass.toString())
+                        navigation()
+                    },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
                         Text(
-                            text = "Opret",
+                            text = "Gem",
                             color = Color.Black
                         )
                     }
                 }
 
             })
-    }}
+    }
+}
 
 @Composable
-fun Title() : String {
-    var text by remember { mutableStateOf("") }
+fun CurrentPassword(){
+    var currentPass by remember { mutableStateOf("") }
     TextField(
-        value = text,
+        value = currentPass,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White,
             cursorColor = Color.Black,
@@ -93,45 +111,73 @@ fun Title() : String {
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
-        onValueChange = {newText -> {
-
-        }
-             },
+        onValueChange = {newText ->
+            currentPass = newText},
         label ={
-            Text(text = "Titel:",
+            Text(text = "Indtast nuværende kodeord:",
                 color = Color.Gray,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold)
         },
 
         )
-return text
+
+
 }
 
 @Composable
-fun Descriptions() : String {
-    var text by remember { mutableStateOf("") }
+fun NewPassword() {
+    var newPass by remember { mutableStateOf("") }
     TextField(
-        value = text,
+        value = newPass,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White,
             cursorColor = Color.Black,
             focusedIndicatorColor = Color.Black,
             unfocusedIndicatorColor = Color.Transparent),
         modifier = Modifier
-            .height(120.dp)
+            .height(49.dp)
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            },
+            newPass = newText},
         label ={
-            Text(text = "Beskrivelse:",
+            Text(text = "Indtast nyt kodeord:",
                 color = Color.Gray,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold)
         },
 
         )
-return text
+
 }
+
+@Composable
+fun SaveNewPassword() {
+    var confirmNewPass by remember { mutableStateOf("") }
+    TextField(
+        value = confirmNewPass,
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.White,
+            cursorColor = Color.Black,
+            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Transparent),
+        modifier = Modifier
+            .height(49.dp)
+            .width(250.dp)
+            .offset(x = 2.dp),
+        shape = RoundedCornerShape(8.dp),
+        onValueChange = {newText ->
+            confirmNewPass = newText},
+        label ={
+            Text(text = "Gentag nyt kodeord:",
+                color = Color.Gray,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold)
+        },
+
+        )
+
+}
+

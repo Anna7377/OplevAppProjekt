@@ -1,11 +1,5 @@
 package com.example.oplevappprojekt.sites
 
-import android.app.AlertDialog
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,16 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import java.util.*
 
 
@@ -69,18 +59,12 @@ navMain: () -> Unit){
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
-            val journlist =viewModel.uiState.value.userjourneys
-            var iscol = false
-            for(i in 0..journlist.size-1) {
-                if (journlist.get(i).JourneyID == viewModel.uiState.value.currentJourneyID.toString())
-                    if (journlist.get(i).originalJourneyID.isEmpty()) {
-iscol=false
-                    } }
+
             Row{
-                if(iscol){
+                if(viewModel.uiState.value.isOwned){
                 editJourney(navEdit = {navEdit()})
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel) }
-                genLink(viewModel = viewModel)
+                genLink(viewModel = viewModel) }
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
             }
 
             IdeaGrid(journey = journey)}
@@ -115,25 +99,6 @@ fun IdeaGrid(journey : Journey){
     }
 }
 
-@Composable
-fun showCol(viewModel: CollaboratorViewmodel, orig: String){
-    val dialog = remember{mutableStateOf(false)}
-val col = viewModel.showCol(orig)
-    if(dialog.value){
-
-        AlertDialog(onDismissRequest = {dialog.value=false},
-            title = { Text(text="Medarrangørere", color = Color.White) },
-            text={ SelectionContainer() {
-                Text(text= col.toString(),
-                    color = Color.White, ) }},
-            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
-            backgroundColor = Color(myColourString.toColorInt()))
-    }
-
-    Button(onClick = {dialog.value=true}) {
-        Text("Se medarrangørere")
-    }
-}
 
 @Composable
 fun IdeaBox(idea: Idea?) {
@@ -213,6 +178,14 @@ fun genLink(viewModel: Journeysviewmodel){
     Button(onClick = {dialog.value=true}) {
 Text("Inviter Medarrangør")
     }
+}
+@Composable
+fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
+    Button(onClick = {  viewModel.uncollab(orig)
+   navMain() }){
+        Text("fjern rejse")
+    }
+
 }
 
 

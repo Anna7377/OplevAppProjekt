@@ -13,6 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.oplevappprojekt.ViewModel.*
+import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -47,6 +51,9 @@ fun OplevApp(){
         val idearoute="idea"
         val inspirationroute = "inspiration"
         val createroute="create"
+        val createcategory="create category"
+        val categorypage="categeory page"
+        val changepassword="password"
         val inviteroute="invite"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -64,11 +71,12 @@ fun OplevApp(){
                 navMain = {navigationController.navigate(mainroute)}, Auth())
             }
             composable(route=mainroute){
-                MainPage(navController = navigationController, navigationInsp = {navigationController.navigate(inspirationroute)},
+                MainPage(navigationInsp = {navigationController.navigate(inspirationroute)},
                    navCreate = {navigationController.navigate(createroute)},
                     navProfile = {navigationController.navigate(profile)},
                     navIdeas = {navigationController.navigate(idearoute)},
-                viewModel = journeyviewmodel, navInvite = {navigationController.navigate(inviteroute)})
+                viewModel = journeyviewmodel, navInvite = {navigationController.navigate(inviteroute)},
+                navCategories = {navigationController.navigate(categorypage)})
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -80,26 +88,35 @@ fun OplevApp(){
                 UserProfile(navigationInspo = {navigationController.navigate(inspirationroute)},
                     navMain = {navigationController.navigate(mainroute)},
                     viewModel = authviewmodel,
-                    navStart = {navigationController.navigate(startRoute)})
+                    navStart = {navigationController.navigate(startRoute)},
+                    navChange = {navigationController.navigate(changepassword)})
             }
             composable(route=idearoute
                 //,arguments = listOf(navArgument("country"){type= NavType.StringType},
               // navArgument("date"){type= NavType.StringType}
-            )
-                   // ){ navBackStackEntry ->
-                /* Extracting the id from the route */
-              //  val country = navBackStackEntry.arguments?.getString("country")
-                /* We check if is null */
-                //country?.let
-                    {
+            ) {
                 MyJourneyPage(navCreate = {navigationController.navigate(createIdea)}
-                        ,journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}
-                , navMain = {navigationController.navigate(mainroute)}) }
+                        , viewModel = journeyviewmodel, country = "", navEdit = {navigationController.navigate(createroute)}, navMain = {navigationController.navigate(mainroute)})
             composable(route=createIdea){
                 CreateIdea(navIdeas = {navigationController.navigate(idearoute)})
+            }
+            composable(route=changepassword){
+                Password(
+                    viewModel = AuthViewModel(),
+                    navigation = { navigationController.navigate(profile)},
+                )
+            }
+            composable(route=createcategory){
+                CreateCategory(navCategories ={navigationController.navigate(categorypage)})
+
+            }
+            composable(route=categorypage){
+                CategoryPage(navCategories =
+                {navigationController.navigate(createcategory)},
+                    Journeysviewmodel(), journeyState() )
             }
             composable(route=inviteroute){
                 invite(viewmodel = colviewmodel)
             }
     }
-}}
+}}}
