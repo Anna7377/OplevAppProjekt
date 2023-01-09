@@ -36,7 +36,7 @@ import java.time.format.TextStyle
 @Composable
 fun TopCard(ImageId: Int, text: String) {
     Card(modifier = Modifier.padding(4.dp), elevation = 4.dp,
-        shape = RoundedCornerShape(25.dp)
+        shape = RoundedCornerShape(20.dp)
     ) {
         Box() {
             Image(
@@ -50,10 +50,11 @@ fun TopCard(ImageId: Int, text: String) {
 Row(){
     Text(
         text = text,
-        modifier = Modifier.padding(top=120.dp),
+        modifier = Modifier.padding(top=110.dp),
         textAlign=TextAlign.Left,
         fontSize=60.sp,
-        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.Black, offset = Offset(7f, 5f), blurRadius = 5f)),
+        fontWeight = FontWeight.Bold,
+        style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.DarkGray, offset = Offset(7f, 5f), blurRadius = 5f)),
         color = Color.White,
 
         )
@@ -152,7 +153,7 @@ fun LogInButton(text: String, onClick: () -> Unit, enabled: Boolean) {
     Button(
         onClick = onClick, enabled=enabled, colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(myColourString.toColorInt()),
-            contentColor = Color.White
+            contentColor = Color.White,
         )
     ) {
         Text(text = text)
@@ -175,7 +176,8 @@ fun Logo() {
 fun ChangePageText(text: String, onClick: () -> Unit) {
     TextButton(onClick = onClick) {
         Text(text = text,
-            color = Color(myColourString.toColorInt()))
+            color = Color(myColourString.toColorInt()),
+        fontWeight = FontWeight.Bold)
 
     }
 }
@@ -210,8 +212,9 @@ fun Fob(navCreate: ()->Unit){
     FloatingActionButton(
         onClick = {navCreate()},
         backgroundColor = Color(myColourString.toColorInt()),
-        contentColor = Color.White
+        contentColor = Color.White,
     ) {
+        Icon(Icons.Filled.Add,"")
     }
 }
 

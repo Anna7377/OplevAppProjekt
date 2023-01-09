@@ -30,54 +30,63 @@ data class Auth(
     val isLoggedIn:Boolean=false
 )
 
-class AuthViewModel:ViewModel(){
-    private lateinit var auth:FirebaseAuth
+class AuthViewModel:ViewModel() {
+    private lateinit var auth: FirebaseAuth
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 
-   suspend fun SignUp(email: String, password: String, confPass: String, baseContext: Context, activity: Activity, name: String) {
+    suspend fun SignUp(
+        email: String,
+        password: String,
+        confPass: String,
+        baseContext: Context,
+        activity: Activity,
+        name: String
+    ) {
         // [START create_user_with_email]
         if (confPass != password) {
             Toast.makeText(baseContext, "Passwordsdonotmatch", Toast.LENGTH_SHORT).show()
-        }
-        else{
+        } else {
 
-        Firebase.auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+            Firebase.auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
 
-                    Log.d(TAG, "createUserWithEmail:success")
-                    _uiState.value=_uiState.value.copy(mail=email)
-                    updateUI( true)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    updateUI(false)
-                    runBlocking {
-                    SignIn(email, password, baseContext, activity) }
-                    val user = hashMapOf("mail" to email,
-                    "username" to name)
-                    Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.toString()).set(user)
-                }
+                        Log.d(TAG, "createUserWithEmail:success")
+                        _uiState.value = _uiState.value.copy(mail = email)
+                        updateUI(true)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        updateUI(false)
+                        runBlocking {
+                            SignIn(email, password, baseContext, activity)
+                        }
+                        val user = hashMapOf(
+                            "mail" to email,
+                            "username" to name
+                        )
+                        Firebase.firestore.collection("users")
+                            .document(Firebase.auth.currentUser?.uid.toString()).set(user)
+                    }
                 }.await()
-            }
+        }
         // [END create_user_with_email]
-
 
 
     }
 
-  suspend fun SignIn(email: String, password: String, baseContext: Context, activity: Activity) {
+    suspend fun SignIn(email: String, password: String, baseContext: Context, activity: Activity) {
         // [START sign_in_with_email]
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    _uiState.value = _uiState.value.copy(mail=email)
+                    _uiState.value = _uiState.value.copy(mail = email)
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
                     val user = Firebase.auth.currentUser
@@ -89,42 +98,50 @@ class AuthViewModel:ViewModel(){
                         baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    updateUI( false)
+                    updateUI(false)
                 }
             }.await()
         // [END sign_in_with_email]
     }
 
-    fun updateUI(isSuccessful : Boolean) {
+    fun updateUI(isSuccessful: Boolean) {
         _uiState.value = _uiState.value.copy(isLoggedIn = isSuccessful)
     }
 
 
-    fun deleteUser(){
+    fun deleteUser() {
         Firebase.auth.currentUser?.delete()
     }
-    fun logout(){
+
+    fun logout() {
         FirebaseAuth.getInstance().signOut()
         System.out.println("In Logout")
         _uiState.value = _uiState.value.copy(isLoggedIn = false)
     }
-    fun changePassword(currentPass : String, newPass : String, confirmNewPass : String ){
+
+    fun changePassword(currentPass: String, newPass: String, confirmNewPass: String) {
         val user = Firebase.auth.currentUser
-        if (newPass == confirmNewPass){
-        user!!.updatePassword(newPass)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Kodeordet er ændret")
-                }
+        if (user != null) {
+            if (newPass == confirmNewPass) {
+                user!!.updatePassword(newPass)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Kodeordet er ændret")
+                        }
+                     else {
+                    Log.e(TAG, "Kodeordet kunne ikke ændres: ${task.exception}")
+                    }
+
+
             }
 
+        }
+
+
+        }
 
     }
-
-}
-
-
-   fun emailVerification(){
+    fun emailVerification() {
         FirebaseAuth.getInstance()
         val user = Firebase.auth.currentUser
 
@@ -134,9 +151,7 @@ class AuthViewModel:ViewModel(){
                     Log.d(TAG, "Verifikations e-mail er blevet sendt.")
                 }
             }
-    }
-}
-
+}}
 
 
 /*

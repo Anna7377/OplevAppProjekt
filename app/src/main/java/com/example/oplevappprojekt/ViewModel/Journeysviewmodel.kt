@@ -16,7 +16,8 @@ data class Journey(
     val date: String = "",
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
-    var JourneyID: String = ""
+    var JourneyID: String = "",
+   // var image:
 )
 
 data class journeyState(
