@@ -20,13 +20,23 @@ class HardcodedJourneysRepository {
    suspend fun getJourneys(): ArrayList<Journey> {
        var coljourneylist: ArrayList<Journey> = arrayListOf()
        val colIDs : ArrayList<String> = arrayListOf()
+       val unpinID: ArrayList<String> = arrayListOf()
 
-       val journeydocs = journeys.whereEqualTo("userID", uid).get()
+       val journeydocs = journeys.whereEqualTo("userID", uid).whereEqualTo("isPinned", true).get()
            .await()
+
        journeylist = journeydocs.toObjects<Journey>() as ArrayList<Journey>
        for(i in 0..journeydocs.size()-1) {
        IDs.add(journeydocs.documents.get(i).id)
        journeylist.get(i).JourneyID=IDs.get(i) }
+
+       val journeydocs2 = journeys.whereEqualTo("userID", uid).whereEqualTo("isPinned", false).get()
+           .await()
+       val journeylist2 = journeydocs2.toObjects<Journey>() as ArrayList<Journey>
+       for(i in 0..journeylist2.size -1){
+               unpinID.add(journeydocs2.documents.get(i).id)
+               journeylist2.get(i).JourneyID=unpinID.get(i)
+               journeylist.add(journeylist2.get(i)) }
 
        val docref =Firebase.firestore.collection("users")
            .document(uid).collection("coljourneys")
@@ -79,6 +89,13 @@ fun editJourney(journeyID: String, date: String, country: String){
 
     fun deleteJourney(ID: String){
         journeys.document(ID).delete()
+    }
+
+    fun pin(ID: String){
+      val doc =  Firebase.firestore
+          .collection("journeys").document(ID)
+          .update("isPinned", true)
+
     }
 
 }

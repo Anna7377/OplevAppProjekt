@@ -63,8 +63,13 @@ navMain: () -> Unit){
             Row{
                 if(viewModel.uiState.value.isOwned){
                 editJourney(navEdit = {navEdit()})
-                genLink(viewModel = viewModel) }
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
+                genLink(viewModel = viewModel)
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}
+                else{
+                    uncollab(viewModel = CollaboratorViewmodel(), orig =viewModel.uiState.value.currentJourneyID.toString() ) {
+
+                    }
+                }
             }
 
             IdeaGrid(journey = journey)}
