@@ -36,16 +36,17 @@ typealias ComposableFun = @Composable () -> Unit
 @Preview
 @Composable
 fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), "", {}, {})
+MyJourneyPage({}, Journeysviewmodel(), {}) {}
 }
 
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit,
-                  viewModel: Journeysviewmodel,
-                  country: String,
-                  navEdit: () -> Unit,
-navMain: () -> Unit){
+fun MyJourneyPage(
+    navCreate: () -> Unit,
+    viewModel: Journeysviewmodel,
+    navEdit: () -> Unit,
+    navMain: () -> Unit
+){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -184,6 +185,27 @@ fun genLink(viewModel: Journeysviewmodel){
 Text("Inviter Medarrangør")
     }
 }
+
+/* @Composable
+fun showCol(viewModel: CollaboratorViewmodel){
+    val dialog = remember{mutableStateOf(false)}
+
+    if(dialog.value){
+        AlertDialog(onDismissRequest = {dialog.value=false},
+            title = { Text(text="Medarrangørere", color = Color.White) },
+            text={ SelectionContainer() {
+               Text(text= viewModel.showCol(),
+                    color = Color.White, ) }},
+            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
+            backgroundColor = Color(myColourString.toColorInt()))
+    }
+    Button(onClick = {dialog.value=true}) {
+        Text("Inviter Medarrangør")
+    }
+}
+
+ */
+
 @Composable
 fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
     Button(onClick = {  viewModel.uncollab(orig)

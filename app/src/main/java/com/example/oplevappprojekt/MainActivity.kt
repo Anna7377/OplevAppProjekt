@@ -2,17 +2,14 @@ package com.example.oplevappprojekt
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
@@ -117,9 +114,8 @@ fun OplevApp() {
                 MyJourneyPage(
                     navCreate = { navigationController.navigate(createIdea) },
                     viewModel = journeyviewmodel,
-                    country = "",
-                    navEdit = { navigationController.navigate(createroute) },
-                    navMain = { navigationController.navigate(mainroute) })
+                    navEdit = { navigationController.navigate(createroute) }
+                ) { navigationController.navigate(mainroute) }
             }
 
             composable(route = createIdea) {

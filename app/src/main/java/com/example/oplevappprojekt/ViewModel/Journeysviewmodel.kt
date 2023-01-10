@@ -3,6 +3,7 @@ package com.example.oplevappprojekt.ViewModel
 import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.asImageBitmap
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.data.uid
@@ -51,14 +52,15 @@ class Journeysviewmodel {
     }
 
     fun selectJourney(country: String, date: String, ID: String) {
-        var iscol: Boolean = false
-        runBlocking {  val iscol = repo.isCollaborated(ID) }
+        var iscol: Boolean
+        runBlocking {   iscol = repo.isCollaborated(ID) }
 
         _uiState.value = _uiState.value.copy(currentcountry = country,
             currentdate = date,
             currentJourneyID = ID,
             isJourneySelected = true,
         isOwned = !iscol)
+        System.out.println(ID)
     }
 
     fun editJourney(country: String, date: String, ID: String){
@@ -84,7 +86,10 @@ class Journeysviewmodel {
     }
 
 
-
+fun setImg(img: Bitmap?){
+    runBlocking {
+    repo.setImage(uiState.value.currentJourneyID.toString(), img=img?.asImageBitmap()!!)
+}}
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6
