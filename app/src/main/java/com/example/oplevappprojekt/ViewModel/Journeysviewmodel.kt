@@ -39,7 +39,7 @@ class Journeysviewmodel {
     val repo = HardcodedJourneysRepository()
 
     fun getJourneys() {
-        var journeys: ArrayList<Journey> = arrayListOf()
+        var journeys: ArrayList<Journey>
         runBlocking{
             journeys = repo.getJourneys()
         }

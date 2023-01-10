@@ -72,29 +72,3 @@ return bitmap.value
 }
 
 
-/*
-class galleryLauncher : AppCompatActivity(){
-
-    // https://developer.android.com/training/data-storage/shared/photopicker
-    fun selectImage(){
-      if(isPhotoPickerAvailable()) {
-
-          // Registers a photo picker activity launcher in single-select mode.
-          val pickMedia =
-              registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                  // Callback is invoked after the user selects a media item or closes the
-                  // photo picker.
-                  if (uri != null) {
-                      Log.d("PhotoPicker", "Selected URI: $uri")
-                  } else {
-                      Log.d("PhotoPicker", "No media selected")
-                  }
-              }
-          // Launch the photo picker and allow the user to choose only images.
-          pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-          System.out.println(pickMedia)
-      }
-    }
-}
-
- */
