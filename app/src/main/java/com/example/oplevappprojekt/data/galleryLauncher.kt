@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
+
 @Composable
 fun PickImageFromGallery() : Bitmap? {
 
@@ -56,13 +57,13 @@ fun PickImageFromGallery() : Bitmap? {
                     bitmap = btm.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(400.dp)
-                        .padding(20.dp)
+                        .size(100.dp)
+                        .padding(10.dp)
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+       // Spacer(modifier = Modifier.height(1.dp))
 
         Button(onClick = { launcher.launch("image/*") }) {
             Text(text = "Pick Image")

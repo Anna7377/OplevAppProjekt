@@ -31,11 +31,11 @@ import com.google.firebase.ktx.Firebase
 
 //S213370
 
-
-/*@Preview
+/*
+@Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {}, AuthViewModel(), {})
+    UserProfile({}, {}, AuthViewModel(), {}())
 }*/
 
 @Composable
@@ -44,8 +44,8 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
         {
-
-    Image(
+        Logo()
+   /* Image(
         painter = painterResource(id = R.drawable.oplev_logo_lille),
         contentDescription = "logo",
         contentScale = ContentScale.Crop,
@@ -53,7 +53,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
         modifier = Modifier
             .absoluteOffset(10.dp,10.dp)
 
-    )
+    )*/
 
     Column(modifier = Modifier
         .fillMaxSize(),
@@ -71,20 +71,21 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Image(painter = painterResource(id = R.drawable.profile_pic),
+        Image(painter = painterResource(id = R.drawable.user),
             contentDescription = "profile",
             contentScale = ContentScale.Crop,
+            modifier = Modifier.size(200.dp)
 
 
             )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
+        /*Text(
             text = "Skift profilbillede",
             textAlign = TextAlign.Center,
             color = Color(myColourString.toColorInt()),
             fontSize = 15.sp,
 
-            )
+            )*/
         Spacer(modifier = Modifier.height(40.dp))
 
         Box(modifier = Modifier
