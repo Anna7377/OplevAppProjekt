@@ -38,20 +38,15 @@ class HardcodedJourneysRepository {
                journeylist2.get(i).JourneyID=unpinID.get(i)
                journeylist.add(journeylist2.get(i)) }
 
-       val docref =Firebase.firestore.collection("users")
+       val coljourneys =Firebase.firestore.collection("users")
            .document(uid).collection("coljourneys")
-       val coldocs = docref.get().await()
+       val coldocs =coljourneys.get().await()
       coljourneylist = coldocs.toObjects<Journey>() as ArrayList<Journey>
        for(i in 0..coldocs.size()-1){
-           val jouneyID = coljourneylist.get(i).JourneyID
-           if(journeys.document(jouneyID).get().await().exists()){
            colIDs.add(coldocs.documents.get(i).id)
            coljourneylist.get(i).JourneyID=colIDs.get(i)
-           journeylist.add(coljourneylist.get(i)) }
-           else{
-               val delcol = docref.whereEqualTo("originaljourneyID", jouneyID).limit(1).get().await().documents.get(0).id
-               docref.document(delcol).delete()
-           }
+           journeylist.add(coljourneylist.get(i))
+
        }
 
 
@@ -74,6 +69,7 @@ class HardcodedJourneysRepository {
         "userID" to uid,
         "date" to date,
         "time" to Timestamp(System.currentTimeMillis()),
+        "isPinned" to false
     )
     journeys.document().set(journey) }
 

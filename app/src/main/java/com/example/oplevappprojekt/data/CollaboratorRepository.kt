@@ -29,7 +29,6 @@ class CollaboratorRepository {
         val original = Firebase.firestore.collection("journeys").document(orig).get().await()
         var ret = "Journey does not exist"
         if (original.exists()) {
-
             ret = "Succesfully added"
 
             val journey = hashMapOf(
