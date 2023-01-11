@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.asImageBitmap
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import com.example.oplevappprojekt.data.category
 import com.example.oplevappprojekt.data.uid
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,7 +23,8 @@ data class Journey(
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
     var JourneyID: String = "",
-    val originalJourneyID: String = " "
+    val originalJourneyID: String = " ",
+val isPinned: Boolean = false
 )
 
 data class journeyState(
@@ -63,6 +65,10 @@ class Journeysviewmodel {
         System.out.println(ID)
     }
 
+    fun deselect(){
+        _uiState.value = _uiState.value.copy(isJourneySelected = false)
+    }
+
     fun editJourney(country: String, date: String, ID: String){
         repo.editJourney(country=country, date=date, journeyID = ID)
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
@@ -71,6 +77,13 @@ class Journeysviewmodel {
     fun deleteJourney(){
         repo.deleteJourney(uiState.value.currentJourneyID.toString())
         getJourneys()
+    }
+
+    fun getCategories() : kotlin.collections.ArrayList<category>{
+        var ret: kotlin.collections.ArrayList<category>
+        runBlocking {
+           ret = repo.getCategories(uiState.value.currentJourneyID.toString()) }
+        return ret
     }
 
   fun pinJourney(){

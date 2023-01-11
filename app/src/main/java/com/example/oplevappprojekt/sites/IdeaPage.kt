@@ -27,17 +27,13 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 typealias ComposableFun = @Composable () -> Unit
 
 //s215722
 
-@Preview
-@Composable
-fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), {}) {}
-}
 
 
 @Composable
@@ -45,7 +41,8 @@ fun MyJourneyPage(
     navCreate: () -> Unit,
     viewModel: Journeysviewmodel,
     navEdit: () -> Unit,
-    navMain: () -> Unit
+    navMain: () -> Unit,
+    navCreateIdea: ()->Unit
 ){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -57,6 +54,8 @@ fun MyJourneyPage(
 
             val myideas = arrayListOf(idea, idea2, idea3)
             val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
+
+
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
@@ -72,6 +71,16 @@ fun MyJourneyPage(
                     }
                 }
             }
+            var names: ArrayList<String> = arrayListOf()
+            Button(onClick = {navCreateIdea()}) {
+                Text(text = "opret kategori", color = Color.Black)
+                val temp = viewModel.getCategories()
+
+                for(i in 0..temp.size-1){
+                    names.add(temp.get(i).name)
+                }
+            }
+                catCardList(categorylist = names)
 
             IdeaGrid(journey = journey)}
         }

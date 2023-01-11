@@ -48,6 +48,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   modifier = Modifier
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
+                  viewModel.deselect()
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
                   ChangePageText(text = "join via link", onClick = {navInvite()})
@@ -154,11 +155,3 @@ fun joinJourney(navJoin: ()-> Unit){
     }
 }
 
-
-@Preview
-@Composable
-fun CountryCardPreview(){
-    OplevAppProjektTheme {
-        CountryCard(scrollablelistofbuttons = ScrollableList(R.string.country1, R.drawable.image1))
-    }
-}

@@ -58,8 +58,7 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color(myColourString.toColorInt()),
                         contentColor = Color.White)) {
-                    Text(text = "Kategori", fontSize = 20.sp)
-
+                    Text(text = viewModel.uiState.value.currentcountry.toString(), fontSize = 20.sp)
                 }
 
                 IdeaGrid(journey = journey)}

@@ -15,6 +15,7 @@ import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -51,6 +52,7 @@ fun OplevApp() {
         val categorypage = "categeory page"
         val changepassword = "password"
         val inviteroute = "invite"
+        val createcatbackup = "ccb"
         val navigationController = rememberNavController()
         /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(
@@ -112,10 +114,12 @@ fun OplevApp() {
                 // navArgument("date"){type= NavType.StringType}
             ) {
                 MyJourneyPage(
-                    navCreate = { navigationController.navigate(createIdea) },
+                    navCreate = { navigationController.navigate(createcatbackup) },
                     viewModel = journeyviewmodel,
-                    navEdit = { navigationController.navigate(createroute) }
-                ) { navigationController.navigate(mainroute) }
+                    navEdit = { navigationController.navigate(createroute) },
+                    navMain = {navigationController.navigate(mainroute)},
+                    navCreateIdea = {navigationController.navigate(createcategory)}
+                )
             }
 
             composable(route = createIdea) {
@@ -137,6 +141,10 @@ fun OplevApp() {
                     { navigationController.navigate(createcategory) },
                     Journeysviewmodel(), journeyState()
                 )
+            }
+            composable(route = createcatbackup){
+                createcat(navDash = {navigationController.navigate(idearoute)},
+                    repo = backupRepoCat(), viewModel = journeyviewmodel)
             }
         }
     }

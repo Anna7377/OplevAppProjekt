@@ -59,8 +59,12 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             var expanded by remember {
                 mutableStateOf(false)
             }
+            var temp = "Vælg land"
+            if(viewModel.uiState.value.isJourneySelected){
+                temp = viewModel.uiState.value.currentcountry.toString()
+            }
             var selectedItem by remember {
-                mutableStateOf("Vælg land")
+                mutableStateOf(temp)
             }
             var list = Countries.countries
 
@@ -119,7 +123,6 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
 
             val image =  PickImageFromGallery()
 
-           viewModel.setImg(image)
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

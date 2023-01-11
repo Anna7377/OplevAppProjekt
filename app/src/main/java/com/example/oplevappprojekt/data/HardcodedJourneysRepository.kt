@@ -24,6 +24,9 @@ class HardcodedJourneysRepository {
     var journeylist: ArrayList<Journey> = arrayListOf()
     val IDs : ArrayList<String> = arrayListOf()
 
+    val category_collection = Firebase.firestore.collection("categories")
+    var categorylist: ArrayList<category> = arrayListOf()
+
    suspend fun getJourneys(): ArrayList<Journey> {
        val coljourneylist: ArrayList<Journey>
        val colIDs: ArrayList<String> = arrayListOf()
@@ -93,7 +96,8 @@ class HardcodedJourneysRepository {
                "date" to date,
                "time" to Timestamp(System.currentTimeMillis())
            )
-           journeys.document(journeyID).set(journey)
+           journeys.document(journeyID).update("country", country,
+               "date", date)
        }
 
        fun deleteJourney(ID: String) {
@@ -118,5 +122,13 @@ class HardcodedJourneysRepository {
                .update("isPinned", true)
 
        }
+
+    suspend fun getCategories(ID: String): ArrayList<category> {
+        val categories = category_collection.whereEqualTo("journeyID", ID)
+            .get().await().toObjects<category>()
+
+        categorylist = categories as ArrayList<category>
+        return categorylist
+    }
    }
 
