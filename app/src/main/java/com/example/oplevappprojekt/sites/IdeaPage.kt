@@ -72,9 +72,8 @@ fun MyJourneyPage(
                 }
             }
                 catCardList(categorylist = names)
-
             IdeaGrid(list = viewModel.getOtherIdeas())}
-        }
+    }
     },
         floatingActionButton = {Fob(navCreate = navCreate)})
 }

@@ -9,17 +9,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.example.oplevappprojekt.ViewModel.CategoryViewModel
+import androidx.lifecycle.ViewModel
+import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 
 //s215726
 @Composable
-fun CreateIdea(navIdeas: ()->Unit) {
+fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -50,19 +50,18 @@ fun CreateIdea(navIdeas: ()->Unit) {
                     verticalArrangement = Arrangement.Center
 
                 ) {
-
+                    val title = Title()
                     Spacer(modifier = Modifier
                         .height(60.dp))
-
+val desc = Title()
                     Spacer(modifier = Modifier
                         .height(10.dp))
-
-
-
+val link = Title()
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
                     Button(onClick = {
+
                         navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
@@ -134,4 +133,10 @@ fun Descriptions() : String {
 
         )
 return text
+}
+
+@Preview
+@Composable
+fun preview(){
+    CreateIdea({}, IdeasViewModel())
 }
