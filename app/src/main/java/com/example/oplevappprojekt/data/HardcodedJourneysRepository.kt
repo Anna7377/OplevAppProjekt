@@ -12,12 +12,13 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
 
-//s215722
 
+//s215722
 data class img(
    val img: ImageBitmap,
    val journeyID: String = ""
 )
+
 class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
