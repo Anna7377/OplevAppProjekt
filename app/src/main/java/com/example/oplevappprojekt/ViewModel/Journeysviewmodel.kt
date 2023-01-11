@@ -1,10 +1,16 @@
 package com.example.oplevappprojekt.ViewModel
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.asImageBitmap
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
+import com.example.oplevappprojekt.data.uid
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
@@ -15,7 +21,8 @@ data class Journey(
     val date: String = "",
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
-    var JourneyID: String = ""
+    var JourneyID: String = "",
+    val originalJourneyID: String = " "
 )
 
 data class journeyState(
@@ -23,7 +30,9 @@ data class journeyState(
     var currentJourneyID: String? = null,
     var currentcountry: String? = null,
     var currentdate: String? = null,
-var userjourneys: ArrayList<Journey> = arrayListOf())
+var userjourneys: ArrayList<Journey> = arrayListOf(),
+val isPinned: Boolean = false,
+val isOwned: Boolean = true)
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
@@ -31,7 +40,7 @@ class Journeysviewmodel {
     val repo = HardcodedJourneysRepository()
 
     fun getJourneys() {
-        var journeys: ArrayList<Journey> = arrayListOf()
+        var journeys: ArrayList<Journey>
         runBlocking{
             journeys = repo.getJourneys()
         }
@@ -43,10 +52,15 @@ class Journeysviewmodel {
     }
 
     fun selectJourney(country: String, date: String, ID: String) {
-        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
-    }
-    fun deselect(){
-        _uiState.value = _uiState.value.copy(isJourneySelected = false)
+        var iscol: Boolean
+        runBlocking {   iscol = repo.isCollaborated(ID) }
+
+        _uiState.value = _uiState.value.copy(currentcountry = country,
+            currentdate = date,
+            currentJourneyID = ID,
+            isJourneySelected = true,
+        isOwned = !iscol)
+        System.out.println(ID)
     }
 
     fun editJourney(country: String, date: String, ID: String){
@@ -59,8 +73,23 @@ class Journeysviewmodel {
         getJourneys()
     }
 
+  fun pinJourney(){
+        val journey = uiState.value.currentJourneyID
+        val journeydoc = Firebase.firestore.collection("journeys").document(journey.toString())
+        if(uiState.value.isPinned){
+        journeydoc.update("isPinned", true)
+        }
+        else{
+            journeydoc.update("isPinned", true)
+        }
+
+    }
 
 
+fun setImg(img: Bitmap?){
+    runBlocking {
+    repo.setImage(uiState.value.currentJourneyID.toString(), img=img?.asImageBitmap()!!)
+}}
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6

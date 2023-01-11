@@ -32,11 +32,13 @@ import kotlinx.coroutines.runBlocking
 //S213370 & S215722
 class MyJourneysUI{
 }
+
+
 // S215722
 @Composable
-fun  MainPage(navController: NavController, navigationInsp: ()-> Unit,
+fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
-viewModel: Journeysviewmodel){
+viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
@@ -48,6 +50,7 @@ viewModel: Journeysviewmodel){
               ) {
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
+                  ChangePageText(text = "join via link", onClick = {navInvite()})
                  viewModel.getJourneys()
                       journeylist = viewModel.uiState.value.userjourneys
                   if (journeylist.isEmpty()) {
@@ -74,8 +77,12 @@ fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.opleva
 @Composable
 fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
-    Card(modifier = Modifier.padding(4.dp).clickable(onClick = {viewModel.selectJourney(country=country, date=date, ID =ID)
-        navIdeas()})
+    Card(modifier = Modifier
+        .padding(4.dp)
+        .clickable(onClick = {
+            viewModel.selectJourney(country = country, date = date, ID = ID)
+            navIdeas()
+        })
         , elevation = 4.dp) {
 
         Box() {
@@ -139,6 +146,14 @@ fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Mo
         }
     }
 }
+
+@Composable
+fun joinJourney(navJoin: ()-> Unit){
+    TextButton(onClick = {navJoin()}){
+        Text(text = "bliv medarrangør", color = Color.White)
+    }
+}
+
 
 @Preview
 @Composable

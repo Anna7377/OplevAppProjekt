@@ -24,7 +24,7 @@ fun PasswordChange(){
     Password(AuthViewModel(), {})
 }
 
-
+//215726
 @Composable
 fun Password(viewModel: AuthViewModel, navigation: () -> Unit){
     val state = viewModel.uiState.value

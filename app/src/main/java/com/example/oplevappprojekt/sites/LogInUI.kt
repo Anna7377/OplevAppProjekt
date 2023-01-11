@@ -59,7 +59,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("test123@gmail.com", "test123", context, activity) }
+                viewModel.SignIn("minahilnawaz02@gmail.com", "test123", context, activity) }
                if(FirebaseAuth.getInstance().currentUser!=null)
                     navMain() }
             , enabled)
