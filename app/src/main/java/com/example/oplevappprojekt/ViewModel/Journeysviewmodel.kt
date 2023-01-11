@@ -62,10 +62,11 @@ class Journeysviewmodel {
             currentJourneyID = ID,
             isJourneySelected = true,
         isOwned = !iscol)
-        System.out.println(ID)
+        System.out.println(_uiState.value)
     }
 
     fun deselect(){
+        println("Deselecting")
         _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
@@ -95,6 +96,10 @@ class Journeysviewmodel {
         else{
             journeydoc.update("isPinned", true)
         }
+
+    }
+
+    fun getOtherIdeas(){
 
     }
 

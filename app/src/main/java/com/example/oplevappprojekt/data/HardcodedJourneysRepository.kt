@@ -18,6 +18,14 @@ data class img(
    val img: ImageBitmap,
    val journeyID: String = ""
 )
+
+data class idea(
+    val title: String = "",
+    val desc: String = "",
+    val link: String = "",
+    val categoryID: String? = null,
+    val journeyID: String? = null
+)
 class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
@@ -129,6 +137,12 @@ class HardcodedJourneysRepository {
 
         categorylist = categories as ArrayList<category>
         return categorylist
+    }
+
+    suspend fun getOtherIdeas(ID: String) : ArrayList<idea>{
+        val ideas = Firebase.firestore.collection("ideas")
+        val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<idea>()
+    return idealist as ArrayList<idea>
     }
    }
 

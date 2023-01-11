@@ -121,7 +121,6 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
            val month = Month()
             val year = Year()
 
-            val image =  PickImageFromGallery()
 
 
             Column(
@@ -132,6 +131,7 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             ){
                 var onClick = {viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
                 navMain() }
+                System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,

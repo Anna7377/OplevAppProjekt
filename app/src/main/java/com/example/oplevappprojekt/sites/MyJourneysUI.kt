@@ -12,21 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.example.scrollablelistofbuttons.model.ScrollableList
-import kotlinx.coroutines.runBlocking
 
 
 //S213370 & S215722
@@ -39,7 +31,6 @@ class MyJourneysUI{
 fun  MainPage(navigationInsp: ()-> Unit,
               navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
 viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
-
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
@@ -48,7 +39,6 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   modifier = Modifier
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
-                  viewModel.deselect()
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
                   ChangePageText(text = "join via link", onClick = {navInvite()})
@@ -59,7 +49,8 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   } else {
                       CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
                   } } } },
-  floatingActionButton = {Fob({navCreate()})})
+  floatingActionButton = {Fob({navCreate()
+      viewModel.deselect()})})
 }
 
 
@@ -112,46 +103,4 @@ fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: 
 
 
 //S213370
-
-@Composable
-fun CountryCard(scrollablelistofbuttons: ScrollableList, modifier: Modifier = Modifier) {
-    Card(modifier = Modifier.padding(4.dp), elevation = 4.dp) {
-
-
-        Box() {
-            Image(
-                painter = painterResource(id = scrollablelistofbuttons.imageResourceId),
-                contentDescription = stringResource(
-                    id = scrollablelistofbuttons.stringResourceId
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(194.dp),
-                contentScale = ContentScale.Crop
-            )
-
-            Text(
-                text = stringResource(id = scrollablelistofbuttons.stringResourceId),
-                modifier = Modifier.padding(16.dp),
-                //      .border(width = 2.dp, shape = , color = Color.Black),
-                style = MaterialTheme.typography.h3,
-                //  fontSize = 24.sp
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive,
-                //  fontFamily = FontFamily.Serif
-                color = Color.White,
-                //  textDecoration = TextDecoration.Underline
-
-            )
-
-        }
-    }
-}
-
-@Composable
-fun joinJourney(navJoin: ()-> Unit){
-    TextButton(onClick = {navJoin()}){
-        Text(text = "bliv medarrangør", color = Color.White)
-    }
-}
 
