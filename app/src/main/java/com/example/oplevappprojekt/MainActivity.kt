@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
@@ -20,6 +19,8 @@ import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
 
 class MainActivity : ComponentActivity() {
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +34,13 @@ class MainActivity : ComponentActivity() {
 
 // S215722
 @Composable
-fun OplevApp() {
+fun OplevApp(){
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
         val colviewmodel = CollaboratorViewmodel()
         val authviewmodel = AuthViewModel()
+        val categoryviewmodel = CategoryViewModel()
+        val ideaviewmodel = Ideaviewmodel()
         val startRoute = "start"
         val mainroute = "main"
         val profile = "profile"
@@ -46,6 +49,10 @@ fun OplevApp() {
         val createIdea = "Create idea"
         val idearoute = "idea"
         val inspirationroute = "inspiration"
+        val createroute="create"
+        val changepassword="password"
+        val createcategory="createcategory"
+        val categorypage = "categorypage"
         val createroute = "create"
         val createcategory = "create category"
         val categorypage = "categeory page"

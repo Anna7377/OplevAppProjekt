@@ -1,11 +1,19 @@
 package com.example.oplevappprojekt.sites
 
+import android.app.AlertDialog
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
@@ -16,69 +24,123 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
+import com.example.oplevappprojekt.ViewModel.Ideaviewmodel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.model.Idea
 import com.example.oplevappprojekt.model.Journey
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-typealias ComposableFun = @Composable () -> Unit
+//s215722 & s213370 & s215718
 
-//s215722
-
-@Preview
-@Composable
-fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), {}) {}
-}
-
+//skal den laves til Ideaviewmodel fra journey? også i mainA i myjourneypage?
 
 @Composable
-fun MyJourneyPage(
-    navCreate: () -> Unit,
-    viewModel: Journeysviewmodel,
-    navEdit: () -> Unit,
-    navMain: () -> Unit
+fun MyJourneyPage(navigationInsp: () -> Unit,
+                  navCreate: ()-> Unit,
+                  navIdeas: () -> Unit,
+                  navProfile: () -> Unit,
+                  viewModel: Ideaviewmodel
 ){
-    Scaffold(content = {Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
+
+    Scaffold( bottomBar = { BottomBar(onClick1 = {navigationInsp}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile})},
+
+        content =
+        {
+            Surface (modifier = Modifier.fillMaxSize(), color = Color.Black) {
+
+                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
 
-            val idea = Idea("titel", "desc")
-            val idea2 = Idea("statue", "husk 50 kr til billeder")
-            val idea3 = Idea("Restaurant x", "drik milkshake her")
-
-            val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-            TopCard(ImageId = R.drawable.image10,
-                text = viewModel.uiState.value.currentcountry.toString())
-            Text(text = viewModel.uiState.value.currentdate.toString())
-
-            Row{
-                if(viewModel.uiState.value.isOwned){
-                editJourney(navEdit = {navEdit()})
-                genLink(viewModel = viewModel)
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}
-                else{
-                    uncollab(viewModel = CollaboratorViewmodel(), orig =viewModel.uiState.value.currentJourneyID.toString() ) {
-
-                    }
+                    var idealist: ArrayList<com.example.oplevappprojekt.ViewModel.Idea> = viewModel.uiState.value.userideas
+                    TopCard(ImageId = R.drawable.map, text = "Mine Ideer")
+                    viewModel.getIdeas()
+                    idealist = viewModel.uiState.value.userideas
+                    if (idealist.isEmpty()) {
+                        Text(text = "Ingen Ideer", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
+                    } else
+                        IdeaList(list = idealist, navIdeas = navIdeas, viewModel = viewModel)
                 }
-            }
 
-            IdeaGrid(journey = journey)}
-        }
-    },
+            }
+        },
         floatingActionButton = {Fob(navCreate = navCreate)})
 }
 
+
+@Composable
+fun IdeaList(viewModel: Ideaviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Idea>, navIdeas: ()-> Unit){
+    LazyColumn() {
+        items(list) {
+            IdeaCards(
+                desc = it.description,
+                title = it.title,
+                img=R.drawable.image11,
+                ID = it.JourneyID,
+                il = it.categoryID,
+                navIdeas=navIdeas,
+                viewModel = viewModel,
+            )
+
+        } } }
+
+@Composable
+fun IdeaCards(img:Int, title:String, desc: String, ID: String, il: String, navIdeas: () -> Unit,viewModel: Ideaviewmodel){
+    Card(modifier = Modifier
+        .padding(20.dp)
+        .clickable {
+            viewModel.selectIdea(title = title, description = desc, ID = ID, il = il)
+            navIdeas()
+        }) {
+        Box() {
+            Image(
+                painter = painterResource(id = img),
+                contentDescription ="",
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = title,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(380.dp)
+                    .height(70.dp)
+                    .clip(RoundedCornerShape(15))
+            )
+
+            Text(
+                text = desc,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(380.dp)
+                    .height(70.dp)
+                    .clip(RoundedCornerShape(15)))
+
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -107,7 +169,7 @@ fun IdeaGrid(journey : Journey){
 
 
 @Composable
-fun IdeaBox(idea: Idea?) {
+fun IdeaBox(idea: Idea?, viewmodel: Ideaviewmodel, desc: String, title: String, img: Int, ID: String, navIdeas: () -> Unit) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
@@ -186,36 +248,24 @@ Text("Inviter Medarrangør")
     }
 }
 
-/* @Composable
-fun showCol(viewModel: CollaboratorViewmodel){
-    val dialog = remember{mutableStateOf(false)}
 
-    if(dialog.value){
-        AlertDialog(onDismissRequest = {dialog.value=false},
-            title = { Text(text="Medarrangørere", color = Color.White) },
-            text={ SelectionContainer() {
-               Text(text= viewModel.showCol(),
-                    color = Color.White, ) }},
-            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
-            backgroundColor = Color(myColourString.toColorInt()))
-    }
-    Button(onClick = {dialog.value=true}) {
-        Text("Inviter Medarrangør")
-    }
-}
+
+
+/*
+
+            Row{
+                editJourney(navEdit = {navEdit()})
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
+                genLink(viewModel = viewModel)
+            }
+
+            IdeaGrid(journey = journey)
+
+
+        */
+
+
 
  */
-
-@Composable
-fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
-    Button(onClick = {  viewModel.uncollab(orig)
-   navMain() }){
-        Text("fjern rejse")
-    }
-
-}
-
-
-
 
 
