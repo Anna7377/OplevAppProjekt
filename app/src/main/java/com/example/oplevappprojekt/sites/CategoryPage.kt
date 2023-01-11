@@ -61,7 +61,8 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
                     Text(text = viewModel.uiState.value.currentcountry.toString(), fontSize = 20.sp)
                 }
 
-                IdeaGrid(journey = journey)}
+             //   IdeaGrid(journey = journey)
+            }
         }
     },
         floatingActionButton = {Fob(navCreate = navCategories)})

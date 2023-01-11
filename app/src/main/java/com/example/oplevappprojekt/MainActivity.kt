@@ -53,6 +53,7 @@ fun OplevApp() {
         val changepassword = "password"
         val inviteroute = "invite"
         val createcatbackup = "ccb"
+     val    intermediarycreate = "inter"
         val navigationController = rememberNavController()
         /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(
@@ -114,7 +115,7 @@ fun OplevApp() {
                 // navArgument("date"){type= NavType.StringType}
             ) {
                 MyJourneyPage(
-                    navCreate = { navigationController.navigate(createcatbackup) },
+                    navCreate = { navigationController.navigate(intermediarycreate) },
                     viewModel = journeyviewmodel,
                     navEdit = { navigationController.navigate(createroute) },
                     navMain = {navigationController.navigate(mainroute)},
@@ -146,6 +147,9 @@ fun OplevApp() {
                 createcat(navDash = {navigationController.navigate(idearoute)},
                     repo = backupRepoCat(), viewModel = journeyviewmodel)
             }
+            composable(intermediarycreate){
+                createOpt(navCat = {navigationController.navigate(createcatbackup)},
+                navIdea={ navigationController.navigate(createIdea) } )}
         }
     }
 }

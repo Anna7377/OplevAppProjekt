@@ -2,6 +2,7 @@ package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -17,15 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
+import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.myColor
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,9 +36,6 @@ import kotlin.collections.ArrayList
 typealias ComposableFun = @Composable () -> Unit
 
 //s215722
-
-
-
 @Composable
 fun MyJourneyPage(
     navCreate: () -> Unit,
@@ -46,15 +46,6 @@ fun MyJourneyPage(
 ){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
-
-
-            val idea = Idea("titel", "desc")
-            val idea2 = Idea("statue", "husk 50 kr til billeder")
-            val idea3 = Idea("Restaurant x", "drik milkshake her")
-
-            val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-
 
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
@@ -71,7 +62,7 @@ fun MyJourneyPage(
                     }
                 }
             }
-            var names: ArrayList<String> = arrayListOf()
+            val names: ArrayList<String> = arrayListOf()
             Button(onClick = {navCreateIdea()}) {
                 Text(text = "opret kategori", color = Color.Black)
                 val temp = viewModel.getCategories()
@@ -82,41 +73,37 @@ fun MyJourneyPage(
             }
                 catCardList(categorylist = names)
 
-            IdeaGrid(journey = journey)}
+            IdeaGrid(list = viewModel.getOtherIdeas())}
         }
     },
         floatingActionButton = {Fob(navCreate = navCreate)})
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
+ @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(journey : Journey){
+fun IdeaGrid(list: ArrayList<ideas>){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
-   for (idea in journey.IdeaList){
-
+   for (idea in list){
        val tempIdea: ComposableFun = {
            IdeaBox(idea = idea)
        }
-
        itemsinColumn.add(tempIdea)
    }
-
-
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(journey.IdeaList.get(index)) }
+                index, function ->  item { IdeaBox(list.get(index)) }
         }
-
-
     }
 }
 
 
+
+
 @Composable
-fun IdeaBox(idea: Idea?) {
+fun IdeaBox(idea: ideas) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
@@ -130,32 +117,21 @@ fun IdeaBox(idea: Idea?) {
                 contentDescription = " "
             )
         }
-        if (idea != null) {
-            Text(text=idea.title, textAlign = TextAlign.Center)
-        }
-        else {
-            Text(text= "Skagen", textAlign = TextAlign.Center)
-        }
+        Text(text=idea.title, textAlign = TextAlign.Center)
         }
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = {
-                if (idea != null) {
-                    Text(text=idea.title, color = Color.White)
-                }
-                else {
-                    Text(text="titel", color = Color.White)
-                }
+                Text(text=idea.title, color = Color.White)
             },
             text={
-                if (idea != null) {
-                    Text(text=idea.desc, color = Color.White)
-                }
-                else {
-                    Text(text="description", color = Color.White)
-                }
+                Text(text=idea.desc +
+                        SelectionContainer(){
+                    idea.link
+                }  , color = Color.White)
             },
+
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
         )
@@ -224,6 +200,55 @@ fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit
 
 }
 
+@Composable
+fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center)
+    {    Box(
+        modifier = Modifier
+            .background(Color(myColor.toColorInt()))
+            .height(350.dp)
+            .width(350.dp),
+    ) {
+
+        Text(
+            text = "Opret",
+            color = Color.White,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(30.dp)
+        )}
+        MaterialTheme(
+            content =
+            {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Button(onClick = { navCat() },
+                            shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
+                            Text(text = "Kategori", color = Color(myColourString.toColorInt()))
+                        }
+                    Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Eller", color = Color.White)
+                    Spacer(modifier = Modifier.height(10.dp))
+                        Button(onClick = { navIdea() },
+                            shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
+                            Text(text = "Ide", color = Color(myColourString.toColorInt()))
+                        }
+                    }
+            }
+        )
+    }
+
+}
+
+@Preview
+@Composable
+fun prev(){
+    createOpt(navCat = { /*TODO*/ }, navIdea = {})
+}
 
 
 

@@ -2,6 +2,7 @@ package com.example.oplevappprojekt.data
 
 import androidx.compose.ui.graphics.ImageBitmap
 import com.example.oplevappprojekt.ViewModel.Journey
+import com.example.oplevappprojekt.ViewModel.ideas
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -19,13 +20,6 @@ data class img(
    val journeyID: String = ""
 )
 
-data class idea(
-    val title: String = "",
-    val desc: String = "",
-    val link: String = "",
-    val categoryID: String? = null,
-    val journeyID: String? = null
-)
 class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
@@ -139,10 +133,10 @@ class HardcodedJourneysRepository {
         return categorylist
     }
 
-    suspend fun getOtherIdeas(ID: String) : ArrayList<idea>{
+    suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
         val ideas = Firebase.firestore.collection("ideas")
-        val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<idea>()
-    return idealist as ArrayList<idea>
+        val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<ideas>()
+    return idealist as ArrayList<ideas>
     }
    }
 

@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+/*
+
 data class Idea(
     val title: String,
     val desc: String,
@@ -25,3 +27,5 @@ class IdeasViewModel{
         ideas.get().addOnSuccessListener { documents -> }
     }
 }
+
+*/

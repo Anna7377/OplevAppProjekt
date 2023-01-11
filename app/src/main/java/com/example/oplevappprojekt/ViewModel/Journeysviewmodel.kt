@@ -7,16 +7,23 @@ import androidx.compose.ui.graphics.asImageBitmap
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.data.HardcodedJourneysRepository
 import com.example.oplevappprojekt.data.category
-import com.example.oplevappprojekt.data.uid
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
 //s215722
+
+data class ideas(
+    val title: String = "",
+    val desc: String = "",
+    val link: String = "",
+    val categoryID: String? = null,
+    val journeyID: String? = null
+)
+
 data class Journey(
     val country: String = "",
     val date: String = "",
@@ -99,8 +106,10 @@ class Journeysviewmodel {
 
     }
 
-    fun getOtherIdeas(){
-
+    fun getOtherIdeas() : kotlin.collections.ArrayList<ideas>{
+        var list: kotlin.collections.ArrayList<ideas>
+runBlocking { list = repo.getOtherIdeas(uiState.value.currentJourneyID.toString()) }
+        return list
     }
 
 

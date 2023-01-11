@@ -9,12 +9,15 @@ import com.google.firebase.ktx.Firebase
 
 //s215718
 
+/*
 data class Idea(
     val categoryID : String = "",
     val description: String = "",
     val journeyID : String = "",
     val title : String = ""
     )
+
+
 
 interface IdeaRepo{
     suspend fun addIdea(journey: com.example.oplevappprojekt.data.Idea)
@@ -44,3 +47,5 @@ class IdeaRepository(private val firestore:FirebaseFirestore) : IdeaRepo{
         private const val IDEA_COLLECTION = "Ideas"
     }
 }
+
+ */
