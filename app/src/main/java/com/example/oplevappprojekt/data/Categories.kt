@@ -20,7 +20,7 @@ class Categories {
         categorylist = categories.whereEqualTo("journeyID",jid).get().
         await().toObjects<Category>() as ArrayList<Category>
         categorylist = categories.whereEqualTo("categoryID",cid).get().
-            await().toObjects<Category>() as ArrayList<Category>
+        await().toObjects<Category>() as ArrayList<Category>
         return withContext(Dispatchers.IO){categorylist}
     }
 
@@ -33,4 +33,13 @@ class Categories {
         )
         categories.add(category)
     }
+    fun editCategory(categoryID: String, title: String){
+        val category = hashMapOf(
+            "title" to title,
+            "journeyID" to jid,
+            "categoryID" to cid
+        )
+        categories.document(categoryID).set(category)
+    }
 }
+

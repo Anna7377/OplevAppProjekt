@@ -37,12 +37,12 @@ class CategoryViewModel {
 
 
 
-     fun getCategories() {
+    fun getCategories() {
         var categories: ArrayList<Category> = arrayListOf()
         runBlocking {
             categories = rep.getCategories()
         }
-         _uiState.value = _uiState.value.copy(userCategories = categories)
+        _uiState.value = _uiState.value.copy(userCategories = categories)
     }
 
     fun addCategory(title: String){
@@ -55,5 +55,8 @@ class CategoryViewModel {
             currentCategoryID = il,
             isCategorySelected = true)
     }
+    fun editCategory(title: String,il: String){
+        rep.editCategory(title = title, categoryID = il)
+        _uiState.value = _uiState.value.copy(currenttitle = title, currentCategoryID = il, isCategorySelected = true)
+    }
 }
-

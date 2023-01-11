@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
 // s215718 & s213370
@@ -57,11 +58,17 @@ fun CreateCategory(navCategories: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
+                    var onClick = {vm.addCategory(title=vm.tmpTitle)
+                        navCategories()}
+                    if(vm.uiState.value.isCategorySelected){
+                        onClick = {vm.editCategory(title = vm.tmpTitle,
+                            il = vm.uiState.value.currentCategoryID.toString())
+                            navCategories()}
+                    }
 
-
-                    Button(onClick = {
-                        vm.addCategory(vm.tmpTitle)
-                                     navCategories()},
+                    Button(onClick =onClick,
+                        //vm.addCategory(vm.tmpTitle)
+                        //navCategories()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -72,7 +79,9 @@ fun CreateCategory(navCategories: ()->Unit) {
                     }
                 }
 
-            })
+            }
+        )
+
     }
 }
 
@@ -95,15 +104,14 @@ fun CategoryTitle(vm:CategoryViewModel) : String {
             run{
                 vm.tmpTitle = newText
                 text = newText}},
-                label ={
-                    Text(text = "Titel:",
-                        color = Color.Gray,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold)
-                },
+        label ={
+            Text(text = "Titel:",
+                color = Color.Gray,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold)
+        },
 
-                )
-                return text
-            }
-
+        )
+    return text
+}
 
