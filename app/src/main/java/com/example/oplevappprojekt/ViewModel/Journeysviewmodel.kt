@@ -20,7 +20,7 @@ data class ideas(
     val title: String = "",
     val desc: String = "",
     val link: String = "",
-    val categoryID: String? = null,
+    var categoryID: String? = null,
     val journeyID: String? = null
 )
 

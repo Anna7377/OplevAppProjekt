@@ -24,17 +24,9 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
 import com.example.oplevappprojekt.ui.theme.Teal200
 
 // s213370
-
-@Preview
-@Composable
-fun Preview(){
-    CategoryPage(navCategories = { /*TODO*/ }, viewModel = Journeysviewmodel(), state = journeyState())
-}
 
 @Composable
 fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
@@ -43,12 +35,8 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
             Column(modifier = Modifier.fillMaxSize()) {
 
 
-                val idea = Idea("titel", "desc")
-                val idea2 = Idea("statue", "husk 50 kr til billeder")
-                val idea3 = Idea("Restaurant x", "drik milkshake her")
 
-                val myideas = arrayListOf(idea, idea2, idea3)
-                val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
+
                 TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
                 Text(text = state.currentdate.toString())
 

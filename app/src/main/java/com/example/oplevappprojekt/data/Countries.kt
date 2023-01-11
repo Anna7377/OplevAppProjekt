@@ -1,4 +1,4 @@
-package com.example.oplevappprojekt.sites
+package com.example.oplevappprojekt.data
 
 object Countries{
 

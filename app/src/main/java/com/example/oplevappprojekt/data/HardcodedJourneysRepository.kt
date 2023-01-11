@@ -126,9 +126,12 @@ class HardcodedJourneysRepository {
        }
 
     suspend fun getCategories(ID: String): ArrayList<category> {
-        val categories = category_collection.whereEqualTo("journeyID", ID)
-            .get().await().toObjects<category>()
-
+        val catdocs = category_collection.whereEqualTo("journeyID", ID)
+            .get().await()
+        val categories = catdocs.toObjects<category>()
+        for(i in 0..catdocs.size()-1){
+            categories.get(i).categoryID=catdocs.documents.get(i).id
+        }
         categorylist = categories as ArrayList<category>
         return categorylist
     }

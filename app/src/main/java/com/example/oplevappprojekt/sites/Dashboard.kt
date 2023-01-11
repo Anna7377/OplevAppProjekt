@@ -26,27 +26,29 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
+import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.ideas
-import com.example.oplevappprojekt.myColor
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 typealias ComposableFun = @Composable () -> Unit
-
+var countryname = ""
 //s215722
 @Composable
 fun MyJourneyPage(
     navCreate: () -> Unit,
     viewModel: Journeysviewmodel,
+    viewModelIdea: IdeasViewModel,
     navEdit: () -> Unit,
     navMain: () -> Unit,
-    navCreateIdea: ()->Unit
+    navCreateIdea: ()->Unit,
+    navCatIdeas: ()->Unit
 ){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
-
+countryname = viewModel.uiState.value.currentcountry.toString()
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
@@ -62,16 +64,11 @@ fun MyJourneyPage(
                     }
                 }
             }
-            val names: ArrayList<String> = arrayListOf()
             Button(onClick = {navCreateIdea()}) {
                 Text(text = "opret kategori", color = Color.Black)
-                val temp = viewModel.getCategories()
-
-                for(i in 0..temp.size-1){
-                    names.add(temp.get(i).name)
-                }
             }
-                catCardList(categorylist = names)
+            val categories = viewModel.getCategories()
+                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas )
             IdeaGrid(list = viewModel.getOtherIdeas())}
     }
     },

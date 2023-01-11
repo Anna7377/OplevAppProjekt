@@ -1,7 +1,6 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,21 +12,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.data.category
-import com.example.oplevappprojekt.myColor
 
 // to create category
 @Composable
@@ -113,44 +107,35 @@ return text
 }
 
 @Composable
-fun dashBoard(){
-
-}
-
-@Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun catCardList(categorylist: ArrayList<String>) {
+fun catCardList(catList: ArrayList<category>, viewModel: IdeasViewModel, navIdeas: () -> Unit,
+) {
     val itemsinColumn = mutableListOf<ComposableFun>()
-
-    for (name in categorylist) {
-
+    for (category in catList) {
         val tempIdea: ComposableFun = {
-            catCard(name = name)
+            catCard(category=catList.get(0), viewModel, navIdeas)
         }
-
         itemsinColumn.add(tempIdea)
     }
-
-
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
-            item { catCard(name = categorylist.get(index)) }
-        }
-
-    }
-}
+            item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas) }
+        } } }
 @Composable
-fun catCard(name: String){
+fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit){
     Card(modifier = Modifier
         .padding(4.dp)
         .clickable(onClick = {
+            viewModel.selectCat(ID = category.categoryID, name=category.name)
+            System.out.println("ID is: " + category.categoryID)
+            navIdeas()
         })
         , elevation = 4.dp) {
 
         Box(modifier = Modifier.background(color = Color(myColourString.toColorInt()))) {
             Text(
-                text = name,
+                text = category.name,
                 modifier = Modifier.padding(16.dp),
                 //      .border(width = 2.dp, shape = , color = Color.Black),
                 style = MaterialTheme.typography.h3,

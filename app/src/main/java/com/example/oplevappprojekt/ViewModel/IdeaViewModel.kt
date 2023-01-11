@@ -6,12 +6,13 @@ import com.example.oplevappprojekt.data.IdeaRepository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 data class IdeaState(
-    val isIdeaSelected: Boolean = false,
-    val currentIdeaID: String = " ",
-    val categoryID: String = " "
+    val isCategorySelected: Boolean = false,
+    val categoryID: String = " ",
+   val  categoryName: String = " "
     //val currentIdea : idea? = null,
 )
 
@@ -21,10 +22,22 @@ class IdeasViewModel{
     val uiState: State<IdeaState> = _uiState
     val ideas = Firebase.firestore.collection("ideas")
 
-    suspend fun getCategorisedIdeas(ID: String) : ArrayList<ideas>{
-     val  retideas = ideas.whereEqualTo("categoryID", ID)
-         .get().await().toObjects<ideas>()
-       return retideas as ArrayList<ideas>
+    fun getCategorisedIdeas() : ArrayList<ideas>{
+        var retideas: ArrayList<ideas>
+        runBlocking{
+            retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)
+        }
+        System.out.println("CatID is: " + uiState.value.categoryID + " ideas are: " + retideas)
+        return retideas
+    }
+
+    fun selectCat(ID: String, name: String){
+        _uiState.value = _uiState.value.copy(isCategorySelected = true,
+            categoryID = ID, categoryName = name)
+    }
+
+    fun deselect(){
+
     }
 
     fun setIdea(journeyID: String?, categoryID: String?, title: String,

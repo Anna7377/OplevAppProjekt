@@ -33,6 +33,7 @@ import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import java.time.format.TextStyle
 
 
+// Dynamic Composables, used across multiple sites
 //S215722
 @Composable
 fun TopCard(ImageId: Int, text: String) {

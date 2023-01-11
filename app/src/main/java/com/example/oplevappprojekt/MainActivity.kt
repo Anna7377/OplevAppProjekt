@@ -11,13 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.*
-import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
+import invite
 
 
 class MainActivity : ComponentActivity() {
@@ -39,6 +39,7 @@ fun OplevApp() {
         val journeyviewmodel = Journeysviewmodel()
         val colviewmodel = CollaboratorViewmodel()
         val authviewmodel = AuthViewModel()
+        val ideasViewModel = IdeasViewModel()
         val startRoute = "start"
         val mainroute = "main"
         val profile = "profile"
@@ -53,6 +54,7 @@ fun OplevApp() {
         val changepassword = "password"
         val inviteroute = "invite"
         val createcatbackup = "ccb"
+        val catideas = "catideas"
      val    intermediarycreate = "inter"
         val navigationController = rememberNavController()
         /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -72,10 +74,8 @@ fun OplevApp() {
             }
             composable(route = signupRoute) {
                 SignUpPage(viewModel = authviewmodel,
-                    navigation = { navigationController.navigate(loginRoute) },
-                    navMain = { navigationController.navigate(mainroute) },
-                    Auth()
-                )
+                    navigation = { navigationController.navigate(loginRoute) }
+                ) { navigationController.navigate(mainroute) }
             }
             composable(route = inviteroute) {
                 invite(viewmodel = colviewmodel)
@@ -120,11 +120,10 @@ fun OplevApp() {
                     navEdit = { navigationController.navigate(createroute) },
                     navMain = {navigationController.navigate(mainroute)},
                     navCreateIdea = {navigationController.navigate(createcategory)}
-                )
+               , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)})
             }
-
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) })
+                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel)
             }
             composable(route = changepassword) {
                 Password(
@@ -147,9 +146,14 @@ fun OplevApp() {
                 createcat(navDash = {navigationController.navigate(idearoute)},
                     repo = backupRepoCat(), viewModel = journeyviewmodel)
             }
-            composable(intermediarycreate){
+            composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
                 navIdea={ navigationController.navigate(createIdea) } )}
+            composable(route = catideas){
+            ideas(viewModel = ideasViewModel) {
+
+                }
+            }
         }
     }
 }
