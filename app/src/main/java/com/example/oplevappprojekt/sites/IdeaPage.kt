@@ -50,7 +50,8 @@ fun MyJourneyPage(navigationInsp: () -> Unit,
                   navCreate: ()-> Unit,
                   navIdeas: () -> Unit,
                   navProfile: () -> Unit,
-                  viewModel: Ideaviewmodel
+                  viewModel: Ideaviewmodel,
+                  navEdit: ()->Unit
 ){
 
     Scaffold( bottomBar = { BottomBar(onClick1 = {navigationInsp}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile})},

@@ -33,7 +33,8 @@ import com.example.oplevappprojekt.model.Journey
 
 @Composable
 fun CategoryPage(navigationInsp: () -> Unit,
-navCreate: () -> Unit, navCategories: () -> Unit, navIdeas: () -> Unit, navProfile: () -> Unit, viewModel:CategoryViewModel){
+navCreate: () -> Unit, navIdeas: () -> Unit, navProfile: () -> Unit, viewModel:CategoryViewModel){
+
     Scaffold(bottomBar = { BottomBar(onClick1 = {navigationInsp()}, onClick2 = { navProfile() }, onClick3 = {navProfile})},
         content =
         {

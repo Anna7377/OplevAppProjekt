@@ -63,6 +63,12 @@ class Journeysviewmodel {
         System.out.println(ID)
     }
 
+    fun deselect(){
+        _uiState.value = _uiState.value.copy(
+            currentJourneyID = null,
+            isJourneySelected = false)
+    }
+
     fun editJourney(country: String, date: String, ID: String){
         repo.editJourney(country=country, date=date, journeyID = ID)
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)

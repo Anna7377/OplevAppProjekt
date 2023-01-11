@@ -10,10 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -34,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
 // S215722
 @Composable
-fun OplevApp(){
+fun OplevApp() {
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
         val colviewmodel = CollaboratorViewmodel()
@@ -49,14 +46,10 @@ fun OplevApp(){
         val createIdea = "Create idea"
         val idearoute = "idea"
         val inspirationroute = "inspiration"
-        val createroute="create"
-        val changepassword="password"
-        val createcategory="createcategory"
-        val categorypage = "categorypage"
         val createroute = "create"
-        val createcategory = "create category"
-        val categorypage = "categeory page"
         val changepassword = "password"
+        val createcategory = "createcategory"
+        val categorypage = "categeorypage"
         val inviteroute = "invite"
         val navigationController = rememberNavController()
         /* must be changed such that the startroute is defined by whether the user is logged in or not */
@@ -75,7 +68,8 @@ fun OplevApp(){
                     navMain = { navigationController.navigate(mainroute) })
             }
             composable(route = signupRoute) {
-                SignUpPage(viewModel = authviewmodel,
+                SignUpPage(
+                    viewModel = authviewmodel,
                     navigation = { navigationController.navigate(loginRoute) },
                     navMain = { navigationController.navigate(mainroute) },
                     Auth()
@@ -88,12 +82,11 @@ fun OplevApp(){
                 MainPage(navigationInsp = { navigationController.navigate(inspirationroute) },
                     navCreate = { navigationController.navigate(createroute) },
                     navProfile = { navigationController.navigate(profile) },
-                    navIdeas = { navigationController.navigate(idearoute) },
+                    navCategories = { navigationController.navigate(categorypage) },
                     viewModel = journeyviewmodel,
                     navInvite = {
                         navigationController.navigate(inviteroute)
-                    },
-                    navCategories = { navigationController.navigate(categorypage) })
+                    })
             }
             composable(route = inspirationroute) {
                 Inspiration(
@@ -119,32 +112,39 @@ fun OplevApp(){
                 // navArgument("date"){type= NavType.StringType}
             ) {
                 MyJourneyPage(
+                    navigationInsp = { navigationController.navigate(inspirationroute) },
                     navCreate = { navigationController.navigate(createIdea) },
-                    viewModel = journeyviewmodel,
-                    navEdit = { navigationController.navigate(createroute) }
-                ) { navigationController.navigate(mainroute) }
-            }
-
-            composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) })
-            }
-            composable(route = changepassword) {
-                Password(
-                    viewModel = AuthViewModel(),
-                    navigation = { navigationController.navigate(profile) },
+                    viewModel = ideaviewmodel,
+                    navIdeas = { navigationController.navigate(idearoute) },
+                    navEdit = { navigationController.navigate(createroute) },
+                    navProfile = { navigationController.navigate(profile) }
                 )
             }
-            composable(route = createcategory) {
-                CreateCategory(navCategories = { navigationController.navigate(categorypage) })
 
-            }
-            composable(route = categorypage) {
-                CategoryPage(
-                    navCategories =
-                    { navigationController.navigate(createcategory) },
-                    Journeysviewmodel(), journeyState()
-                )
+                composable(route = createIdea) {
+                    CreateIdea(navIdeas = { navigationController.navigate(idearoute) })
+                }
+                composable(route = changepassword) {
+                    Password(
+                        viewModel = AuthViewModel(),
+                        navigation = { navigationController.navigate(profile) },
+                    )
+                }
+                composable(route = createcategory) {
+                    CreateCategory(navCategories = { navigationController.navigate(categorypage) })
+
+                }
+                composable(route = categorypage) {
+                    CategoryPage(
+                        navigationInsp = {navigationController.navigate(inspirationroute)},
+                        navCreate = {navigationController.navigate(createcategory)},
+                        navIdeas = {navigationController.navigate(idearoute)},
+                        navProfile = {navigationController.navigate(profile)},
+                        viewModel = categoryviewmodel
+                    )
+                }
             }
         }
     }
-}
+
+

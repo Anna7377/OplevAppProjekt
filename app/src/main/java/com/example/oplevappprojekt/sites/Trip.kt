@@ -59,8 +59,15 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             var expanded by remember {
                 mutableStateOf(false)
             }
+            var temp: String
+            if(viewModel.uiState.value.isJourneySelected){
+                temp = "Vælg land"
+            }
+            else{
+                temp = viewModel.uiState.value.currentcountry.toString()
+            }
             var selectedItem by remember {
-                mutableStateOf("Vælg land")
+                mutableStateOf(temp)
             }
             var list = Countries.countries
 

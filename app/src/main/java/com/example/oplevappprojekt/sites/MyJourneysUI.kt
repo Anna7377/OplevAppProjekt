@@ -37,7 +37,7 @@ class MyJourneysUI{
 // S215722
 @Composable
 fun  MainPage(navigationInsp: ()-> Unit,
-              navCreate: ()->Unit, navProfile: ()->Unit, navIdeas: () -> Unit,
+              navCreate: ()->Unit, navProfile: ()->Unit,
 viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
@@ -48,6 +48,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   modifier = Modifier
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
+                viewModel.deselect()
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
                   TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
                   ChangePageText(text = "join via link", onClick = {navInvite()})
@@ -56,32 +57,32 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   if (journeylist.isEmpty()) {
                       Text(text = "Ingen Rejser", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
                   } else {
-                      CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
+                      CountryList(list = journeylist, navCategories = navCategories, viewmodel = viewModel)
                   } } } },
   floatingActionButton = {Fob({navCreate()})})
 }
 
 
 @Composable
-fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
+fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navCategories: () -> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=R.drawable.image11,
                 country = it.country,
-                navIdeas=navIdeas,
+                navCategories =navCategories,
                 viewModel = viewmodel,
                 date=it.date,
             ID=it.JourneyID)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(img: Int, country: String, date: String, ID: String, viewModel: Journeysviewmodel, navCategories: () -> Unit) {
 
     Card(modifier = Modifier
         .padding(4.dp)
         .clickable(onClick = {
             viewModel.selectJourney(country = country, date = date, ID = ID)
-            navIdeas()
+            navCategories()
         })
         , elevation = 4.dp) {
 
