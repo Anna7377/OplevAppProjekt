@@ -44,6 +44,15 @@ class IdeaRepository(){
         return retideas as ArrayList<ideas>
     }
 
+    suspend fun deleteCategory(ID: String){
+        Firebase.firestore.collection("categories").document(ID).delete()
+        val ideas = Firebase.firestore.collection("ideas").whereEqualTo("categoryID", ID).get().await()
+        for(i in 0..ideas.size()-1){
+            val ID = ideas.documents.get(i).id
+            Firebase.firestore.collection("ideas").document(ID).delete()
+        }
+    }
+
     private fun currentCollection(): CollectionReference =
         Firebase.firestore.collection(IDEA_COLLECTION)
 

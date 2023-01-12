@@ -136,6 +136,7 @@ class HardcodedJourneysRepository {
         return categorylist
     }
 
+
     fun editCategory(name: String, ID: String){
         Firebase.firestore.collection("categories").document(ID).update("name", name)
     }

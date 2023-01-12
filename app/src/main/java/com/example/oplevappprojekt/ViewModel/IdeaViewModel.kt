@@ -40,6 +40,12 @@ class IdeasViewModel{
 
     }
 
+    fun deleteCategory(ID: String){
+        runBlocking {
+            ideaRepo.deleteCategory(ID) }
+    }
+
+
     fun setIdea(journeyID: String?, categoryID: String?, title: String,
     desc: String, link: String){
         ideaRepo.setIdea(journeyID = journeyID, categoryID = categoryID, title = title,

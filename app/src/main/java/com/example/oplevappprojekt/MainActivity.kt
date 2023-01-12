@@ -107,7 +107,8 @@ fun OplevApp() {
                     navMain = { navigationController.navigate(mainroute) },
                     viewModel = authviewmodel,
                     navStart = { navigationController.navigate(startRoute) },
-                    navChange = { navigationController.navigate(changepassword) })
+                    // navChange = { navigationController.navigate(changepassword) }
+                )
             }
             composable(
                 route = idearoute
@@ -120,7 +121,8 @@ fun OplevApp() {
                     navEdit = { navigationController.navigate(createroute) },
                     navMain = {navigationController.navigate(mainroute)},
                     navCreateIdea = {navigationController.navigate(createcategory)}
-               , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)})
+               , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)},
+                createCat = {navigationController.navigate(createcatbackup)})
             }
             composable(route = createIdea) {
                 CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel)

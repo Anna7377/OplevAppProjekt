@@ -25,7 +25,8 @@ import com.example.oplevappprojekt.data.category
 
 // to create category
 @Composable
-fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmodel){
+fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmodel,
+ideasViewModel: IdeasViewModel){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -57,8 +58,8 @@ fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmod
 
                 ) {
                     var text = " "
-                    if(isSelected){
-                        text = currentCat
+                    if(ideasViewModel.uiState.value.isCategorySelected){
+                        text = ideasViewModel.uiState.value.categoryName
                     }
                     val name = nameCat(text)
 var OnClick = {
@@ -117,21 +118,22 @@ return text
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun catCardList(catList: ArrayList<category>, viewModel: IdeasViewModel, navIdeas: () -> Unit,
-) {
+navEdit: ()->Unit) {
     val itemsinColumn = mutableListOf<ComposableFun>()
     for (category in catList) {
         val tempIdea: ComposableFun = {
-            catCard(category=catList.get(0), viewModel, navIdeas)
+            catCard(category=catList.get(0), viewModel, navIdeas, navEdit)
         }
         itemsinColumn.add(tempIdea)
     }
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
-            item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas) }
+            item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas, navEdit) }
         } } }
 @Composable
-fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit){
+fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit,
+navEdit: () -> Unit){
     Card(modifier = Modifier
         .padding(4.dp)
         .clickable(onClick = {
@@ -158,9 +160,11 @@ fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit){
                 //  textDecoration = TextDecoration.Underline
             )
             Row() {
-                Button(onClick = { /*TODO*/ }) { }
-            Button(onClick = { /*TODO*/ }) {
-
+                Button(onClick = { viewModel.deleteCategory(category.categoryID)}) {
+                    Text(text="Slet")
+                }
+            Button(onClick = { navEdit()}) {
+                Text(text="Rediger")
             }}
        } }
 }

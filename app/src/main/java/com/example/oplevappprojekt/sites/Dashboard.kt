@@ -47,7 +47,8 @@ fun MyJourneyPage(
     navEdit: () -> Unit,
     navMain: () -> Unit,
     navCreateIdea: ()->Unit,
-    navCatIdeas: ()->Unit
+    navCatIdeas: ()->Unit,
+    createCat: ()->Unit
 ){
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -67,11 +68,8 @@ countryname = viewModel.uiState.value.currentcountry.toString()
                     }
                 }
             }
-            Button(onClick = {navCreateIdea()}) {
-                Text(text = "opret kategori", color = Color.Black)
-            }
             val categories = viewModel.getCategories()
-                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas )
+                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat, journeyVM = viewModel)
             IdeaGrid(list = viewModel.getOtherIdeas())}
     }
     },
@@ -242,13 +240,3 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
     }
 
 }
-
-@Preview
-@Composable
-fun prev(){
-    createOpt(navCat = { /*TODO*/ }, navIdea = {})
-}
-
-
-
-
