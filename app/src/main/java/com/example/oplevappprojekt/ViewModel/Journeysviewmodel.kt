@@ -60,6 +60,10 @@ class Journeysviewmodel {
         repo.addJourney(country = country, date = date)
     }
 
+    fun editCategory(name: String, ID: String){
+        repo.editCategory(name=name, ID=ID)
+    }
+
     fun selectJourney(country: String, date: String, ID: String) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }

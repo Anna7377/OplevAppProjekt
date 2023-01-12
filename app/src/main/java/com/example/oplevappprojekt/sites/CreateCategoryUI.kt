@@ -56,12 +56,20 @@ fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmod
                     verticalArrangement = Arrangement.Center
 
                 ) {
-                    val name = nameCat()
-
-                    Button(onClick = {
-                        repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
-                        navDash()
-                    },
+                    var text = " "
+                    if(isSelected){
+                        text = currentCat
+                    }
+                    val name = nameCat(text)
+var OnClick = {
+    repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
+    navDash()
+}
+                    if(isSelected){
+                      OnClick = {viewModel.editCategory(name = name, ID = currentCatID )
+                      navDash()}
+                    }
+                    Button(onClick = OnClick,
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -77,8 +85,8 @@ fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmod
 }
 
 @Composable
-fun nameCat() : String{
-var text by remember { mutableStateOf("") }
+fun nameCat(text: String) : String{
+var text by remember { mutableStateOf(text) }
 TextField(
 value = text,
 colors = TextFieldDefaults.textFieldColors(
@@ -127,7 +135,10 @@ fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit){
     Card(modifier = Modifier
         .padding(4.dp)
         .clickable(onClick = {
-            viewModel.selectCat(ID = category.categoryID, name=category.name)
+            viewModel.selectCat(ID = category.categoryID, name = category.name)
+            currentCat = category.name
+            isSelected=true
+            currentCatID = category.categoryID
             System.out.println("ID is: " + category.categoryID)
             navIdeas()
         })
@@ -145,5 +156,11 @@ fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit){
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
-            ) } }
+            )
+            Row() {
+                Button(onClick = { /*TODO*/ }) { }
+            Button(onClick = { /*TODO*/ }) {
+
+            }}
+       } }
 }

@@ -136,6 +136,10 @@ class HardcodedJourneysRepository {
         return categorylist
     }
 
+    fun editCategory(name: String, ID: String){
+        Firebase.firestore.collection("categories").document(ID).update("name", name)
+    }
+
     suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
         val ideas = Firebase.firestore.collection("ideas")
         val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<ideas>()

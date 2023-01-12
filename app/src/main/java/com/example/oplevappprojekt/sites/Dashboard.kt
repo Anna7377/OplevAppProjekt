@@ -35,6 +35,9 @@ import kotlin.collections.ArrayList
 
 typealias ComposableFun = @Composable () -> Unit
 var countryname = ""
+var isSelected = false
+var currentCat = ""
+var currentCatID = " "
 //s215722
 @Composable
 fun MyJourneyPage(
