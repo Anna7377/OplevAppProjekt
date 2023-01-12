@@ -35,9 +35,6 @@ import kotlin.collections.ArrayList
 
 typealias ComposableFun = @Composable () -> Unit
 var countryname = ""
-var isSelected = false
-var currentCat = ""
-var currentCatID = " "
 //s215722
 @Composable
 fun MyJourneyPage(
@@ -69,7 +66,7 @@ countryname = viewModel.uiState.value.currentcountry.toString()
                 }
             }
             val categories = viewModel.getCategories()
-                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat, journeyVM = viewModel)
+                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat)
             IdeaGrid(list = viewModel.getOtherIdeas())}
     }
     },
@@ -238,5 +235,4 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
             }
         )
     }
-
 }
