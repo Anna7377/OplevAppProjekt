@@ -129,6 +129,8 @@ fun OplevApp(){
                 )
             }
             composable(route=createcategory){
+                categoryviewmodel.selectCategory("","")
+                categoryviewmodel.uiState.value.isCategorySelected = false
                 CreateCategory(navCategories ={navigationController.navigate(categorypage)},
                 viewModel = categoryviewmodel
                 )
