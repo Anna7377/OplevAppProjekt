@@ -14,6 +14,7 @@ import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import invite
@@ -106,7 +107,7 @@ fun OplevApp() {
                     navMain = { navigationController.navigate(mainroute) },
                     viewModel = authviewmodel,
                     navStart = { navigationController.navigate(startRoute) },
-                    // navChange = { navigationController.navigate(changepassword) }
+                    navChange = { navigationController.navigate(changepassword) }
                 )
             }
             composable(

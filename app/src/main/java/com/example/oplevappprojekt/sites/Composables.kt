@@ -54,7 +54,7 @@ Row(){
         text = text,
         modifier = Modifier.padding(top=110.dp),
         textAlign=TextAlign.Left,
-        fontSize=60.sp,
+        fontSize=40.sp,
         fontWeight = FontWeight.Bold,
         style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.DarkGray, offset = Offset(7f, 5f), blurRadius = 5f)),
         color = Color.White,
