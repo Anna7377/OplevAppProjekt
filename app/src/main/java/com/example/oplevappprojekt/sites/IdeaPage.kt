@@ -1,43 +1,28 @@
 package com.example.oplevappprojekt.sites
 
-import android.app.AlertDialog
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import com.example.oplevappprojekt.ViewModel.Ideaviewmodel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
-import java.util.*
+import com.example.oplevappprojekt.ViewModel.categoryState
 import kotlin.collections.ArrayList
 
 
@@ -50,6 +35,8 @@ fun MyJourneyPage(navigationInsp: () -> Unit,
                   navCreate: ()-> Unit,
                   navIdeas: () -> Unit,
                   navProfile: () -> Unit,
+                  navEdit: () -> Unit,
+                  navCatagories: () -> Unit,
                   viewModel: Ideaviewmodel
 ){
 
@@ -59,12 +46,24 @@ fun MyJourneyPage(navigationInsp: () -> Unit,
         {
             Surface (modifier = Modifier.fillMaxSize(), color = Color.Black) {
 
-                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
 
 
                     var idealist: ArrayList<com.example.oplevappprojekt.ViewModel.Idea> = viewModel.uiState.value.userideas
-                    TopCard(ImageId = R.drawable.map, text = "Mine Ideer")
+                    TopCard(ImageId = R.drawable.map, text = viewModel.uiState.value.currenttitle?:"Mine ideer")
                     viewModel.getIdeas()
+                    val cvm = CategoryViewModel()
+                    cvm.uiState.value.currentCategoryID = viewModel.uiState.value.currentCategoryID
+                    Row( modifier = Modifier.fillMaxWidth()){
+                        deleteCategoryButton(navDelete = {
+                            cvm.deleteCategory()
+                            navCatagories()
+                        }, viewModel = cvm)
+                        EditCategoryButton(navEdit={navEdit()}, viewModel = cvm)
+                    }
+
                     idealist = viewModel.uiState.value.userideas
                     if (idealist.isEmpty()) {
                         Text(text = "Ingen Ideer", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
@@ -130,17 +129,129 @@ fun IdeaCards(img:Int, title:String, desc: String, ID: String, il: String, navId
 
     }
 }
+@Composable
+fun EditCategoryButton(navEdit: () -> Unit,viewModel: CategoryViewModel) {
+    val vm = viewModel
+    var test = false
+
+    MaterialTheme(
+    content = {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ){
+            //Spacer(modifier = Modifier.height(60.dp))
+                //EditTitle(vm)
+            //Spacer(modifier = Modifier.height(10.dp))
+
+            var onClick = {
+            vm.selectCategory(title = vm.uiState.value.currenttitle?:"",
+            il = vm.uiState.value.currentCategoryID.toString())
+            //test = true
+            navEdit()
+            }
+            if(vm.uiState.value.isCategorySelected){
+                onClick = {vm.editCategory(title = vm.tmpTitle,
+                    il = vm.uiState.value.currentCategoryID.toString())}
+            }
+
+            Button(onClick = onClick,
+            shape = RoundedCornerShape(60.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+
+            ){
+                Text(
+                    text = "Rediger",
+                    color = Color.Black)
+
+            }
+
+            if (test) {
+                Box(
+                    modifier = Modifier,
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(myColourString.toColorInt()))
+                            .height(350.dp)
+                            .width(350.dp)
+                    ) {
+                        Text(
+                            text = "Rediger Kategori",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(30.dp)
+                        )
+
+
+
+                    }
+
+                }
+            }
+
+
+        }
+    })
+
+
+}
+@Composable
+fun deleteCategoryButton(navDelete : () -> Unit, viewModel: CategoryViewModel){
+    Button(onClick = {
+        navDelete()
+        viewModel.deleteCategory()
+    }, colors = ButtonDefaults.buttonColors(Color.Red)) {
+        Text(text="Slet Kategori", color = Color.White)
+    } }
+
+
+
+
+
+@Composable
+fun EditTitle(vm: CategoryViewModel) : String{
+    var text by remember { mutableStateOf("")}
+    TextField(value = text,
+    colors = TextFieldDefaults.textFieldColors(
+        backgroundColor = Color.White,
+        cursorColor = Color.Black,
+        focusedIndicatorColor = Color.Black,
+        unfocusedIndicatorColor = Color.Transparent),
+        modifier = Modifier
+            .height(49.dp)
+            .width(250.dp)
+            .offset(x = 2.dp),
+        shape = RoundedCornerShape(8.dp),
+        onValueChange = {newText ->
+            run {
+                vm.tmpTitle = newText
+                text = newText}},
+        label = {
+            Text(text = "Titel",
+            color = Color.Gray,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold)
+        })
+    return text
+}
+
+
+
+    /*Button(
+        onClick = { navEdit()
+            viewModel.editCategory(il = viewModel.uiState.value.currentCategoryID.toString(),
+            title = viewModel.tmpTitle)},
+        colors = ButtonDefaults.buttonColors(Color.Gray)){
+        Text(text = "Rediger Kategori", color = Color.White)
+}}
 
 
 
 
 
 
-
-
-
-
-/*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -251,7 +362,7 @@ Text("Inviter Medarrangør")
 
 
 
-/*
+
 
             Row{
                 editJourney(navEdit = {navEdit()})
@@ -266,6 +377,6 @@ Text("Inviter Medarrangør")
 
 
 
- */
+
 
 

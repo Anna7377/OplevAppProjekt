@@ -7,16 +7,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 
@@ -52,15 +50,15 @@ fun OplevApp(){
         val createIdea="Create idea"
         val idearoute="idea"
         val inspirationroute = "inspiration"
-        val createroute="create"
-        val changepassword="password"
-        val createcategory="createcategory"
-        val categorypage = "categorypage"
         val createroute = "create"
         val createcategory = "create category"
         val categorypage = "categeory page"
         val changepassword = "password"
         val inviteroute = "invite"
+        val opencategory = "open category"
+        val delete = "delete"
+        val editcategory = "edit category"
+        val deletecategory = "delete category"
         val navigationController = rememberNavController()
     /* must be changed such that the startroute is defined by whether the user is logged in or not */
         NavHost(navController = navigationController,
@@ -90,12 +88,9 @@ fun OplevApp(){
                 MainPage(navigationInsp = { navigationController.navigate(inspirationroute) },
                     navCreate = { navigationController.navigate(createroute) },
                     navProfile = { navigationController.navigate(profile) },
-                    navIdeas = { navigationController.navigate(idearoute) },
-                    viewModel = journeyviewmodel,
-                    navInvite = {
-                        navigationController.navigate(inviteroute)
-                    },
-                    navCategories = { navigationController.navigate(categorypage) })
+                    navInvite = { navigationController.navigate(inviteroute) },
+                    navCategories = { navigationController.navigate(categorypage) },
+                viewModel = journeyviewmodel)
             }
             composable(route=inspirationroute){
                 Inspiration(navMain = {navigationController.navigate(mainroute)}, navProfile = {navigationController.navigate(profile)})
@@ -112,11 +107,16 @@ fun OplevApp(){
             }
             composable(route=idearoute
             ) {
+                ideaviewmodel.uiState.value.currenttitle = categoryviewmodel.uiState.value.currenttitle
+                ideaviewmodel.uiState.value.currentCategoryID = categoryviewmodel.uiState.value.currentCategoryID
                 MyJourneyPage(
                     navCreate = { navigationController.navigate(createIdea) },
-                    viewModel = journeyviewmodel,
-                    navEdit = { navigationController.navigate(createroute) }
-                ) { navigationController.navigate(mainroute) }
+                    viewModel = ideaviewmodel,
+                    navEdit = { navigationController.navigate(editcategory) },
+                navIdeas = {navigationController.navigate(idearoute)},
+                navProfile = {navigationController.navigate(inspirationroute)},
+                navigationInsp = {navigationController.navigate(inspirationroute)},
+                navCatagories = {navigationController.navigate(categorypage)})
             }
 
             composable(route = createIdea) {
@@ -129,15 +129,36 @@ fun OplevApp(){
                 )
             }
             composable(route=createcategory){
-                CreateCategory(navCategories ={navigationController.navigate(categorypage)})
+                CreateCategory(navCategories ={navigationController.navigate(categorypage)},
+                viewModel = categoryviewmodel
+                )
 
             }
+            composable(route=editcategory){
+                categoryviewmodel.selectCategory(ideaviewmodel.uiState.value.currenttitle?:"",ideaviewmodel.uiState.value.currentCategoryID?:"")
+                //categoryviewmodel.uiState.value.currenttitle = ideaviewmodel.uiState.value.currenttitle
+                CreateCategory(navCategories ={navigationController.navigate(categorypage)},
+                viewModel = categoryviewmodel
+                )
+
+            }
+            composable(route = opencategory){
+                EditCategoryButton(navEdit = {navigationController.navigate(createcategory)},
+                    viewModel = categoryviewmodel)
+            }
+            composable(route = delete){
+                deleteCategoryButton(navDelete = {navigationController.navigate(deletecategory)},
+                    viewModel =categoryviewmodel )
+            }
             composable(route=categorypage){
+                categoryviewmodel.uiState.value.currentJourneyID = journeyviewmodel.uiState.value.currentJourneyID
                 CategoryPage(navCreate = {navigationController.navigate(createcategory)},
                 navCategories = {navigationController.navigate(categorypage)},
                 navigationInsp = {navigationController.navigate(inspirationroute)},
                 navProfile = {navigationController.navigate(inspirationroute)},
-                    navIdeas = {navigationController.navigate(idearoute)}, viewModel = categoryviewmodel)
+                    navIdeas = {navigationController.navigate(idearoute)},
+                    navInvite = {navigationController.navigate(inviteroute)},
+                    viewModel = categoryviewmodel)
             }
             composable(route=inviteroute){
                 invite(viewmodel = colviewmodel)

@@ -33,18 +33,24 @@ import com.example.oplevappprojekt.model.Journey
 
 @Composable
 fun CategoryPage(navigationInsp: () -> Unit,
-                 navCreate: () -> Unit, navCategories: () -> Unit, navIdeas: () -> Unit, navProfile: () -> Unit, viewModel:CategoryViewModel){
+                 navCreate: () -> Unit, navCategories: () -> Unit, navIdeas: () -> Unit, navProfile: () -> Unit, navInvite: () -> Unit,viewModel:CategoryViewModel){
     Scaffold(bottomBar = { BottomBar(onClick1 = {navigationInsp()}, onClick2 = { navProfile() }, onClick3 = {navProfile})},
         content =
         {
             Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
                 Column (
                     modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally){
-                    var categorylist: ArrayList<com.example.oplevappprojekt.ViewModel.Category> = viewModel.uiState.value.userCategories
+                    var categorylist = ArrayList<com.example.oplevappprojekt.ViewModel.Category>()
                     TopCard(ImageId = R.drawable.image10,
                         text = "Kategorier")
                     viewModel.getCategories()
-                    categorylist = viewModel.uiState.value.userCategories
+
+                    for (userCategory in viewModel.uiState.value.userCategories) {
+                        if (userCategory.journeyID.equals(viewModel.uiState.value.currentJourneyID)){
+                            categorylist.add(userCategory)
+                        }
+                    }
+
                     if (categorylist.isEmpty()){
                         Text(text = "Ingen Kategorier", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
                     }else
@@ -58,21 +64,21 @@ fun CategoryList(viewModel: CategoryViewModel, list: ArrayList<com.example.oplev
     LazyColumn(){
         items(list){
             CategoryCards( img = R.drawable.image10,
-                ID = it.journeyID,
                 il = it.categoryID,
                 viewModel = viewModel,
-                category = it.title,
+                category = it.title?:"",
                 navIdeas = navIdeas)
         } } }
 
 
 
 @Composable
-fun CategoryCards(img:Int, category: String, ID: String, il: String, navIdeas: () -> Unit,viewModel: CategoryViewModel ){
+fun CategoryCards(img:Int, category: String, il: String, navIdeas: () -> Unit,viewModel: CategoryViewModel ){
     Card(modifier = Modifier
         .padding(20.dp)
         .clickable {
-            viewModel.selectCategory(title = category, ID = ID, il = il)
+            viewModel.selectCategory(title = category, il = il)
+            viewModel.uiState.value.isCategorySelected = true
             navIdeas()
         }){
         Box() {

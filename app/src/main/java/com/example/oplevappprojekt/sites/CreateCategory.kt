@@ -19,8 +19,9 @@ import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 // s215718 & s213370
 
 @Composable
-fun CreateCategory(navCategories: ()->Unit) {
-    val vm = CategoryViewModel()
+fun CreateCategory(navCategories: ()->Unit,viewModel: CategoryViewModel) {
+    val vm = viewModel
+    val isNew = viewModel.uiState.value.currenttitle == null || viewModel.uiState.value.currenttitle == ""
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -32,7 +33,7 @@ fun CreateCategory(navCategories: ()->Unit) {
 
             ) {
             Text(
-                text = "Opret Kategori",
+                text = if (isNew) "Opret Kategori" else "Rediger Kategori",
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
@@ -60,7 +61,7 @@ fun CreateCategory(navCategories: ()->Unit) {
                         .height(10.dp))
                     var onClick = {vm.addCategory(title=vm.tmpTitle)
                         navCategories()}
-                    if(vm.uiState.value.isCategorySelected){
+                    if(!isNew){
                         onClick = {vm.editCategory(title = vm.tmpTitle,
                             il = vm.uiState.value.currentCategoryID.toString())
                             navCategories()}
@@ -72,10 +73,18 @@ fun CreateCategory(navCategories: ()->Unit) {
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
-                        Text(
-                            text = "Opret",
-                            color = Color.Black
-                        )
+                        if(isNew) {
+                            Text(
+                                text = "Opret",
+                                color = Color.Black
+                            )
+                        }
+                        else {
+                            Text(
+                                text = "Rediger kategori",
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
 
@@ -87,7 +96,7 @@ fun CreateCategory(navCategories: ()->Unit) {
 
 @Composable
 fun CategoryTitle(vm:CategoryViewModel) : String {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(vm.uiState.value.currenttitle?:"") }
     TextField(
         value = text,
         colors = TextFieldDefaults.textFieldColors(

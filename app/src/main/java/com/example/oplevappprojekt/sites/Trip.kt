@@ -119,7 +119,7 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
 
             val image =  PickImageFromGallery()
 
-           viewModel.setImg(image)
+            //viewModel.setImg(image) //TODO
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

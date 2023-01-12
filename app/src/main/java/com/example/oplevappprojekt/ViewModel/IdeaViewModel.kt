@@ -29,7 +29,9 @@ data class ideaState(
     var currentdescription: String? = null,
     var currentJourneyID: String? = null,
     var currenttitle: String? = null,
-    var userideas: ArrayList<Idea> = arrayListOf(Idea()))
+    var userideas: ArrayList<Idea> = arrayListOf(Idea()),
+    var test: String? = null
+    )
 
 class Ideaviewmodel {
     private val _uiState = mutableStateOf(ideaState())

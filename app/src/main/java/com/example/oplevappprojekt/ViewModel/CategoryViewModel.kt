@@ -14,9 +14,10 @@ import kotlinx.coroutines.runBlocking
 
 data class Category(
     val journeyID: String = "",
-    val title: String = "",
+    val title: String? = "",
     val img: String = "",
     val categoryID: String = "",
+    val originalCategoryID: String = "",
     var IdeaList: MutableList<com.example.oplevappprojekt.ViewModel.Idea> = mutableListOf<com.example.oplevappprojekt.ViewModel.Idea>()
 )
 
@@ -26,7 +27,7 @@ data class categoryState(
     var currentJourneyID: String? = null,
     var currentCategoryID: String? = null,
     var currenttitle: String? = null,
-    var userCategories: ArrayList<Category> = arrayListOf(Category())
+    var userCategories: ArrayList<Category> = arrayListOf()
 )
 
 class CategoryViewModel {
@@ -38,6 +39,7 @@ class CategoryViewModel {
 
 
     fun getCategories() {
+        rep.jid = _uiState.value.currentJourneyID?:""
         var categories: ArrayList<Category> = arrayListOf()
         runBlocking {
             categories = rep.getCategories()
@@ -46,17 +48,24 @@ class CategoryViewModel {
     }
 
     fun addCategory(title: String){
+        rep.jid = _uiState.value.currentJourneyID?:""
         rep.addCategory(title = title)
     }
 
-    fun selectCategory(title: String,ID: String, il: String){
+    fun selectCategory(title: String, il: String){
         _uiState.value = _uiState.value.copy(currenttitle = title,
-            currentJourneyID = ID,
             currentCategoryID = il,
             isCategorySelected = true)
     }
     fun editCategory(title: String,il: String){
         rep.editCategory(title = title, categoryID = il)
         _uiState.value = _uiState.value.copy(currenttitle = title, currentCategoryID = il, isCategorySelected = true)
+    }
+    fun updateCategory(title: String,il: String){
+        //rep.editCategory
+    }
+    fun deleteCategory(){
+        rep.deleteCategory(uiState.value.currentCategoryID.toString())
+        getCategories()
     }
 }
