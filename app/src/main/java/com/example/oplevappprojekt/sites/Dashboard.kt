@@ -35,6 +35,7 @@ import kotlin.collections.ArrayList
 
 typealias ComposableFun = @Composable () -> Unit
 var countryname = ""
+var journeyID = " "
 //s215722
 @Composable
 fun MyJourneyPage(
@@ -50,6 +51,7 @@ fun MyJourneyPage(
     Scaffold(content = {Surface {
         Column(modifier = Modifier.fillMaxSize()) {
 countryname = viewModel.uiState.value.currentcountry.toString()
+            journeyID=viewModel.uiState.value.currentJourneyID.toString()
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
             Text(text = viewModel.uiState.value.currentdate.toString())
@@ -70,7 +72,8 @@ countryname = viewModel.uiState.value.currentcountry.toString()
             IdeaGrid(list = viewModel.getOtherIdeas())}
     }
     },
-        floatingActionButton = {Fob(navCreate = navCreate)})
+        floatingActionButton = {Fob(navCreate = navCreate)
+        viewModelIdea.deselect()})
 }
 
 

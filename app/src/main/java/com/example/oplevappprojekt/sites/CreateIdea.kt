@@ -61,7 +61,7 @@ val link = Title()
                         .height(10.dp))
 
                     Button(onClick = {
-
+                        viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID)
                         navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
@@ -73,9 +73,7 @@ val link = Title()
                         )
                     }
                 }
-
-            })
-    }}
+            })}}
 
 @Composable
 fun Title() : String {
