@@ -65,10 +65,12 @@ ideasViewModel: IdeasViewModel){
 var OnClick = {
     repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
     navDash()
+    ideasViewModel.deselect()
 }
                     if(ideasViewModel.uiState.value.isCategorySelected){
                       OnClick = {viewModel.editCategory(name = name, ID = ideasViewModel.uiState.value.categoryID )
-                      navDash()}
+                      navDash()
+                      ideasViewModel.deselect()}
                     }
                     Button(onClick = OnClick,
                         shape = RoundedCornerShape(60.dp),
