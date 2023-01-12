@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.ViewModel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.data.category
 
 //s215726 & s213370
 
@@ -62,7 +64,7 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    DropDownMenu()
+                    DropDownMenu(viewmodel = Journeysviewmodel())
 
                     val desc = Descriptions()
 
@@ -192,14 +194,18 @@ fun preview(){
 
 
 @Composable
-fun DropDownMenu() : String {
+fun DropDownMenu(viewmodel: Journeysviewmodel) : String {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
         mutableStateOf("Tildel til kategori")
     }
-    var list = listOf("A", "B", "C", "D", "E", "F")
+    val list: java.util.ArrayList<category> = viewmodel.getCategories()
+    val names = arrayListOf<String>()
+    for (i in 0..list.size-1){
+        names.add(list.get(i).name)
+    }
 
     MaterialTheme(
         content ={
@@ -228,7 +234,7 @@ fun DropDownMenu() : String {
                         }
                     }
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        list.forEach{
+                        names.forEach{
                             DropdownMenuItem(onClick = {
                                 expanded = false
                                 selectedItem = it
