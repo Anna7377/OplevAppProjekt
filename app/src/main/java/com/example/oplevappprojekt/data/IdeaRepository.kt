@@ -39,6 +39,8 @@ class IdeaRepository(){
             .whereEqualTo("name", name).get().await().toObjects<category>()
         for(i in 0..check.size-1){
             if(check.get(i).name.equals(name)){
+                System.out.println(name)
+                System.out.println(check.get(i).name)
                 ret = "already exists"
                 flag = true
             }

@@ -10,13 +10,11 @@ import com.example.oplevappprojekt.data.category
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
 //s215722
-
 data class ideas(
     val title: String = "",
     val desc: String = "",
@@ -117,11 +115,11 @@ runBlocking { list = repo.getOtherIdeas(uiState.value.currentJourneyID.toString(
         return list
     }
 
-
-fun setImg(img: Bitmap?){
+fun setImg(img: Bitmap?) {
     runBlocking {
     repo.setImage(uiState.value.currentJourneyID.toString(), img=img?.asImageBitmap()!!)
 }}
+
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6
