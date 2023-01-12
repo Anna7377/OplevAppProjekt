@@ -66,8 +66,8 @@ var OnClick = {
     repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
     navDash()
 }
-                    if(isSelected){
-                      OnClick = {viewModel.editCategory(name = name, ID = currentCatID )
+                    if(ideasViewModel.uiState.value.isCategorySelected){
+                      OnClick = {viewModel.editCategory(name = name, ID = ideasViewModel.uiState.value.categoryID )
                       navDash()}
                     }
                     Button(onClick = OnClick,
@@ -138,9 +138,6 @@ navEdit: () -> Unit){
         .padding(4.dp)
         .clickable(onClick = {
             viewModel.selectCat(ID = category.categoryID, name = category.name)
-            currentCat = category.name
-            isSelected=true
-            currentCatID = category.categoryID
             System.out.println("ID is: " + category.categoryID)
             navIdeas()
         })
@@ -163,7 +160,8 @@ navEdit: () -> Unit){
                 Button(onClick = { viewModel.deleteCategory(category.categoryID)}) {
                     Text(text="Slet")
                 }
-            Button(onClick = { navEdit()}) {
+            Button(onClick = { navEdit()
+            viewModel.selectCat(category.categoryID, name= category.name )}) {
                 Text(text="Rediger")
             }}
        } }

@@ -130,7 +130,7 @@ fun OplevApp() {
             composable(route = changepassword) {
                 Password(
                     viewModel = AuthViewModel(),
-                    navigation = { navigationController.navigate(profile)},
+                    navigation = { navigationController.navigate(profile) },
                 )
             }
             composable(route = createcategory) {
