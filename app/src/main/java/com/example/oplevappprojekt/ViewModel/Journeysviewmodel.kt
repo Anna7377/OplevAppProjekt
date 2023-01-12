@@ -16,7 +16,9 @@ data class Journey(
     val date: String = "",
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
-    var JourneyID: String = ""
+    var JourneyID: String = "",
+    var isPinned : Boolean = false,
+    var originalJourneyID: String = "",
 )
 
 data class journeyState(
@@ -24,7 +26,8 @@ data class journeyState(
     var currentJourneyID: String? = null,
     var currentcountry: String? = null,
     var currentdate: String? = null,
-var userjourneys: ArrayList<Journey> = arrayListOf())
+    var userjourneys: ArrayList<Journey> = arrayListOf(),
+    var isPinned: Boolean = false)
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
@@ -33,9 +36,17 @@ class Journeysviewmodel {
 
     fun getJourneys() {
         var journeys: ArrayList<Journey> = arrayListOf()
+        /*
+        var pinnedJourneys: ArrayList<Journey> = arrayListOf()
+        var nonPinnedJourneys: ArrayList<Journey> = arrayListOf()
+         */
+
         runBlocking{
             journeys = repo.getJourneys()
         }
+
+
+
         _uiState.value = _uiState.value.copy(userjourneys = journeys)
     }
 
@@ -50,8 +61,8 @@ class Journeysviewmodel {
         _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
-    fun editJourney(country: String, date: String, ID: String){
-        repo.editJourney(country=country, date=date, journeyID = ID)
+    fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
+        repo.editJourney(country=country, date=date, journeyID = ID, pinVal = isPinned)
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
     }
 

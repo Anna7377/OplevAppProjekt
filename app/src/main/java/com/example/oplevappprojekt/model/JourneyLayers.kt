@@ -8,7 +8,8 @@ data class Journey(
    val country: String,
     val date: String,
    val img: Int,
-   var IdeaList: MutableList<Idea> = mutableListOf<Idea>()
+   var IdeaList: MutableList<Idea> = mutableListOf<Idea>(),
+   var isPinned: Boolean = false
 )
 
 data class Idea(

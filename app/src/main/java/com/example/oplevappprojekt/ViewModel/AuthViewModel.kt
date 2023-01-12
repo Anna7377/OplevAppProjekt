@@ -10,11 +10,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.oplevappprojekt.data.model.MyUserProfileRepository
+import com.example.oplevappprojekt.sites.repo
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,6 +35,7 @@ data class Auth(
 )
 
 class AuthViewModel:ViewModel(){
+    val repository = MyUserProfileRepository()
     private lateinit var auth:FirebaseAuth
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
@@ -49,6 +54,8 @@ class AuthViewModel:ViewModel(){
                     Log.d(TAG, "createUserWithEmail:success")
                     _uiState.value=_uiState.value.copy(mail=email)
                     updateUI( true)
+                    repository.save(name=name, mail=email)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -61,9 +68,11 @@ class AuthViewModel:ViewModel(){
                     SignIn(email, password, baseContext, activity) }
                     val user = hashMapOf("mail" to email,
                     "username" to name)
-                    Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.toString()).set(user)
+
                 }
+
                 }.await()
+
             }
         // [END create_user_with_email]
     }
@@ -94,6 +103,7 @@ class AuthViewModel:ViewModel(){
     fun updateUI(isSuccessful : Boolean) {
         _uiState.value = _uiState.value.copy(isLoggedIn = isSuccessful)
     }
+
 
 
     fun deleteUser(){

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,9 +64,13 @@ navMain: () -> Unit){
 
             val myideas = arrayListOf(idea, idea2, idea3)
             val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-            TopCard(ImageId = R.drawable.image10,
-                text = viewModel.uiState.value.currentcountry.toString())
-            Text(text = viewModel.uiState.value.currentdate.toString())
+            Box() {
+                TopCard(
+                    ImageId = R.drawable.image10,
+                    text = viewModel.uiState.value.currentcountry.toString()
+                )
+                Text(text = viewModel.uiState.value.currentdate.toString())
+            }
             Row{
                 editJourney(navEdit = {navEdit()})
                 deleteJourney(navMain = {navMain()}, viewModel = viewModel)
