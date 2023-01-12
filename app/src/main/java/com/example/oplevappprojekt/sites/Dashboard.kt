@@ -69,7 +69,7 @@ countryname = viewModel.uiState.value.currentcountry.toString()
                 }
             }
             val categories = viewModel.getCategories()
-                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat, journeyVM = viewModel)
+                catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat)
             IdeaGrid(list = viewModel.getOtherIdeas())}
     }
     },
