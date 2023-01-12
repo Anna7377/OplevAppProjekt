@@ -1,36 +1,14 @@
 package com.example.oplevappprojekt
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.data.HardcodedJourneysRepository
-import com.example.oplevappprojekt.data.PickImageFromGallery
-import com.example.oplevappprojekt.sites.Countries
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import java.util.Date
-
+/*
 
 //s215726
-val myColor = "#455467"
 
 
 
+
+
+// Acts as a popup
 @Composable
 fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
@@ -57,8 +35,12 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             var expanded by remember {
                 mutableStateOf(false)
             }
+            var temp = "Vælg land"
+            if(viewModel.uiState.value.isJourneySelected){
+                temp = viewModel.uiState.value.currentcountry.toString()
+            }
             var selectedItem by remember {
-                mutableStateOf("Vælg land")
+                mutableStateOf(temp)
             }
             var list = Countries.countries
 
@@ -114,7 +96,9 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             val dato = Dato()
            val month = Month()
             val year = Year()
-            PickImageFromGallery()
+
+
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -123,6 +107,7 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             ){
                 var onClick = {viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
                 navMain() }
+                System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,
@@ -283,8 +268,7 @@ fun Year() : String {
                                 color = Color.Black
                             )
                             Icon(Icons.Default.ArrowDropDown, contentDescription = "")
-                        }
-                    }
+                        } }
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                         list.forEach{
                             DropdownMenuItem(onClick = {
@@ -292,15 +276,11 @@ fun Year() : String {
                                 selectedItem = it
                             }) {
                                 Text(text = it)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    )
+                            } } } } } })
     return selectedItem
 }
+
+ */
 
 
 

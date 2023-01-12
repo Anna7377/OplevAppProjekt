@@ -10,16 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.ViewModel
-import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
-//s215726
+// s213370
+
 @Composable
-fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
+fun CreateCategory(navCategories: ()->Unit) {
+    val vm = CategoryViewModel()
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -31,7 +31,7 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
 
             ) {
             Text(
-                text = "Opret Ide",
+                text = "Opret Kategori",
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
@@ -50,20 +50,18 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
                     verticalArrangement = Arrangement.Center
 
                 ) {
-                    val title = Title()
+
                     Spacer(modifier = Modifier
                         .height(60.dp))
-val desc = Title()
+                    CategoryTitle(vm)
+
                     Spacer(modifier = Modifier
                         .height(10.dp))
-val link = Title()
-                    Spacer(modifier = Modifier
-                        .height(10.dp))
+
 
                     Button(onClick = {
-
-                        navIdeas()
-                     },
+                        vm.addCategory(vm.tmpTitle)
+                                     navCategories()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -75,10 +73,11 @@ val link = Title()
                 }
 
             })
-    }}
+    }
+}
 
 @Composable
-fun Title() : String {
+fun CategoryTitle(vm:CategoryViewModel) : String {
     var text by remember { mutableStateOf("") }
     TextField(
         value = text,
@@ -92,51 +91,19 @@ fun Title() : String {
             .width(250.dp)
             .offset(x = 2.dp),
         shape = RoundedCornerShape(8.dp),
-        onValueChange = {newText -> {
-
-        }
-             },
-        label ={
-            Text(text = "Titel:",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold)
-        },
-
-        )
-return text
-}
-
-@Composable
-fun Descriptions() : String {
-    var text by remember { mutableStateOf("") }
-    TextField(
-        value = text,
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-            cursorColor = Color.Black,
-            focusedIndicatorColor = Color.Black,
-            unfocusedIndicatorColor = Color.Transparent),
-        modifier = Modifier
-            .height(120.dp)
-            .width(250.dp)
-            .offset(x = 2.dp),
-        shape = RoundedCornerShape(8.dp),
         onValueChange = {newText ->
-            },
-        label ={
-            Text(text = "Beskrivelse:",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold)
-        },
+            run{
+                vm.tmpTitle = newText
+                text = newText}},
+                label ={
+                    Text(text = "Titel:",
+                        color = Color.Gray,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold)
+                },
 
-        )
-return text
-}
+                )
+                return text
+            }
 
-@Preview
-@Composable
-fun preview(){
-    CreateIdea({}, IdeasViewModel())
-}
+

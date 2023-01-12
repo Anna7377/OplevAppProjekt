@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import java.time.format.TextStyle
 
 
+// Dynamic Composables, used across multiple sites
 //S215722
 @Composable
 fun TopCard(ImageId: Int, text: String) {

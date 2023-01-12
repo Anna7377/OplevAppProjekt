@@ -14,10 +14,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 
 // S215722
-class StartPageUI{
 
-}
-
+// the page you land on when you are not logged in
 @Composable
 fun StartPage(navigate: ()-> Unit){
     Surface(modifier = Modifier.fillMaxSize()) {
