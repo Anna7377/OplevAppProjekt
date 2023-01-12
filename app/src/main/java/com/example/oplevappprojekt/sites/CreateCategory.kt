@@ -13,13 +13,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
-// s213370
+// s215718 & s213370
 
 @Composable
-fun CreateCategory(navCategories: ()->Unit) {
-    val vm = CategoryViewModel()
+fun CreateCategory(navCategories: ()->Unit,viewModel: CategoryViewModel) {
+    val vm = viewModel
+    val isNew = viewModel.uiState.value.currenttitle == null || viewModel.uiState.value.currenttitle == ""
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -31,7 +33,7 @@ fun CreateCategory(navCategories: ()->Unit) {
 
             ) {
             Text(
-                text = "Opret Kategori",
+                text = if (isNew) "Opret Kategori" else "Rediger Kategori",
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
@@ -57,28 +59,44 @@ fun CreateCategory(navCategories: ()->Unit) {
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
+                    var onClick = {vm.addCategory(title=vm.tmpTitle)
+                        navCategories()}
+                    if(!isNew){
+                        onClick = {vm.editCategory(title = vm.tmpTitle,
+                            il = vm.uiState.value.currentCategoryID.toString())
+                            navCategories()}
+                    }
 
-
-                    Button(onClick = {
-                        vm.addCategory(vm.tmpTitle)
-                                     navCategories()},
+                    Button(onClick =onClick,
+                        //vm.addCategory(vm.tmpTitle)
+                        //navCategories()},
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
-                        Text(
-                            text = "Opret",
-                            color = Color.Black
-                        )
+                        if(isNew) {
+                            Text(
+                                text = "Opret",
+                                color = Color.Black
+                            )
+                        }
+                        else {
+                            Text(
+                                text = "Rediger kategori",
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
 
-            })
+            }
+        )
+
     }
 }
 
 @Composable
 fun CategoryTitle(vm:CategoryViewModel) : String {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(vm.uiState.value.currenttitle?:"") }
     TextField(
         value = text,
         colors = TextFieldDefaults.textFieldColors(
@@ -95,15 +113,14 @@ fun CategoryTitle(vm:CategoryViewModel) : String {
             run{
                 vm.tmpTitle = newText
                 text = newText}},
-                label ={
-                    Text(text = "Titel:",
-                        color = Color.Gray,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold)
-                },
+        label ={
+            Text(text = "Titel:",
+                color = Color.Gray,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold)
+        },
 
-                )
-                return text
-            }
-
+        )
+    return text
+}
 

@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +24,7 @@ import com.example.oplevappprojekt.data.PickImageFromGallery
 import com.example.oplevappprojekt.sites.Countries
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 import java.util.Date
 
 
@@ -116,6 +118,8 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
             val year = Year()
 
             val image =  PickImageFromGallery()
+
+            //viewModel.setImg(image) //TODO
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

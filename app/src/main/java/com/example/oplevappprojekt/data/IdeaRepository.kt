@@ -1,46 +1,62 @@
 package com.example.oplevappprojekt.data
 
+import com.example.oplevappprojekt.ViewModel.Idea
+import com.example.oplevappprojekt.ViewModel.Journey
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.sql.Timestamp
 
-//s215718
+// s213370 & s215718
 
-data class Idea(
-    val categoryID : String = "",
-    val description: String = "",
-    val journeyID : String = "",
-    val title : String = ""
-    )
+class IdeaRepository {
 
-interface IdeaRepo{
-    suspend fun addIdea(journey: com.example.oplevappprojekt.data.Idea)
-    suspend fun getIdea() : List<com.example.oplevappprojekt.data.Idea>
-}
+    val jid = Firebase.auth.currentUser?.uid.toString()
+    val ideas = Firebase.firestore.collection("ideas")
+    var idealist: ArrayList<Idea> = arrayListOf()
+    val cid = Firebase.auth.currentUser?.uid.toString()
 
-class IdeaRepository(private val firestore:FirebaseFirestore) : IdeaRepo{
-    override suspend fun addIdea(Idea: com.example.oplevappprojekt.data.Idea){
-        currentCollection().add(Idea)
-    }
-    val userIdeas: ArrayList<com.example.oplevappprojekt.data.Idea> = arrayListOf()
-    override suspend fun getIdea(): List<Idea> {
-        currentCollection().get().addOnSuccessListener { documents ->
-            for (document in documents){
-                if(document.get("Document ID")?.equals(Firebase.auth.currentUser?.uid)==true){
-                    userIdeas.add(document.toObject())
-                }
+
+    suspend fun getIdeas(): ArrayList<Idea> {
+
+        idealist = ideas.whereEqualTo("journeyID",jid).get().
+        await().toObjects<Idea>() as ArrayList<Idea>
+        idealist = ideas.whereEqualTo("categoryID",cid).get().
+            await().toObjects<Idea>() as ArrayList<Idea>
+        return withContext(Dispatchers.IO){ idealist } }
+
+
+    fun addIdea (title: String, description: String){
+        val idea = hashMapOf(
+            "title" to title,
+            "desc" to description,
+            "journeyID" to jid,
+            "categoryID" to cid
+        )
+        ideas.add(idea) }
+
+    /*
+        fun editIdea(categoryID: String, JourneyID: String, title: String, description: String){
+            val idea = hashMapOf(
+                "categoryID" to categoryID,
+                "userID" to uid,
+                "JourneyID" to JourneyID,
+                "time" to Timestamp(System.currentTimeMillis()),
+                "title" to title,
+                "desc" to description
+            )
+            ideas.document(JourneyID).set(idea)
         }
-    }
-        return userIdeas
-    }
 
-    private fun currentCollection(): CollectionReference =
-        firestore.collection(IDEA_COLLECTION)
+        fun deleteIdea(ID: String){
+            ideas.document(ID).delete()
+        }
 
-    companion object {
-        private const val IDEA_COLLECTION = "Ideas"
-    }
+
+     */
 }

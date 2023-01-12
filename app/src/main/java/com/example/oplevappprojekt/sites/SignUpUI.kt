@@ -2,6 +2,7 @@ package com.example.oplevappprojekt.sites
 
 import android.app.Activity
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
@@ -64,7 +66,7 @@ val state = viewModel.uiState.value
                 check=isChecked.value
             }
             val enabled: Boolean
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             if(check && mail.isNotEmpty() && pass.isNotEmpty()){
                 enabled = true
             }
@@ -85,7 +87,7 @@ val state = viewModel.uiState.value
                 }
                 }, enabled)
 
-            ChangePageText(text="Allerede Oprettet? Log Ind Nu!", onClick = navigation)
+            ChangePageText(text="Allerede Oprettet? Log Ind Nu!",onClick = navigation)
 
 
 
@@ -95,7 +97,7 @@ val state = viewModel.uiState.value
 
 }
 
-@Preview
+
 @Composable
 fun GDPR(){
     val dialog = remember{mutableStateOf(true)}
@@ -107,7 +109,11 @@ fun GDPR(){
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Ok", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
-    ChangePageText(text = "Jeg accepterer GDPR regler mm.", onClick = {dialog.value=true } )
+    TextButton( onClick = {dialog.value=true }){
+        Text("Jeg accepterer GDPR reglerne",
+        color = Color(myColourString.toColorInt()),
+        fontSize = 13.sp)
+    }
 }
 
 @Preview

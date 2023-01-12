@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 @Composable
 fun PickImageFromGallery() : Bitmap? {
@@ -56,13 +58,13 @@ fun PickImageFromGallery() : Bitmap? {
                     bitmap = btm.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(400.dp)
-                        .padding(20.dp)
+                        .size(100.dp)
+                        .padding(10.dp)
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+       // Spacer(modifier = Modifier.height(1.dp))
 
         Button(onClick = { launcher.launch("image/*") }) {
             Text(text = "Pick Image")
@@ -72,29 +74,3 @@ return bitmap.value
 }
 
 
-/*
-class galleryLauncher : AppCompatActivity(){
-
-    // https://developer.android.com/training/data-storage/shared/photopicker
-    fun selectImage(){
-      if(isPhotoPickerAvailable()) {
-
-          // Registers a photo picker activity launcher in single-select mode.
-          val pickMedia =
-              registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                  // Callback is invoked after the user selects a media item or closes the
-                  // photo picker.
-                  if (uri != null) {
-                      Log.d("PhotoPicker", "Selected URI: $uri")
-                  } else {
-                      Log.d("PhotoPicker", "No media selected")
-                  }
-              }
-          // Launch the photo picker and allow the user to choose only images.
-          pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-          System.out.println(pickMedia)
-      }
-    }
-}
-
- */

@@ -1,77 +1,256 @@
 package com.example.oplevappprojekt.sites
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.model.Idea
-import com.example.oplevappprojekt.model.Journey
-import java.util.*
+import com.example.oplevappprojekt.ViewModel.CategoryViewModel
+import com.example.oplevappprojekt.ViewModel.Ideaviewmodel
+import com.example.oplevappprojekt.ViewModel.categoryState
+import kotlin.collections.ArrayList
 
 
-typealias ComposableFun = @Composable () -> Unit
+//s215722 & s213370 & s215718
 
-//s215722
-
-@Preview
-@Composable
-fun Previeww() {
-MyJourneyPage({}, Journeysviewmodel(), "", {}, {})
-}
-
+//skal den laves til Ideaviewmodel fra journey? også i mainA i myjourneypage?
 
 @Composable
-fun MyJourneyPage(navCreate: ()-> Unit,
-                  viewModel: Journeysviewmodel,
-                  country: String,
+fun MyJourneyPage(navigationInsp: () -> Unit,
+                  navCreate: ()-> Unit,
+                  navIdeas: () -> Unit,
+                  navProfile: () -> Unit,
                   navEdit: () -> Unit,
-navMain: () -> Unit){
-    Scaffold(content = {Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
+                  navCatagories: () -> Unit,
+                  viewModel: Ideaviewmodel
+){
+
+    Scaffold( bottomBar = { BottomBar(onClick1 = {navigationInsp}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile})},
+
+        content =
+        {
+            Surface (modifier = Modifier.fillMaxSize(), color = Color.Black) {
+
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
 
 
-            val idea = Idea("titel", "desc")
-            val idea2 = Idea("statue", "husk 50 kr til billeder")
-            val idea3 = Idea("Restaurant x", "drik milkshake her")
+                    var idealist: ArrayList<com.example.oplevappprojekt.ViewModel.Idea> = viewModel.uiState.value.userideas
+                    TopCard(ImageId = R.drawable.map, text = viewModel.uiState.value.currenttitle?:"Mine ideer")
+                    viewModel.getIdeas()
+                    val cvm = CategoryViewModel()
+                    cvm.uiState.value.currentCategoryID = viewModel.uiState.value.currentCategoryID
+                    Row( modifier = Modifier.fillMaxWidth()){
+                        deleteCategoryButton(navDelete = {
+                            cvm.deleteCategory()
+                            navCatagories()
+                        }, viewModel = cvm)
+                        EditCategoryButton(navEdit={navEdit()}, viewModel = cvm)
+                    }
 
-            val myideas = arrayListOf(idea, idea2, idea3)
-            val journey = Journey("Denmark", "2", R.drawable.image10, myideas)
-            TopCard(ImageId = R.drawable.image10,
-                text = viewModel.uiState.value.currentcountry.toString())
-            Text(text = viewModel.uiState.value.currentdate.toString())
+                    idealist = viewModel.uiState.value.userideas
+                    if (idealist.isEmpty()) {
+                        Text(text = "Ingen Ideer", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
+                    } else
+                        IdeaList(list = idealist, navIdeas = navIdeas, viewModel = viewModel)
+                }
 
-            Row{
-                if(viewModel.uiState.value.isOwned){
-                editJourney(navEdit = {navEdit()})
-                genLink(viewModel = viewModel) }
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
             }
-
-            IdeaGrid(journey = journey)}
-        }
-    },
+        },
         floatingActionButton = {Fob(navCreate = navCreate)})
 }
+
+
+@Composable
+fun IdeaList(viewModel: Ideaviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Idea>, navIdeas: ()-> Unit){
+    LazyColumn() {
+        items(list) {
+            IdeaCards(
+                desc = it.description,
+                title = it.title,
+                img=R.drawable.image11,
+                ID = it.JourneyID,
+                il = it.categoryID,
+                navIdeas=navIdeas,
+                viewModel = viewModel,
+            )
+
+        } } }
+
+@Composable
+fun IdeaCards(img:Int, title:String, desc: String, ID: String, il: String, navIdeas: () -> Unit,viewModel: Ideaviewmodel){
+    Card(modifier = Modifier
+        .padding(20.dp)
+        .clickable {
+            viewModel.selectIdea(title = title, description = desc, ID = ID, il = il)
+            navIdeas()
+        }) {
+        Box() {
+            Image(
+                painter = painterResource(id = img),
+                contentDescription ="",
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = title,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(380.dp)
+                    .height(70.dp)
+                    .clip(RoundedCornerShape(15))
+            )
+
+            Text(
+                text = desc,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(380.dp)
+                    .height(70.dp)
+                    .clip(RoundedCornerShape(15)))
+
+        }
+
+    }
+}
+@Composable
+fun EditCategoryButton(navEdit: () -> Unit,viewModel: CategoryViewModel) {
+    val vm = viewModel
+    var test = false
+
+    MaterialTheme(
+    content = {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ){
+            //Spacer(modifier = Modifier.height(60.dp))
+                //EditTitle(vm)
+            //Spacer(modifier = Modifier.height(10.dp))
+
+            var onClick = {
+            vm.selectCategory(title = vm.uiState.value.currenttitle?:"",
+            il = vm.uiState.value.currentCategoryID.toString())
+            //test = true
+            navEdit()
+            }
+            if(vm.uiState.value.isCategorySelected){
+                onClick = {vm.editCategory(title = vm.tmpTitle,
+                    il = vm.uiState.value.currentCategoryID.toString())}
+            }
+
+            Button(onClick = onClick,
+            shape = RoundedCornerShape(60.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+
+            ){
+                Text(
+                    text = "Rediger",
+                    color = Color.Black)
+
+            }
+
+            if (test) {
+                Box(
+                    modifier = Modifier,
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(myColourString.toColorInt()))
+                            .height(350.dp)
+                            .width(350.dp)
+                    ) {
+                        Text(
+                            text = "Rediger Kategori",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(30.dp)
+                        )
+
+
+
+                    }
+
+                }
+            }
+
+
+        }
+    })
+
+
+}
+@Composable
+fun deleteCategoryButton(navDelete : () -> Unit, viewModel: CategoryViewModel){
+    Button(onClick = {
+        navDelete()
+        viewModel.deleteCategory()
+    }, colors = ButtonDefaults.buttonColors(Color.Red)) {
+        Text(text="Slet Kategori", color = Color.White)
+    } }
+
+
+
+
+
+@Composable
+fun EditTitle(vm: CategoryViewModel) : String{
+    var text by remember { mutableStateOf("")}
+    TextField(value = text,
+    colors = TextFieldDefaults.textFieldColors(
+        backgroundColor = Color.White,
+        cursorColor = Color.Black,
+        focusedIndicatorColor = Color.Black,
+        unfocusedIndicatorColor = Color.Transparent),
+        modifier = Modifier
+            .height(49.dp)
+            .width(250.dp)
+            .offset(x = 2.dp),
+        shape = RoundedCornerShape(8.dp),
+        onValueChange = {newText ->
+            run {
+                vm.tmpTitle = newText
+                text = newText}},
+        label = {
+            Text(text = "Titel",
+            color = Color.Gray,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold)
+        })
+    return text
+}
+
+
+
+    /*Button(
+        onClick = { navEdit()
+            viewModel.editCategory(il = viewModel.uiState.value.currentCategoryID.toString(),
+            title = viewModel.tmpTitle)},
+        colors = ButtonDefaults.buttonColors(Color.Gray)){
+        Text(text = "Rediger Kategori", color = Color.White)
+}}
+
+
+
+
+
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -101,7 +280,7 @@ fun IdeaGrid(journey : Journey){
 
 
 @Composable
-fun IdeaBox(idea: Idea?) {
+fun IdeaBox(idea: Idea?, viewmodel: Ideaviewmodel, desc: String, title: String, img: Int, ID: String, navIdeas: () -> Unit) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
@@ -179,14 +358,23 @@ fun genLink(viewModel: Journeysviewmodel){
 Text("Inviter Medarrangør")
     }
 }
-@Composable
-fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
-    Button(onClick = {  viewModel.uncollab(orig)
-   navMain() }){
-        Text("fjern rejse")
-    }
 
-}
+
+
+
+
+
+            Row{
+                editJourney(navEdit = {navEdit()})
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)
+                genLink(viewModel = viewModel)
+            }
+
+            IdeaGrid(journey = journey)
+
+
+        */
+
 
 
 

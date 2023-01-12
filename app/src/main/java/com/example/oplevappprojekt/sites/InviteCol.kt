@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -28,9 +30,9 @@ class InviteCol {
 fun invite(viewmodel: CollaboratorViewmodel){
     Box( modifier = Modifier
         .background(Color(myColor.toColorInt()))
-        .height(350.dp)
-        .width(350.dp)){
-        Box(contentAlignment = Alignment.BottomCenter) {
+        .fillMaxSize(),
+    contentAlignment = Center) {
+        Box(contentAlignment = Center) {
 
             Text(
                 text = "Join via Link",
@@ -44,7 +46,11 @@ fun invite(viewmodel: CollaboratorViewmodel){
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 val link = regcolab()
-                Button(onClick = { viewmodel.addJourney(link) }) {
+                var enabled = false
+                if(link.isNotEmpty()){
+                    enabled = true
+                }
+                Button(onClick = { viewmodel.addJourney(link) }, enabled = enabled) {
 Text("Join")
                 }
                 Text(text=viewmodel.uiState.value.retText)
