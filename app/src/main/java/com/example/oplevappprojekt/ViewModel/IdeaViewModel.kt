@@ -36,6 +36,9 @@ class IdeasViewModel{
             categoryID = ID, categoryName = name)
     }
 
+    fun setcategory(title: String, ID: String){
+        runBlocking { ideaRepo.setcategory(name = title, ID = ID ) }
+    }
     fun deselect(){
 _uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = "")
     }

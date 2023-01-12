@@ -14,7 +14,6 @@ import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import invite
@@ -145,8 +144,10 @@ fun OplevApp() {
                 )
             }
             composable(route = createcatbackup){
-                createcat(navDash = {navigationController.navigate(idearoute)},
-                    repo = backupRepoCat(), viewModel = journeyviewmodel, ideasViewModel)
+                createcat(
+                    navDash = {navigationController.navigate(idearoute)},
+                    viewModel = journeyviewmodel, ideasViewModel
+                )
             }
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},

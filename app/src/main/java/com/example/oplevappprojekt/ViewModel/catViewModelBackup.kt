@@ -9,7 +9,7 @@ data class catState(
 )
 
 class CatViewModel(){
-  val  repos = backupRepoCat()
+
 
   fun selectCategory(ID: String){
 
