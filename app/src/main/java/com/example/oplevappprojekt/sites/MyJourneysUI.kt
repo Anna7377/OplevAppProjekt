@@ -218,17 +218,35 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .offset(y = 275.dp)
+                    .offset(y = 235.dp)
             ){
                 var onClick = {viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
                     navMain() }
                 System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
+                    var pinVal = viewModel.uiState.value.isPinned
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,
-                        ID=viewModel.uiState.value.currentJourneyID.toString())
+                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal)
                         navMain()}
                 }
+                TextButton(onClick = {
+                    val oldPinVal = viewModel.uiState.value.isPinned
+                    val newPinVal = !oldPinVal
+
+                    if (viewModel.uiState.value.isJourneySelected) {
+                        viewModel.editJourney(
+                            country = selectedItem,
+                            date = dato + "/" + month + "/" + year,
+                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
+                        )
+                        navMain()
+                    }
+                }
+                ) {
+                    Text(text = "Pin", color = Color.Red)
+                }
+
                 Button(
                     onClick = onClick,
                     shape = RoundedCornerShape(60.dp),
