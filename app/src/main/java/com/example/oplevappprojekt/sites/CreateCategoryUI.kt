@@ -20,13 +20,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.data.category
 
 // to create category
 @Composable
-fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmodel,
-ideasViewModel: IdeasViewModel){
+fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -57,20 +55,27 @@ ideasViewModel: IdeasViewModel){
                     verticalArrangement = Arrangement.Center
 
                 ) {
-                    var text = " "
+                    var text = ""
                     if(ideasViewModel.uiState.value.isCategorySelected){
                         text = ideasViewModel.uiState.value.categoryName
                     }
                     val name = nameCat(text)
+                    Text(ideasViewModel.uiState.value.addMessage)
+                    var enabled = false
+                    if(name.isNotEmpty()){
+                        enabled=true
+                    }
 var OnClick = {
-    repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
-    navDash()
+    ideasViewModel.setcategory(title = name, ID = viewModel.uiState.value.currentJourneyID.toString())
+   // navDash()
+    ideasViewModel.deselect()
 }
                     if(ideasViewModel.uiState.value.isCategorySelected){
                       OnClick = {viewModel.editCategory(name = name, ID = ideasViewModel.uiState.value.categoryID )
-                      navDash()}
+                      // navDash()
+                      ideasViewModel.deselect()}
                     }
-                    Button(onClick = OnClick,
+                    Button(onClick = OnClick, enabled = enabled,
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {

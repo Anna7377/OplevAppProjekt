@@ -145,8 +145,10 @@ fun OplevApp() {
                 )
             }
             composable(route = createcatbackup){
-                createcat(navDash = {navigationController.navigate(idearoute)},
-                    repo = backupRepoCat(), viewModel = journeyviewmodel, ideasViewModel = IdeasViewModel())
+                createcat(
+                    navDash = {navigationController.navigate(idearoute)},
+                    viewModel = journeyviewmodel, ideasViewModel
+                )
             }
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},

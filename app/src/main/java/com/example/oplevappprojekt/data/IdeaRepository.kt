@@ -13,7 +13,11 @@ import kotlinx.coroutines.tasks.await
 
 //s215718
 
-
+data class category(
+    val name: String = "",
+    val journeyID: String = "",
+    var categoryID: String = ""
+)
 
 class IdeaRepository(){
    fun setIdea(title: String, desc: String, link: String,
@@ -28,6 +32,40 @@ class IdeaRepository(){
        currentCollection().document().set(idea)
    }
 
+    suspend fun setcategory(name: String, ID: String) : String{
+        var ret = "succesfully added"
+        var flag = false
+        val check = Firebase.firestore.collection("categories")
+            .whereEqualTo("name", name).get().await().toObjects<category>()
+        for(i in 0..check.size-1){
+            if(check.get(i).name.equals(name)){
+                System.out.println(name)
+                System.out.println(check.get(i).name)
+                ret = "already exists"
+                flag = true
+            }
+        }
+        if(!flag){
+            val cat = hashMapOf(
+                "name" to name,
+                "journeyID" to ID
+            )
+            Firebase.firestore.collection("categories").document().set(cat)
+        }
+        return ret
+    }
+
+   suspend fun findCatID(name: String, ID: String) : String {
+       var Id = ""
+        val cat = Firebase.firestore.collection("categories")
+            .whereEqualTo("name", name).whereEqualTo("journeyID", ID).get().await()
+       if(cat.size()>0){
+       for(i in 0..cat.size()-1){
+           Id = cat.documents.get(i).id
+       }
+    }
+       return Id
+   }
     val ideas = Firebase.firestore.collection("ideas")
 
     suspend fun getCategorisedIdeas(ID: String) : ArrayList<ideas>{
