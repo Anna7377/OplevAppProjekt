@@ -30,7 +30,7 @@ data class Journey(
     val userID: String = "",
     var JourneyID: String = "",
     val originalJourneyID: String = " ",
-val isPinned: Boolean = false
+    var isPinned: Boolean = false
 )
 
 data class journeyState(
@@ -39,7 +39,7 @@ data class journeyState(
     var currentcountry: String? = null,
     var currentdate: String? = null,
 var userjourneys: ArrayList<Journey> = arrayListOf(),
-val isPinned: Boolean = false,
+var isPinned: Boolean = false,
 val isOwned: Boolean = true)
 
 class Journeysviewmodel {
@@ -81,8 +81,9 @@ class Journeysviewmodel {
     }
 
     fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
-        repo.editJourney(country=country, date=date, journeyID = ID)
-        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
+        isPinned = isPinned)
     }
 
     fun deleteJourney(){
