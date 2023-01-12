@@ -23,8 +23,10 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.data.MyUserProfileRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 
 
 //s215726 &
@@ -37,7 +39,7 @@ import com.google.firebase.ktx.Firebase
 fun profilePrev(){
     UserProfile({}, {}, AuthViewModel(), {},{})
 }
-
+val repositoryUser = MyUserProfileRepository()
 @Composable
 fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit, navChange:()->Unit){
    val state = viewModel.uiState.value
@@ -94,16 +96,15 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
         ) {
             Text(
-                text = "Navn: " + state.userName,
+                text = "Navn: " + runBlocking { repositoryUser.readName() },
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
             )
 
 
-
             Text(
-                text = "E-mail: " + state.mail,
+                text = "E-mail: " + runBlocking { repositoryUser.readMail() },
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier
