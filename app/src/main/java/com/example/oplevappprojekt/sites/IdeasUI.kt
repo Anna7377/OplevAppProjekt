@@ -7,7 +7,7 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 
 @Composable
-fun ideas(viewModel: IdeasViewModel, navCreate: ()->Unit){
+fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit){
     Scaffold(content = {
         Column() {
         TopCard(ImageId = R.drawable.image10, text = countryname)
@@ -16,5 +16,4 @@ fun ideas(viewModel: IdeasViewModel, navCreate: ()->Unit){
     }}, floatingActionButton = { Fob {
         navCreate()
     }})
-
 }

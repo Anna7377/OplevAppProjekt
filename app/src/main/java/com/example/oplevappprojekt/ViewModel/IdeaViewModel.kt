@@ -54,6 +54,12 @@ _uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = 
         }
     }
 
+    fun getCatID(name: String, ID: String){
+        var catID = " "
+        runBlocking { catID = ideaRepo.findCatID(name = name, ID = ID) }
+        _uiState.value = _uiState.value.copy(categoryID = catID)
+    }
+
     fun deleteCategory(ID: String){
         runBlocking {
             ideaRepo.deleteCategory(ID) }
