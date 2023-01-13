@@ -65,7 +65,8 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                       CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
                   } } } },
   floatingActionButton = {Fob({navCreate()
-      viewModel.deselect()})})
+      viewModel.deselect()
+  })})
 }
 
 // list of cards for journeys

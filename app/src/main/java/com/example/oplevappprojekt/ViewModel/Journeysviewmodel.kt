@@ -113,7 +113,10 @@ class Journeysviewmodel {
     fun getCategories() : ArrayList<category>{
         var ret: ArrayList<category>
         runBlocking {
-           ret = repo.getCategories(uiState.value.currentJourneyID.toString()) }
+            System.out.println("journeyID is: "+uiState.value.currentJourneyID)
+            ret = repo.getCategories(uiState.value.currentJourneyID.toString())
+        }
+        System.out.println("ret123: " + ret)
         return ret
     }
 
