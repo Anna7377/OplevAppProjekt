@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.sites
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,7 +27,7 @@ import com.example.oplevappprojekt.data.category
 //s215726 & s213370
 
 @Composable
-fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
+fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -64,7 +65,7 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    DropDownMenu(viewmodel = Journeysviewmodel())
+                    DropDownMenu(viewmodel = journeysviewmodel)
 
                     val desc = Descriptions()
 
@@ -188,7 +189,7 @@ fun Link() : String {
 @Preview
 @Composable
 fun preview(){
-    CreateIdea({}, IdeasViewModel())
+    CreateIdea({}, IdeasViewModel(), journeysviewmodel = Journeysviewmodel())
 }
 
 
@@ -201,7 +202,8 @@ fun DropDownMenu(viewmodel: Journeysviewmodel) : String {
     var selectedItem by remember {
         mutableStateOf("Tildel til kategori")
     }
-    val list: java.util.ArrayList<category> = viewmodel.getCategories()
+    val list = viewmodel.getCategories()
+    System.out.println("list: " + list)
     val names = arrayListOf<String>()
     for (i in 0..list.size-1){
         names.add(list.get(i).name)
