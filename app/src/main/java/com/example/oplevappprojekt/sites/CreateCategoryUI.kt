@@ -59,15 +59,19 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
                     if(ideasViewModel.uiState.value.isCategorySelected){
                         text = ideasViewModel.uiState.value.categoryName
                     }
-                    val name = nameCat(text)
+                    val name = InputText(hint = "navn")
                     Text(ideasViewModel.uiState.value.addMessage)
                     var enabled = false
                     if(name.isNotEmpty()){
                         enabled=true
                     }
+                    var ID = viewModel.uiState.value.currentJourneyID
+                    if(!viewModel.uiState.value.isOwned){
+                        ID = viewModel.uiState.value.originalJourneyID
+                    }
 var OnClick = {
-    ideasViewModel.setcategory(title = name, ID = viewModel.uiState.value.currentJourneyID.toString())
-   // navDash()
+    ideasViewModel.setcategory(title = name, ID = ID.toString())
+    navDash()
     ideasViewModel.deselect()
 }
                     if(ideasViewModel.uiState.value.isCategorySelected){
@@ -101,7 +105,7 @@ cursorColor = Color.Black,
 focusedIndicatorColor = Color.Black,
 unfocusedIndicatorColor = Color.Transparent),
 modifier = Modifier
-    .height(49.dp)
+    .height(60.dp)
     .width(250.dp)
     .offset(x = 2.dp),
 shape = RoundedCornerShape(8.dp),

@@ -143,7 +143,9 @@ fun InputText(hint: String) : String {
             mutableStateOf(TextFieldValue())
         }
         TextField(value = currentText.value,
-            onValueChange = { currentText.value = it })
+            onValueChange = { currentText.value = it }, colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White
+            ))
         Spacer(modifier = Modifier.height(15.dp))
         retText=currentText.value.text
     }
@@ -223,7 +225,8 @@ fun Fob(navCreate: ()->Unit){
 @Composable
 fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
     BottomAppBar(modifier = Modifier
-        .height(65.dp).padding(top=10.dp)) {
+        .height(65.dp)
+        .padding(top = 10.dp)) {
         BottomNavigation(backgroundColor = Color(myColourString.toColorInt())) {
             BottomNavigationItem(
                 icon = {

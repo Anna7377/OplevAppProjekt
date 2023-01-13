@@ -16,10 +16,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.ViewModel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 
 //s215726
 @Composable
-fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel) {
+fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, viewModeljourn: Journeysviewmodel) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -59,9 +60,12 @@ val desc = Title()
 val link = Title()
                     Spacer(modifier = Modifier
                         .height(10.dp))
-
+var journey = viewModeljourn.uiState.value.currentJourneyID
+                    if(!viewModeljourn.uiState.value.isOwned){
+                        journey = viewModeljourn.uiState.value.originalJourneyID
+                    }
                     Button(onClick = {
-                        viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID)
+                        viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journey.toString())
                         navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
@@ -131,10 +135,4 @@ fun Descriptions() : String {
 
         )
 return text
-}
-
-@Preview
-@Composable
-fun preview(){
-    CreateIdea({}, IdeasViewModel())
 }

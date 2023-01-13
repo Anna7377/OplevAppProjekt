@@ -125,7 +125,7 @@ fun OplevApp() {
                 createCat = {navigationController.navigate(createcatbackup)}, navProfile = {})
             }
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel)
+                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel)
             }
             composable(route = changepassword) {
                 Password(
