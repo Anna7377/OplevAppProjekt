@@ -73,23 +73,24 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=R.drawable.image11,
+            CountryCards(img=viewmodel.randomImg(),
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
                 date=it.date,
-            ID=it.JourneyID)
+            ID=it.JourneyID,
+           originalJourneyID = it.originalJourneyID)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(originalJourneyID: String, img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
     Card(modifier = Modifier
         .padding(4.dp)
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date, ID = ID)
+            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID)
             navIdeas()
         })
         , elevation = 4.dp) {

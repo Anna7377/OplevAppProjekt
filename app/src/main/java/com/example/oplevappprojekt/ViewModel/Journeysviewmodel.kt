@@ -29,7 +29,7 @@ data class Journey(
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
     var JourneyID: String = "",
-    val originalJourneyID: String = " ",
+    val originalJourneyID: String = ".",
     var isPinned: Boolean = false
 )
 
@@ -40,12 +40,28 @@ data class journeyState(
     var currentdate: String? = null,
 var userjourneys: ArrayList<Journey> = arrayListOf(),
 var isPinned: Boolean = false,
-val isOwned: Boolean = true)
+val isOwned: Boolean = true,
+val originalJourneyID: String = ".")
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
     val uiState: State<journeyState> = _uiState
     val repo = HardcodedJourneysRepository()
+
+    fun getColCategories() : ArrayList<category>{
+        var cat: ArrayList<category>
+        runBlocking {
+     cat = repo.getCategories(uiState.value.originalJourneyID) }
+        return cat
+    }
+
+    fun getColIdeas() : ArrayList<ideas>{
+        var ideas = arrayListOf<ideas>()
+        runBlocking {
+            ideas = repo.getOtherIdeas(uiState.value.originalJourneyID)
+        }
+        return ideas
+    }
 
     fun getJourneys() {
         var journeys: ArrayList<Journey>
@@ -63,7 +79,7 @@ class Journeysviewmodel {
         repo.editCategory(name=name, ID=ID)
     }
 
-    fun selectJourney(country: String, date: String, ID: String) {
+    fun selectJourney(country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }
 
@@ -71,12 +87,13 @@ class Journeysviewmodel {
             currentdate = date,
             currentJourneyID = ID,
             isJourneySelected = true,
+            originalJourneyID = originalJourneyID,
         isOwned = !iscol)
-        System.out.println(_uiState.value)
+
     }
 
     fun deselect(){
-        println("Deselecting")
+
         _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
@@ -91,8 +108,8 @@ class Journeysviewmodel {
         getJourneys()
     }
 
-    fun getCategories() : kotlin.collections.ArrayList<category>{
-        var ret: kotlin.collections.ArrayList<category>
+    fun getCategories() : ArrayList<category>{
+        var ret: ArrayList<category>
         runBlocking {
            ret = repo.getCategories(uiState.value.currentJourneyID.toString()) }
         return ret
@@ -110,8 +127,8 @@ class Journeysviewmodel {
 
     }
 
-    fun getOtherIdeas() : kotlin.collections.ArrayList<ideas>{
-        var list: kotlin.collections.ArrayList<ideas>
+    fun getOtherIdeas() : ArrayList<ideas>{
+        var list: ArrayList<ideas>
 runBlocking { list = repo.getOtherIdeas(uiState.value.currentJourneyID.toString()) }
         return list
     }
