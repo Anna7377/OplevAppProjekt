@@ -72,6 +72,7 @@ class IdeaRepository(){
 
         val ideas = ideas.whereEqualTo("categoryID", ID)
             .get().await()
+        println(ideas.size())
         val  retideas = ideas.toObjects<ideas>()
         System.out.println("CategoryID is: " + ID + "Ideas are: " + retideas)
        /* for(i in 0..ideas.size()-1){

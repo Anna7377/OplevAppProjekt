@@ -49,37 +49,56 @@ fun MyJourneyPage(
     navProfile: ()->Unit,
     createCat: ()->Unit
 ){
-    Scaffold(content = {Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
-countryname = viewModel.uiState.value.currentcountry.toString()
-            journeyID=viewModel.uiState.value.currentJourneyID.toString()
-            TopCard(ImageId = R.drawable.image10,
-                text = viewModel.uiState.value.currentcountry.toString())
-            var categories = viewModel.getCategories()
-            var ideas = viewModel.getOtherIdeas()
-            if(viewModel.uiState.value.isOwned){
-            Row {
-                Text(text = viewModel.uiState.value.currentdate.toString(), fontSize = 20.sp, modifier = Modifier.padding(30.dp,10.dp))
-                genLink(viewModel = viewModel)
-            }
+    Scaffold(content = {
+        Surface {
+            Column(modifier = Modifier.fillMaxSize()) {
+                countryname = viewModel.uiState.value.currentcountry.toString()
+                journeyID = viewModel.uiState.value.currentJourneyID.toString()
+                TopCard(
+                    ImageId = R.drawable.image10,
+                    text = viewModel.uiState.value.currentcountry.toString()
+                )
+                var categories = viewModel.getCategories()
+                var ideas = viewModel.getOtherIdeas()
+                if (viewModel.uiState.value.isOwned) {
+                    Row {
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
+                        genLink(viewModel = viewModel)
+                    }
 
-            Row{
-                    Spacer(modifier = Modifier.width(30.dp))
-                editJourney(navEdit = {navEdit()})
-                    Spacer(modifier = Modifier.width(20.dp))
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}}
-                else{
+                    Row {
+                        Spacer(modifier = Modifier.width(30.dp))
+                        editJourney(navEdit = { navEdit() })
+                        Spacer(modifier = Modifier.width(20.dp))
+                        deleteJourney(navMain = { navMain() }, viewModel = viewModel)
+                    }
+                } else {
                     ideas = viewModel.getColIdeas()
                     categories = viewModel.getColCategories()
-                    uncollab(viewModel = CollaboratorViewmodel(), orig =viewModel.uiState.value.currentJourneyID.toString() ) {
+                    uncollab(
+                        viewModel = CollaboratorViewmodel(),
+                        orig = viewModel.uiState.value.currentJourneyID.toString()
+                    ) {
+                    }
                 }
+                catCardList(
+                    catList = categories,
+                    viewModel = viewModelIdea,
+                    navCatIdeas,
+                    navEdit = createCat
+                )
+                IdeaGrid(list = ideas)
             }
-            catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat)
-            IdeaGrid(list = ideas)}
-    }
+        }
     },
-        floatingActionButton = {Fob(navCreate = navCreate)
-        viewModelIdea.deselect()})
+        floatingActionButton = {
+            Fob(navCreate = navCreate)
+            //viewModelIdea.deselect()
+        })
 
    /* Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
@@ -214,7 +233,7 @@ fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit
 }
 
 @Composable
-fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
+fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center)
@@ -239,7 +258,8 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
             content =
             {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Button(onClick = { navCat() },
+                        Button(onClick = { navCat()
+                                         ideasViewModel.deselect()},
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Kategori", color = Color(myColourString.toColorInt()))
                         }

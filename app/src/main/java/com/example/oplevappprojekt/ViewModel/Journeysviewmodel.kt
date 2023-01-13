@@ -76,8 +76,10 @@ class Journeysviewmodel {
     }
 
     fun editCategory(name: String, ID: String){
+        println("category in vm is: " + ID)
         repo.editCategory(name=name, ID=ID)
     }
+
 
     fun selectJourney(country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean

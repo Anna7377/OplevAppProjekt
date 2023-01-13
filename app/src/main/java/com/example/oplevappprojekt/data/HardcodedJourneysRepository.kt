@@ -136,10 +136,8 @@ class HardcodedJourneysRepository {
     }
 
     suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
-        System.out.println("origID is: " + ID)
         val ideas = Firebase.firestore.collection("ideas")
         val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<ideas>()
-        println(idealist)
     return idealist as ArrayList<ideas>
     }
    }

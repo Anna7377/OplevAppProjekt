@@ -24,7 +24,6 @@ class IdeasViewModel{
     val ideas = Firebase.firestore.collection("ideas")
 
     fun getCategorisedIdeas() : ArrayList<ideas>{
-        print(uiState.value.categoryID)
         var retideas: ArrayList<ideas>
         runBlocking{
             retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)

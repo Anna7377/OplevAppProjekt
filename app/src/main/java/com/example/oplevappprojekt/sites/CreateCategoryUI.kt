@@ -21,6 +21,7 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.category
+import com.example.oplevappprojekt.data.uid
 
 // to create category
 @Composable
@@ -59,7 +60,7 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
                     if(ideasViewModel.uiState.value.isCategorySelected){
                         text = ideasViewModel.uiState.value.categoryName
                     }
-                    val name = InputText(hint = "navn")
+                    val name = nameCat(text = text)
                     Text(ideasViewModel.uiState.value.addMessage)
                     var enabled = false
                     if(name.isNotEmpty()){
@@ -69,15 +70,19 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
                     if(!viewModel.uiState.value.isOwned){
                         ID = viewModel.uiState.value.originalJourneyID
                     }
-var OnClick = {
-    ideasViewModel.setcategory(title = name, ID = ID.toString())
-    navDash()
-    ideasViewModel.deselect()
-}
+                    var OnClick = {
+                        ideasViewModel.setcategory(title = name, ID = ID.toString())
+                        System.out.println("in the wrong place")
+                        navDash()
+                        // ideasViewModel.deselect()
+                    }
+                    println("in createcat: " + ideasViewModel.uiState.value.isCategorySelected)
+                    println("in createcat: " + ideasViewModel.uiState.value.categoryName)
                     if(ideasViewModel.uiState.value.isCategorySelected){
                       OnClick = {viewModel.editCategory(name = name, ID = ideasViewModel.uiState.value.categoryID )
                       // navDash()
-                      ideasViewModel.deselect()}
+                     // ideasViewModel.deselect()
+                      }
                     }
                     Button(onClick = OnClick, enabled = enabled,
                         shape = RoundedCornerShape(60.dp),
@@ -96,9 +101,9 @@ var OnClick = {
 
 @Composable
 fun nameCat(text: String) : String{
-var text by remember { mutableStateOf(text) }
+val thistext =  remember { mutableStateOf(text) }
 TextField(
-value = text,
+value = thistext.value,
 colors = TextFieldDefaults.textFieldColors(
 backgroundColor = Color.White,
 cursorColor = Color.Black,
@@ -109,9 +114,7 @@ modifier = Modifier
     .width(250.dp)
     .offset(x = 2.dp),
 shape = RoundedCornerShape(8.dp),
-onValueChange = {newText -> {
-
-}
+onValueChange = {thistext.value = it
 },
 label ={
     Text(text = "Titel:",
@@ -121,7 +124,7 @@ label ={
 },
 
 )
-return text
+return thistext.value
 }
 
 @Composable
@@ -147,7 +150,6 @@ navEdit: () -> Unit){
         .padding(4.dp)
         .clickable(onClick = {
             viewModel.selectCat(ID = category.categoryID, name = category.name)
-            System.out.println("ID is: " + category.categoryID)
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -166,10 +168,13 @@ navEdit: () -> Unit){
                 //  textDecoration = TextDecoration.Underline
             )
             Row() {
-                Button(onClick = { viewModel.deleteCategory(category.categoryID)}) {
+                Button(onClick = {
+                    viewModel.selectCat(ID = category.categoryID, name = category.name)
+                    viewModel.deleteCategory(category.categoryID)}) {
                     Text(text="Slet")
                 }
             Button(onClick = { navEdit()
+                System.out.println("on Button click status: " + viewModel.uiState.value.isCategorySelected)
             viewModel.selectCat(category.categoryID, name= category.name )}) {
                 Text(text="Rediger")
             }}
