@@ -91,15 +91,9 @@ class HardcodedJourneysRepository {
            journeys.document().set(journey)
        }
 
-       fun editJourney(journeyID: String, date: String, country: String) {
-           val journey = hashMapOf(
-               "country" to country,
-               "userID" to uid,
-               "date" to date,
-               "time" to Timestamp(System.currentTimeMillis())
-           )
+       fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean) {
            journeys.document(journeyID).update("country", country,
-               "date", date)
+               "date", date, "isPinned", isPinned)
        }
 
        fun deleteJourney(ID: String) {
@@ -144,8 +138,10 @@ class HardcodedJourneysRepository {
     }
 
     suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
+        System.out.println("origID is: " + ID)
         val ideas = Firebase.firestore.collection("ideas")
         val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<ideas>()
+        println(idealist)
     return idealist as ArrayList<ideas>
     }
    }

@@ -14,10 +14,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,18 +42,25 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
   Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInsp()}, onClick2 = { /*TODO*/ }, onClick3 = {navProfile()})},
       content =
       {
-          Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
+          Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
               Column(
                   modifier = Modifier
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
+                  Box(
+                      modifier = Modifier.height(200.dp)
+                          .fillMaxWidth()
+                  ){
+                      Image(painter = painterResource(id = R.drawable.topmap1), contentDescription = "topmap",
+                          modifier = Modifier.fillMaxSize())}
                   var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
-                  TopCard(ImageId = R.drawable.map, text = "Mine Rejser")
-                  ChangePageText(text = "join via link", onClick = {navInvite()})
+
+                  //TopCard(ImageId = R.drawable.topmap1, text = "Mine Rejser")
+                  ChangePageText(text = "Tilføj rejse via link", onClick = {navInvite()})
                  viewModel.getJourneys()
                       journeylist = viewModel.uiState.value.userjourneys
                   if (journeylist.isEmpty()) {
-                      Text(text = "Ingen Rejser", color = Color.White, textAlign = TextAlign.Center, fontSize = 40.sp)
+                      Text(text = "Ingen Rejser", fontStyle = FontStyle.Italic, fontSize = 30.sp, color = Color(myColourString.toColorInt()), textAlign = TextAlign.Center)
                   } else {
                       CountryList(list = journeylist, navIdeas = navIdeas, viewmodel = viewModel)
                   } } } },
@@ -64,21 +74,24 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=R.drawable.image11,
+            CountryCards(img=viewmodel.randomImg(),
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
                 date=it.date,
-            ID=it.JourneyID)
+            ID=it.JourneyID,
+           originalJourneyID = it.originalJourneyID)
         } } }
 
 @Composable
-fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(originalJourneyID: String, img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
 
     Card(modifier = Modifier
         .padding(4.dp)
+        .height(150.dp)
+        .width(350.dp)
         .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date, ID = ID)
+            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID)
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -89,17 +102,18 @@ fun CountryCards(img: Int, country: String, date: String, ID: String, navIdeas: 
                 img),
                 contentDescription = "",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(194.dp),
+                    .fillMaxWidth(),
+                    //.height(194.dp),
                 contentScale = ContentScale.Crop )
             Text(
                 text = country,
                 modifier = Modifier.padding(16.dp),
                 //      .border(width = 2.dp, shape = , color = Color.Black),
-                style = MaterialTheme.typography.h3,
-                //  fontSize = 24.sp
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive,
+                //style = MaterialTheme.typography.h3,
+                fontSize = 30.sp,
+                style = androidx.compose.ui.text.TextStyle(shadow = Shadow(color = Color.DarkGray, offset = Offset(7f, 5f), blurRadius = 5f)),
+                fontWeight = FontWeight.Bold,
+                //fontFamily = FontFamily.Cursive,
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
@@ -206,17 +220,35 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .offset(y = 275.dp)
+                    .offset(y = 235.dp)
             ){
                 var onClick = {viewModel.addJourney(country = selectedItem, date = dato + "/" + month + "/"+year)
                     navMain() }
                 System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
+                    var pinVal = viewModel.uiState.value.isPinned
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,
-                        ID=viewModel.uiState.value.currentJourneyID.toString())
+                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal)
                         navMain()}
                 }
+                TextButton(onClick = {
+                    val oldPinVal = viewModel.uiState.value.isPinned
+                    val newPinVal = !oldPinVal
+
+                    if (viewModel.uiState.value.isJourneySelected) {
+                        viewModel.editJourney(
+                            country = selectedItem,
+                            date = dato + "/" + month + "/" + year,
+                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
+                        )
+                        navMain()
+                    }
+                }
+                ) {
+                    Text(text = "Pin", color = Color.Red)
+                }
+
                 Button(
                     onClick = onClick,
                     shape = RoundedCornerShape(60.dp),

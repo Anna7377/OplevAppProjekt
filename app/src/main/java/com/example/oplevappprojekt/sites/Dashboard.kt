@@ -34,7 +34,7 @@ import kotlin.collections.ArrayList
 
 
 typealias ComposableFun = @Composable () -> Unit
-var countryname: String = ""
+var countryname = ""
 var journeyID = " "
 //s215722
 @Composable
@@ -46,6 +46,7 @@ fun MyJourneyPage(
     navMain: () -> Unit,
     navCreateIdea: ()->Unit,
     navCatIdeas: ()->Unit,
+    navProfile: ()->Unit,
     createCat: ()->Unit
 ){
     Scaffold(content = {Surface {
@@ -54,27 +55,36 @@ countryname = viewModel.uiState.value.currentcountry.toString()
             journeyID=viewModel.uiState.value.currentJourneyID.toString()
             TopCard(ImageId = R.drawable.image10,
                 text = viewModel.uiState.value.currentcountry.toString())
-            Text(text = viewModel.uiState.value.currentdate.toString())
+            var categories = viewModel.getCategories()
+            var ideas = viewModel.getOtherIdeas()
+            if(viewModel.uiState.value.isOwned){
+            Row {
+                Text(text = viewModel.uiState.value.currentdate.toString(), fontSize = 20.sp, modifier = Modifier.padding(30.dp,10.dp))
+                genLink(viewModel = viewModel)
+            }
 
             Row{
-                if(viewModel.uiState.value.isOwned){
+                    Spacer(modifier = Modifier.width(30.dp))
                 editJourney(navEdit = {navEdit()})
-                genLink(viewModel = viewModel)
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}
+                    Spacer(modifier = Modifier.width(20.dp))
+                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}}
                 else{
+                    ideas = viewModel.getColIdeas()
+                    categories = viewModel.getColCategories()
                     uncollab(viewModel = CollaboratorViewmodel(), orig =viewModel.uiState.value.currentJourneyID.toString() ) {
-
-                    }
                 }
             }
-            val categories = viewModel.getCategories()
             catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat)
-            IdeaGrid(list = viewModel.getOtherIdeas())}
+            IdeaGrid(list = ideas)}
     }
     },
         floatingActionButton = {Fob(navCreate = navCreate)
-      viewModelIdea.deselect()
-        })
+        viewModelIdea.deselect()})
+
+   /* Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
+        content =
+        {
+})*/
 }
 
 
@@ -138,7 +148,10 @@ fun IdeaBox(idea: ideas) {
 
 @Composable
 fun editJourney(navEdit: () -> Unit){
-    Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+    Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt())),
+        modifier = Modifier
+            .height(35.dp)
+            .width(145.dp)) {
         Text(text="Rediger Rejse", color = Color.White)
     }
 }
@@ -147,7 +160,9 @@ fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
     Button(onClick = {
         navMain()
         viewModel.deleteJourney()
-    }, colors = ButtonDefaults.buttonColors(Color.Red)) {
+    }, colors = ButtonDefaults.buttonColors(Color.Red),modifier = Modifier
+        .height(35.dp)
+        .width(180.dp)) {
         Text(text="Slet Rejse", color = Color.White)
     } }
 
@@ -157,15 +172,15 @@ fun genLink(viewModel: Journeysviewmodel){
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
-            title = { Text(text="Inviter Medarrangør", color = Color.White) },
+            title = { Text(text="Inviter medarrangør via linket:", color = Color.White) },
             text={ SelectionContainer() {
                 Text(text= viewModel.uiState.value.currentJourneyID.toString(),
                 color = Color.White, ) }},
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
-    Button(onClick = {dialog.value=true}) {
-Text("Inviter Medarrangør")
+    Button(onClick = {dialog.value=true}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+Text("Inviter Medarrangør", color = Color.White)
     }
 }
 
@@ -192,8 +207,8 @@ fun showCol(viewModel: CollaboratorViewmodel){
 @Composable
 fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
     Button(onClick = {  viewModel.uncollab(orig)
-   navMain() }){
-        Text("fjern rejse")
+   navMain() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt()))){
+        Text("fjern rejse", color = Color.White)
     }
 
 }

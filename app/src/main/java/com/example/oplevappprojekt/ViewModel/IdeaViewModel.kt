@@ -12,7 +12,8 @@ import kotlinx.coroutines.tasks.await
 data class IdeaState(
     val isCategorySelected: Boolean = false,
     val categoryID: String = " ",
-   val  categoryName: String = " "
+   val  categoryName: String = " ",
+    val addMessage: String = " "
     //val currentIdea : idea? = null,
 )
 
@@ -23,6 +24,7 @@ class IdeasViewModel{
     val ideas = Firebase.firestore.collection("ideas")
 
     fun getCategorisedIdeas() : ArrayList<ideas>{
+        print(uiState.value.categoryID)
         var retideas: ArrayList<ideas>
         runBlocking{
             retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)
@@ -36,8 +38,14 @@ class IdeasViewModel{
             categoryID = ID, categoryName = name)
     }
 
-    fun deselect(){
+    fun setcategory(title: String, ID: String) {
+        var ret: String
+        runBlocking { ret = ideaRepo.setcategory(name = title, ID = ID ) }
+        _uiState.value = _uiState.value.copy(addMessage = ret)
 
+    }
+    fun deselect(){
+_uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = "")
     }
 
     fun createIdea(title: String, desc: String, link: String, journeyID: String){

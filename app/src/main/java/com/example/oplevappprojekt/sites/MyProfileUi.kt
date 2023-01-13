@@ -23,8 +23,10 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.data.MyUserProfileRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.runBlocking
 
 
 //s215726 &
@@ -35,25 +37,23 @@ import com.google.firebase.ktx.Firebase
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {}, AuthViewModel(), {})
+    UserProfile({}, {}, AuthViewModel(), {},{})
 }
-
+val repositoryUser = MyUserProfileRepository()
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit){
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit, navChange:()->Unit){
    val state = viewModel.uiState.value
     Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
         content =
         {
-
-    Image(
-        painter = painterResource(id = R.drawable.oplev_logo_lille),
+        Logo()
+        /*painter = painterResource(id = R.drawable.oplev_logo_lille),
         contentDescription = "logo",
         contentScale = ContentScale.Crop,
         alignment = Alignment.TopStart,
         modifier = Modifier
             .absoluteOffset(10.dp,10.dp)
-
-    )
+         */
 
     Column(modifier = Modifier
         .fillMaxSize(),
@@ -71,40 +71,40 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Image(painter = painterResource(id = R.drawable.profile_pic),
+        Image(painter = painterResource(id = R.drawable.user),
             contentDescription = "profile",
             contentScale = ContentScale.Crop,
+            modifier = Modifier.size(200.dp)
 
 
             )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
+        /*Text(
             text = "Skift profilbillede",
             textAlign = TextAlign.Center,
             color = Color(myColourString.toColorInt()),
             fontSize = 15.sp,
 
-            )
+         */
         Spacer(modifier = Modifier.height(40.dp))
 
         Box(modifier = Modifier
-            .height(160.dp)
+            .height(130.dp)
             .width(330.dp)
             .background(Color(myColourString.toColorInt()))
 
 
         ) {
             Text(
-                text = "Navn: " + state.userName,
+                text = "Navn: " + runBlocking { repositoryUser.readName() },
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
             )
 
 
-
             Text(
-                text = "E-mail: " + state.mail,
+                text = "E-mail: " + runBlocking { repositoryUser.readMail() },
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier
@@ -112,7 +112,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
                     .padding(top = 57.dp)
             )
 
-            Text(
+           /* Text(
                 text = "Mobil:",
                 color = Color.White,
                 fontSize = 20.sp,
@@ -120,16 +120,23 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
                     .absoluteOffset(10.dp, 5.dp)
                     .padding(top = 110.dp))
 
+            */
+
 
         }
-        Spacer(modifier = Modifier.height(90.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+        TextButton(onClick = {navChange()}) {
+            Text("Skift kodeord",
+                color = Color(myColourString.toColorInt()))
+        }
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(onClick = { viewModel.logout()
             navStart()},
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
-                .height(30.dp)
-                .width(100.dp)
+                .height(40.dp)
+                .width(110.dp)
 
         )  {
             Text(text = "Log ud",
@@ -142,8 +149,8 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
        navStart() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier
-                .height(30.dp)
-                .width(100.dp)
+                .height(40.dp)
+                .width(110.dp)
         ){
             Text(text = "Slet profil",
                 color = Color.White)

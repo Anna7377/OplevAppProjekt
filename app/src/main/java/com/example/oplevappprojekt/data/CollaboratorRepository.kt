@@ -15,13 +15,14 @@ data class colJourney(
     val originaljourneyID: String = "",
     val country: String = "",
     val date: String = "",
-    val time: Date = Date(System.currentTimeMillis()) )
+    val time: Date = Date(System.currentTimeMillis())
+)
 
 val uid = Firebase.auth.currentUser?.uid.toString()
 val currentCollection = Firebase.firestore
     .collection("users")
     .document(uid)
-    .collection("colJourneys")
+    .collection("coljourneys")
 
 class CollaboratorRepository {
 
