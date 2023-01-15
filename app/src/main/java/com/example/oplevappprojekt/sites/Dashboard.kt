@@ -66,23 +66,23 @@ fun MyJourneyPage(
                 var categories = viewModel.getCategories()
                 var ideas = viewModel.getOtherIdeas()
                 if (viewModel.uiState.value.isOwned) {
-                    Row {
-                        Text(
-                            text = viewModel.uiState.value.currentdate.toString(),
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(30.dp, 10.dp)
-                        )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
                         genLink(viewModel = viewModel)
                     }
 
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Spacer(modifier = Modifier.width(30.dp))
                         editJourney(navEdit = { navEdit() })
                         Spacer(modifier = Modifier.width(20.dp))
                         deleteJourney(navMain = { navMain() }, viewModel = viewModel)
                     }
-                    Row {
-                      showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
+                    Row (verticalAlignment = Alignment.CenterVertically){
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
                     }
                 } else {
                     ideas = viewModel.getColIdeas()
