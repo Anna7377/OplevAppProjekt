@@ -60,7 +60,8 @@ fun MyJourneyPage(
                     journeyID = viewModel.uiState.value.originalJourneyID
                 }
                 TopCard(
-                    ImageId = R.drawable.image10,
+                    ImageId =
+                    viewModel.uiState.value.currentImg,
                     text = viewModel.uiState.value.currentcountry.toString()
                 )
                 var categories = viewModel.getCategories()

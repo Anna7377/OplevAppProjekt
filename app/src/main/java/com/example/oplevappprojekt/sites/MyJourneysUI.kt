@@ -74,7 +74,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=viewmodel.randomImg(),
+            CountryCards(img=it.img,
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
@@ -91,15 +91,14 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID)
+            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID, img = img)
             navIdeas()
         })
         , elevation = 4.dp) {
 
         Box() {
             Image(
-                painter = painterResource(id =
-                img),
+                painter = painterResource(id = img ),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth(),

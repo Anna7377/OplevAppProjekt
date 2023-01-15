@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.data
 
 import androidx.compose.ui.graphics.ImageBitmap
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journey
 import com.example.oplevappprojekt.ViewModel.ideas
 import com.google.firebase.auth.ktx.auth
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
+import java.util.concurrent.ThreadLocalRandom
 
 //s215722
 
@@ -87,7 +89,8 @@ class HardcodedJourneysRepository {
                "userID" to uid,
                "date" to date,
                "time" to Timestamp(System.currentTimeMillis()),
-               "isPinned" to false
+               "isPinned" to false,
+               "img" to randomImg()
            )
            journeys.document().set(journey)
        }
@@ -158,6 +161,19 @@ class HardcodedJourneysRepository {
             .get()
             .await().toObjects<ideas>()
     return idealist as ArrayList<ideas>
+    }
+
+    fun randomImg(): Int {
+        val i = ThreadLocalRandom.current().nextInt(0, 5)
+        var img: Int = R.drawable.image6
+        when (i) {
+            1 -> img = R.drawable.image1
+            2 -> img = R.drawable.image2
+            3 -> img = R.drawable.image3
+            4 -> img = R.drawable.image4
+            5 -> img = R.drawable.image5
+        }
+        return img
     }
    }
 

@@ -1,4 +1,5 @@
 package com.example.oplevappprojekt.data
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Auth
 import com.example.oplevappprojekt.ViewModel.Journey
 import com.google.firebase.auth.ktx.auth
@@ -9,14 +10,10 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.sql.Timestamp
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
-data class colJourney(
-    val originaljourneyID: String = "",
-    val country: String = "",
-    val date: String = "",
-    val time: Date = Date(System.currentTimeMillis())
-)
+
 
 val uid = Firebase.auth.currentUser?.uid.toString()
 val currentCollection = Firebase.firestore
@@ -37,7 +34,8 @@ class CollaboratorRepository {
                 "country" to original["country"].toString(),
                 "date" to original["date"].toString(),
                 "time" to Timestamp(System.currentTimeMillis()),
-            "isPinned" to false
+            "isPinned" to false,
+                "img" to original["img"].toString()
             )
             currentCollection.document().set(journey)
         }
@@ -69,6 +67,8 @@ class CollaboratorRepository {
         return cols
     }
 }
+
+
 
 
 
