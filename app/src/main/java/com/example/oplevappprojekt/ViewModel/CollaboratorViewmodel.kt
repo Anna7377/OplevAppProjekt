@@ -29,9 +29,9 @@ var col: ArrayList<String> = arrayListOf()
       }
       return col
    }
-   fun uncollab(orig: String){
+   fun uncollab(ID: String){
       runBlocking {
-         colrepo.uncollab(orig)
+         colrepo.uncollab(ID)
       }
    }
 }

@@ -45,9 +45,7 @@ class CollaboratorRepository {
     }
 
     suspend fun uncollab(orig: String) {
-        val del = currentCollection.whereEqualTo("originaljourneyID", orig).get().await()
-        val id = del.documents.get(0).id
-        currentCollection.document(id).delete()
+        currentCollection.document(orig).delete()
     }
 
     suspend fun showCol(orig: String): kotlin.collections.ArrayList<String> {
