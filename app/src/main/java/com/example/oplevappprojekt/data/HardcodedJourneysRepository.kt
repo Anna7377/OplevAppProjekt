@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import com.example.oplevappprojekt.ViewModel.Journey
 import com.example.oplevappprojekt.ViewModel.ideas
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -91,9 +92,22 @@ class HardcodedJourneysRepository {
            journeys.document().set(journey)
        }
 
-       fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean) {
+      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean) {
            journeys.document(journeyID).update("country", country,
                "date", date, "isPinned", isPinned)
+           val usersRef = Firebase.firestore.collection("users")
+           val users = usersRef.get().await()
+          var coljourneys: QuerySnapshot
+           for(i in 0..users.size()-1){
+               val uid = users.documents.get(i).id
+               coljourneys = usersRef.document(uid).collection("coljourneys")
+                   .whereEqualTo("originalJourneyID", journeyID).get().await()
+               for(i in 0..coljourneys.size()-1){
+                 val docid = coljourneys.documents.get(i).id
+                   usersRef.document(uid).collection("coljourneys").document(docid)
+                       .update("country", country, "date", date)
+               }
+           }
        }
 
        fun deleteJourney(ID: String) {

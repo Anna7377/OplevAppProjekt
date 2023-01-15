@@ -100,7 +100,8 @@ class Journeysviewmodel {
     }
 
     fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
-        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)
+        runBlocking {
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)}
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
         isPinned = isPinned)
     }
