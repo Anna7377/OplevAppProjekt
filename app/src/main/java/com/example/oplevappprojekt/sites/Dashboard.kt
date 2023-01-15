@@ -52,7 +52,7 @@ fun MyJourneyPage(
 ){
     Scaffold(content = {
         Surface {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                 countryname = viewModel.uiState.value.currentcountry.toString()
                 if(viewModel.uiState.value.isOwned){
                 journeyID = viewModel.uiState.value.currentJourneyID.toString()}
