@@ -44,7 +44,8 @@ class IdeasViewModel{
 
     }
     fun deselect(){
-_uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = "")
+_uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = "",
+categoryID = "")
     }
 
     fun createIdea(title: String, desc: String, link: String, journeyID: String){

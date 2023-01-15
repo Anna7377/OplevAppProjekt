@@ -203,15 +203,15 @@ Text("Inviter Medarrangør", color = Color.White)
     }
 }
 
-/* @Composable
-fun showCol(viewModel: CollaboratorViewmodel){
+@Composable
+fun showCol(viewModel: CollaboratorViewmodel, ID: String){
     val dialog = remember{mutableStateOf(false)}
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = { Text(text="Medarrangørere", color = Color.White) },
             text={ SelectionContainer() {
-               Text(text= viewModel.showCol(),
+               Text(text= viewModel.showCol(ID).toString(),
                     color = Color.White, ) }},
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
@@ -221,7 +221,7 @@ fun showCol(viewModel: CollaboratorViewmodel){
     }
 }
 
- */
+
 
 @Composable
 fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){

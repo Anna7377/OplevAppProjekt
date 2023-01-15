@@ -22,11 +22,12 @@ fun addJourney(orig: String){
    runBlocking { ret = colrepo.addJourney(orig) }
    _uiState.value = _uiState.value.copy(retText = ret )
 }
-   fun showCol(ID: String){
-
+   fun showCol(ID: String) : ArrayList<String>{
+var col: ArrayList<String> = arrayListOf()
       runBlocking {
-         colrepo.showCol(ID)
+         col = colrepo.showCol(ID)
       }
+      return col
    }
    fun uncollab(orig: String){
       runBlocking {
