@@ -60,19 +60,19 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
                 ) {
                     Spacer(modifier = Modifier.height(60.dp))
 
-                    val title = Title()
+                    val title = nameCat(text = "")
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
                     viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel), journeyID)
 
-                    val desc = Descriptions()
+                    val desc = nameCat(text = "")
 
                     Spacer(modifier = Modifier
                         .height(15.dp))
 
-                    val link = Link()
+                    val link = nameCat(text = "")
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
