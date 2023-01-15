@@ -42,6 +42,7 @@ fun MyJourneyPage(
     navCreate: () -> Unit,
     viewModel: Journeysviewmodel,
     viewModelIdea: IdeasViewModel,
+    viewModelcol: CollaboratorViewmodel,
     navEdit: () -> Unit,
     navMain: () -> Unit,
     navCreateIdea: ()->Unit,
@@ -79,6 +80,9 @@ fun MyJourneyPage(
                         editJourney(navEdit = { navEdit() })
                         Spacer(modifier = Modifier.width(20.dp))
                         deleteJourney(navMain = { navMain() }, viewModel = viewModel)
+                    }
+                    Row {
+                      showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
                     }
                 } else {
                     ideas = viewModel.getColIdeas()
@@ -221,7 +225,7 @@ fun showCol(viewModel: CollaboratorViewmodel, ID: String){
             backgroundColor = Color(myColourString.toColorInt()))
     }
     Button(onClick = {dialog.value=true}) {
-        Text("Inviter Medarrangør")
+        Text("Se Medarrangørere")
     }
 }
 

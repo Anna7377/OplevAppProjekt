@@ -122,7 +122,8 @@ fun OplevApp() {
                     navMain = {navigationController.navigate(mainroute)},
                     navCreateIdea = {navigationController.navigate(createcategory)}
                , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)},
-                createCat = {navigationController.navigate(createcatbackup)}, navProfile = {})
+                createCat = {navigationController.navigate(createcatbackup)}, navProfile = {},
+                viewModelcol = colviewmodel)
             }
             composable(route = createIdea) {
                 CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel)
