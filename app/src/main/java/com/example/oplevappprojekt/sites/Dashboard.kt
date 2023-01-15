@@ -87,10 +87,17 @@ fun MyJourneyPage(
                 } else {
                     ideas = viewModel.getColIdeas()
                     categories = viewModel.getColCategories()
+                    Row{
                     uncollab(
                         viewModel = CollaboratorViewmodel(),
                         orig = viewModel.uiState.value.currentJourneyID.toString()
                     ) {
+                    }
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
                     }
                 }
                 catCardList(
