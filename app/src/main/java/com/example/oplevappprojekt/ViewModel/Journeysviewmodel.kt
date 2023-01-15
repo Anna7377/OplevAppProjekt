@@ -112,9 +112,15 @@ class Journeysviewmodel {
 
     fun getCategories() : ArrayList<category>{
         var ret: ArrayList<category>
+        var ID: String
+        if(uiState.value.isOwned){
+            ID = uiState.value.currentJourneyID.toString()
+        }
+        else {
+            ID = uiState.value.originalJourneyID
+        }
         runBlocking {
-            System.out.println("journeyID is: "+uiState.value.currentJourneyID)
-            ret = repo.getCategories(uiState.value.currentJourneyID.toString())
+            ret = repo.getCategories(ID)
         }
         System.out.println("ret123: " + ret)
         return ret
