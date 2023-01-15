@@ -53,7 +53,11 @@ fun MyJourneyPage(
         Surface {
             Column(modifier = Modifier.fillMaxSize()) {
                 countryname = viewModel.uiState.value.currentcountry.toString()
-                journeyID = viewModel.uiState.value.currentJourneyID.toString()
+                if(viewModel.uiState.value.isOwned){
+                journeyID = viewModel.uiState.value.currentJourneyID.toString()}
+                else{
+                    journeyID = viewModel.uiState.value.originalJourneyID
+                }
                 TopCard(
                     ImageId = R.drawable.image10,
                     text = viewModel.uiState.value.currentcountry.toString()
