@@ -124,7 +124,7 @@ class HardcodedJourneysRepository {
            return journ?.img!!
        }
 
-       suspend fun setImage(ID: String, img: ImageBitmap) {
+       fun setImage(ID: String, img: ImageBitmap) {
            Firebase.firestore.collection("journeyimages").document(ID)
                .update("img", img)
        }
