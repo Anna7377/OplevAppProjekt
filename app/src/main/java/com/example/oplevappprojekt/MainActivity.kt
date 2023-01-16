@@ -14,7 +14,6 @@ import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import invite
@@ -120,12 +119,12 @@ fun OplevApp() {
                 MyJourneyPage(
                     navCreate = { navigationController.navigate(intermediarycreate) },
                     viewModel = journeyviewmodel,
-                    navEdit = { navigationController.navigate(createroute) },
+                    viewModelIdea = ideasViewModel,
+                    viewModelcol = colviewmodel,
+                    navEdit = { navigationController.navigate(createroute) }
+               ,
                     navMain = {navigationController.navigate(mainroute)},
-                    navCreateIdea = {navigationController.navigate(createcategory)}
-               , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)},
-                createCat = {navigationController.navigate(createcatbackup)}, navProfile = {},
-                viewModelcol = colviewmodel)
+                    navCatIdeas = {navigationController.navigate(catideas)}) { navigationController.navigate(createcatbackup) }
             }
             composable(route = createIdea) {
                 CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel,
