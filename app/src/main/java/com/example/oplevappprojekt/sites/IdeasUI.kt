@@ -13,7 +13,10 @@ fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit
 navLoad: ()->Unit){
     Scaffold(content = {
         Column() {
-        TopCard(ImageId = R.drawable.image10, text = countryname)
+        TopCard(ImageId = R.drawable.image10, text = countryname,
+        viewModel = Journeysviewmodel(),
+            navMain = navCreate
+        )
         val ideas = viewModel.getCategorisedIdeas()
         IdeaGrid(list = ideas,
             randomimg = journeyViewModel.randomImg(),
