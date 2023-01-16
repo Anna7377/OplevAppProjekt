@@ -1,13 +1,11 @@
-package com.example.oplevappprojekt.ViewModel
+package com.example.oplevappprojekt.viewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.example.oplevappprojekt.data.IdeaRepository
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 data class IdeaState(
     val isCategorySelected: Boolean = false,

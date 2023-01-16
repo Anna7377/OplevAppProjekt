@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.viewModel.IdeasViewModel
 
 @Composable
 fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit){

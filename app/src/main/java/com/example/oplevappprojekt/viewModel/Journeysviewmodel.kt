@@ -1,4 +1,4 @@
-package com.example.oplevappprojekt.ViewModel
+package com.example.oplevappprojekt.viewModel
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.State

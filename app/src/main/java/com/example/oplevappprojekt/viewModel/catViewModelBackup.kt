@@ -1,7 +1,4 @@
-package com.example.oplevappprojekt.ViewModel
-
-import com.example.oplevappprojekt.data.backupRepoCat
-import kotlinx.coroutines.runBlocking
+package com.example.oplevappprojekt.viewModel
 
 data class catState(
   val isCategorySelected: Boolean = false,

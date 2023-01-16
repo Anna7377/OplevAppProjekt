@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.oplevappprojekt.R
 import androidx.core.graphics.toColorInt
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
-import com.example.oplevappprojekt.sites.myColor
+import com.example.oplevappprojekt.viewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.sites.myColourString
 
 @Composable

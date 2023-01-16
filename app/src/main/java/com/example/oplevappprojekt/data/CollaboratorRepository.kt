@@ -1,7 +1,6 @@
 package com.example.oplevappprojekt.data
-import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.Journey
+import com.example.oplevappprojekt.viewModel.Journey
+import com.example.oplevappprojekt.viewModel.user
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -9,8 +8,6 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.sql.Timestamp
-import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
 

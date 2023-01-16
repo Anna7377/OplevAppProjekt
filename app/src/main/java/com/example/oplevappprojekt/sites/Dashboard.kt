@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
-import com.example.oplevappprojekt.ViewModel.IdeasViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.viewModel.CollaboratorViewmodel
+import com.example.oplevappprojekt.viewModel.IdeasViewModel
+import com.example.oplevappprojekt.viewModel.Journeysviewmodel
+import com.example.oplevappprojekt.viewModel.ideas
 import java.util.*
 
 

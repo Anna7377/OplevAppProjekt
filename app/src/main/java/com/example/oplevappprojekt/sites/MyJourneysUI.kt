@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,8 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.viewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.Countries
 
 
@@ -54,7 +51,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                   ){
                       Image(painter = painterResource(id = R.drawable.topmap1), contentDescription = "topmap",
                           modifier = Modifier.fillMaxSize())}
-                  var journeylist: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>
+                  var journeylist: ArrayList<com.example.oplevappprojekt.viewModel.Journey>
 
                   //TopCard(ImageId = R.drawable.topmap1, text = "Mine Rejser")
                   ChangePageText(text = "Tilføj rejse via link", onClick = {navInvite()})
@@ -72,7 +69,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 
 // list of cards for journeys
 @Composable
-fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
+fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.viewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
             CountryCards(img=it.img,

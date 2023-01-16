@@ -1,8 +1,6 @@
 package com.example.oplevappprojekt.data
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
-import com.example.oplevappprojekt.data.InspirationText
-import com.google.firebase.auth.FirebaseAuth
+import com.example.oplevappprojekt.viewModel.user
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -12,13 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-data class user(
 
-    val name: String = " ",
-    val userID: String = " ",
-    val mail: String = " ",
-    val verified: String = ""
-)
 
 class MyUserProfileRepository {
 

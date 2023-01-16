@@ -1,11 +1,8 @@
-package com.example.oplevappprojekt.ViewModel
+package com.example.oplevappprojekt.viewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.example.oplevappprojekt.data.CollaboratorRepository
-import com.example.oplevappprojekt.data.uid
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
 
 data class colstate(

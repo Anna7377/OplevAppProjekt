@@ -2,18 +2,14 @@ package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.viewModel.AuthViewModel
+import com.example.oplevappprojekt.viewModel.MyUserProfileViewModel
 import com.example.oplevappprojekt.data.MyUserProfileRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -37,12 +33,11 @@ import kotlinx.coroutines.runBlocking
 @Preview
 @Composable
 fun profilePrev(){
-    UserProfile({}, {}, AuthViewModel(), {},{})
+    UserProfile({}, {},MyUserProfileViewModel() ,AuthViewModel(), {},{})
 }
 val repositoryUser = MyUserProfileRepository()
 @Composable
-fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit, navChange:()->Unit){
-   val state = viewModel.uiState.value
+fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit,userviewModel: MyUserProfileViewModel, viewModel: AuthViewModel, navStart:()->Unit, navChange:()->Unit){
     Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInspo()}, onClick2 = {navMain()}, onClick3 = {})},
         content =
         {
@@ -95,8 +90,10 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
 
         ) {
+            println(userviewModel.readName())
             Text(
-                text = "Navn: " + runBlocking { repositoryUser.readName() },
+
+                text = "Navn: " + userviewModel.readName(),
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
@@ -104,7 +101,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
 
             Text(
-                text = "E-mail: " + runBlocking { repositoryUser.readMail() },
+                text = "E-mail: " + userviewModel.readMail(),
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier
@@ -145,7 +142,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(onClick = { viewModel.deleteUser()
+        Button(onClick = { viewModel.deleteUser(Firebase.auth.currentUser?.uid.toString())
        navStart() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt())),
             modifier = Modifier

@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
+import com.example.oplevappprojekt.viewModel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.runBlocking
 
@@ -24,7 +24,7 @@ import kotlinx.coroutines.runBlocking
 
 @Composable
 fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit) {
-    viewModel.uiState.value
+
 
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(
@@ -55,7 +55,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("jasmin.clemmensen@gmail.com", "test123", context, activity) }
+                viewModel.SignIn(mail, pass, context, activity) }
                if(FirebaseAuth.getInstance().currentUser!=null)
                     navMain() }
             , enabled)
@@ -71,7 +71,6 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
 @Composable
 fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> Unit) {
-    viewModel.uiState.value
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
             .height(20.dp)
@@ -121,9 +120,8 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> 
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Opret", onClick = {
-                runBlocking {
                     viewModel.SignUp(mail, pass, confpass, context, activity, name)
-                }
+
                 viewModel.emailVerification()
                 if (FirebaseAuth.getInstance().currentUser!=null){
                     navMain()

@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.IdeasViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.viewModel.IdeasViewModel
+import com.example.oplevappprojekt.viewModel.Journeysviewmodel
 
 //s215726 & s213370
 

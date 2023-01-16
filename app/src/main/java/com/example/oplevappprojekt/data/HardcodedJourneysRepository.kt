@@ -2,8 +2,8 @@ package com.example.oplevappprojekt.data
 
 import androidx.compose.ui.graphics.ImageBitmap
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.Journey
-import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.viewModel.Journey
+import com.example.oplevappprojekt.viewModel.ideas
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore

@@ -10,13 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.oplevappprojekt.ViewModel.*
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
+import com.example.oplevappprojekt.viewModel.*
+import com.example.oplevappprojekt.viewModel.AuthViewModel
+import com.example.oplevappprojekt.viewModel.Journeysviewmodel
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import invite
@@ -121,7 +119,8 @@ fun OplevApp(start: String) {
                     navMain = { navigationController.navigate(mainroute) },
                     viewModel = authviewmodel,
                     navStart = { navigationController.navigate(startRoute) },
-                    navChange = { navigationController.navigate(changepassword) }
+                    navChange = { navigationController.navigate(changepassword) },
+                userviewModel = MyUserProfileViewModel()
                 )
             }
             composable(

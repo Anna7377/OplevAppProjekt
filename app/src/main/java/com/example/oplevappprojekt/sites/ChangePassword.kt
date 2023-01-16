@@ -14,9 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.example.oplevappprojekt.ViewModel.Auth
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import org.checkerframework.checker.units.qual.Current
+import com.example.oplevappprojekt.viewModel.AuthViewModel
 
 @Preview
 @Composable
@@ -27,7 +25,6 @@ fun PasswordChange(){
 //215726
 @Composable
 fun Password(viewModel: AuthViewModel, navigation: () -> Unit){
-    val state = viewModel.uiState.value
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {

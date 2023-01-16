@@ -1,12 +1,8 @@
 package com.example.oplevappprojekt.data
 
-import com.example.oplevappprojekt.ViewModel.ideas
-import com.google.firebase.auth.ktx.auth
+import com.example.oplevappprojekt.viewModel.ideas
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
