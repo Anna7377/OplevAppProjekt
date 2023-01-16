@@ -17,17 +17,7 @@ data class category(
 )
 
 class IdeaRepository(){
-   fun setIdea(title: String, desc: String, link: String,
-               journeyID: String?, categoryID: String? ){
-       val idea = hashMapOf(
-           "title" to title,
-           "desc" to desc,
-           "link" to link,
-           "journeyID" to journeyID,
-           "categoryID" to categoryID
-       )
-       currentCollection().document().set(idea)
-   }
+
 
     suspend fun setcategory(name: String, ID: String) : String{
         var ret = "succesfully added"

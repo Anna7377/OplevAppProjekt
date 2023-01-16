@@ -67,7 +67,6 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                     Spacer(modifier = Modifier.height(60.dp))
 
                     val title = nameCat(text = viewModel.uiState.value.ideatitle)
-
                     Spacer(modifier = Modifier
                         .height(10.dp))
                     var text = "Vælg Kategori"
@@ -93,9 +92,14 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 if(viewModel.uiState.value.isCategorySelected){
     nav = navBack
 }
+                    var action = { viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
+                        img = img)}
+                    if(viewModel.uiState.value.isIdeaSelected){
+                        action = {viewModel.editIdea(title = title, desc = desc, link = link,
+                            img = img)}
+                    }
                     Button(onClick = {
-                        viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
-                        img = img)
+                        action()
                         nav()
                      },
                         shape = RoundedCornerShape(60.dp),
