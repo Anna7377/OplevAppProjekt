@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
-import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.Countries
 
@@ -48,7 +45,8 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
                   Box(
-                      modifier = Modifier.height(200.dp)
+                      modifier = Modifier
+                          .height(200.dp)
                           .fillMaxWidth()
                   ){
                       Image(painter = painterResource(id = R.drawable.topmap1), contentDescription = "topmap",
@@ -91,7 +89,12 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID)
+            viewModel.selectJourney(
+                country = country,
+                date = date,
+                ID = ID,
+                originalJourneyID = originalJourneyID
+            )
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -232,7 +235,28 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                         ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal)
                         navMain()}
                 }
+
+                IconButton(onClick ={
+                    val oldPinVal = viewModel.uiState.value.isPinned
+                    val newPinVal = !oldPinVal
+
+                    if (viewModel.uiState.value.isJourneySelected) {
+                        viewModel.editJourney(
+                            country = selectedItem,
+                            date = dato + "/" + month + "/" + year,
+                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
+                        )
+                        navMain()
+                    }}) {
+                    Image(painter = painterResource(id = R.drawable.pin), contentDescription = "Pin", Modifier.size(80.dp)
+                    )
+
+                }
+
+
+                /*
                 TextButton(onClick = {
+
                     val oldPinVal = viewModel.uiState.value.isPinned
                     val newPinVal = !oldPinVal
 
@@ -245,9 +269,11 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                         navMain()
                     }
                 }
+
+
                 ) {
                     Text(text = "Pin", color = Color.Red)
-                }
+                }*/
 
                 Button(
                     onClick = onClick,

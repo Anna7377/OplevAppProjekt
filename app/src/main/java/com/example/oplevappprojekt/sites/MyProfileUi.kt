@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,7 +75,7 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
         Image(painter = painterResource(id = R.drawable.user),
             contentDescription = "profile",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(190.dp)
 
 
             )
@@ -86,26 +87,26 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
             fontSize = 15.sp,
 
          */
-        Spacer(modifier = Modifier.height(40.dp))
+        //Spacer(modifier = Modifier.height(40.dp))
 
-        Box(modifier = Modifier
+         Box(modifier = Modifier
             .height(130.dp)
             .width(330.dp)
-            .background(Color(myColourString.toColorInt()))
 
 
-        ) {
+
+         ) {
             Text(
-                text = "Navn: " + runBlocking { repositoryUser.readName() },
-                color = Color.White,
+                text = "Navn:" + runBlocking { repositoryUser.readName() }, fontWeight = FontWeight.SemiBold,
+                color = Color.Black,
                 fontSize = 20.sp,
                 modifier = Modifier.absoluteOffset(10.dp, 11.dp)
             )
 
 
             Text(
-                text = "E-mail: " + runBlocking { repositoryUser.readMail() },
-                color = Color.White,
+                text = "E-mail: " + runBlocking { repositoryUser.readMail() }, fontWeight = FontWeight.Bold,
+                color = Color.Black,
                 fontSize = 20.sp,
                 modifier = Modifier
                     .absoluteOffset(10.dp, 5.dp)

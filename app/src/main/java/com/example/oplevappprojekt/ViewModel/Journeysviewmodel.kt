@@ -143,6 +143,7 @@ fun setImg(img: Bitmap?) {
     repo.setImage(uiState.value.currentJourneyID.toString(), img=img?.asImageBitmap()!!)
 }}
 
+
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6
