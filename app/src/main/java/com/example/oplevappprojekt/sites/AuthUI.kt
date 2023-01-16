@@ -3,6 +3,8 @@ package com.example.oplevappprojekt.sites
 
 
 import android.app.Activity
+import android.text.InputType
+import android.text.Layout
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable

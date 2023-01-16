@@ -31,13 +31,15 @@ import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import java.time.format.TextStyle
 
 
 // Dynamic Composables, used across multiple sites
 //S215722
+
 @Composable
-fun TopCard(ImageId: Int, text: String) {
+fun TopCard(ImageId: Int, text: String, viewModel: Journeysviewmodel, navMain: () -> Unit) {
     Card(modifier = Modifier.padding(4.dp), elevation = 4.dp,
         shape = RoundedCornerShape(20.dp)
     ) {
@@ -50,7 +52,7 @@ fun TopCard(ImageId: Int, text: String) {
                     .height(200.dp),
                 contentScale = ContentScale.Crop
             )
-Row(){
+Row(verticalAlignment = Alignment.Bottom){
     Text(
         text = text,
         modifier = Modifier.padding(top=110.dp),
@@ -61,11 +63,45 @@ Row(){
         color = Color.White,
 
         )
+    Spacer(modifier = Modifier.width(150.dp))
+    IconButton(modifier = Modifier
+        , onClick ={
+        val oldPinVal = viewModel.uiState.value.isPinned
+        val newPinVal = !oldPinVal
+            val oldUnPinVal = viewModel.uiState.value.unPinned
+            val newUnPinVal = !oldUnPinVal
+        if (viewModel.uiState.value.isJourneySelected) {
+            if (viewModel.uiState.value.isPinned){
+                viewModel.editJourney(
+                    country = viewModel.uiState.value.currentcountry.toString(),
+                    date = viewModel.uiState.value.currentdate.toString(),
+                    ID = viewModel.uiState.value.currentJourneyID.toString(),
+                    isPinned = newPinVal,
+                    unPinned = oldPinVal,
+                )
+            }
+            else{
+                viewModel.editJourney(
+                    country = viewModel.uiState.value.currentcountry.toString(),
+                    date = viewModel.uiState.value.currentdate.toString(),
+                    ID = viewModel.uiState.value.currentJourneyID.toString(),
+                    isPinned = newPinVal,
+                    unPinned = oldPinVal
+                )
+            }
+
+             navMain()
+        }}) {
+        Image(painter = painterResource(id = R.drawable.pin), contentDescription = "Pin", Modifier.size(80.dp)
+        )
+
 }
+
 
 
         }
     }
+}
 }
 
 @Composable
@@ -206,12 +242,6 @@ fun BigLogo(){
 
 }
 
-@Preview
-@Composable
-fun Bottombarprev() {
-    BottomBar({}, {}, {})
-}
-
 @Composable
 fun Fob(navCreate: ()->Unit){
     FloatingActionButton(
@@ -273,3 +303,5 @@ fun Load(navBack: ()->Unit, navIdeas:()->Unit, viewModel: IdeasViewModel){
 
     }
 }
+
+

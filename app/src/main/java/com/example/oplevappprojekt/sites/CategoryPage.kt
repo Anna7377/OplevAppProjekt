@@ -35,9 +35,7 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
             Column(modifier = Modifier.fillMaxSize()) {
 
 
-
-
-                TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString())
+                TopCard(ImageId = R.drawable.image10, text = state.currentcountry.toString(), viewModel = viewModel, navMain = navCategories)
                 Text(text = state.currentdate.toString())
 
                 Button(onClick = { },

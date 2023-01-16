@@ -92,6 +92,7 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
+
             viewModel.selectJourney(
                 country = country,
                 date = date,
@@ -99,6 +100,7 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
                 originalJourneyID = originalJourneyID,
                 img = img
             )
+
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -222,8 +224,6 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
             val month = Month()
             val year = Year()
 
-
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -235,27 +235,13 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
                 System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
                     var pinVal = viewModel.uiState.value.isPinned
+                    var unPinVal = viewModel.uiState.value.unPinned
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,
-                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal)
+                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal, unPinVal)
                         navMain()}
                 }
-                TextButton(onClick = {
-                    val oldPinVal = viewModel.uiState.value.isPinned
-                    val newPinVal = !oldPinVal
-
-                    if (viewModel.uiState.value.isJourneySelected) {
-                        viewModel.editJourney(
-                            country = selectedItem,
-                            date = dato + "/" + month + "/" + year,
-                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
-                        )
-                        navMain()
-                    }
-                }
-                ) {
-                    Text(text = "Pin", color = Color.Red)
-                }
+                Spacer(modifier = Modifier.size(12.dp))
 
                 Button(
                     onClick = onClick,

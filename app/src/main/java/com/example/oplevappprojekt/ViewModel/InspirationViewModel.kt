@@ -14,8 +14,8 @@ class InspirationViewModel : ViewModel() {
         ret = insprepo.read() }
         return ret
     }
-
     fun update(insp: String){
+        System.out.println()
         insprepo.update(insp=insp, ID = Firebase.auth.currentUser?.uid.toString())
     }
 }
