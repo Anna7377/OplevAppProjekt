@@ -25,6 +25,7 @@ import com.example.oplevappprojekt.viewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.category
 
 
+
 // to create category
 @Composable
 fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
