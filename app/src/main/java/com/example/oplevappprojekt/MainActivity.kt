@@ -149,23 +149,6 @@ fun OplevApp(start: String) {
                     navigation = { navigationController.navigate(profile) },
                 )
             }
-            /*
-            composable(route = createcategory) {
-                CreateCategory(navCategories = { navigationController.navigate(categorypage) },navBack = {navigationController.navigate(idearoute)})
-
-            }
-
-             */
-           /* composable(route = categorypage) {
-                CategoryPage(
-                    navCategories =
-                    { navigationController.navigate(createcategory) },
-                    Journeysviewmodel(), journeyState(),
-
-                )
-            }
-
-            */
             composable(route = createcatbackup){
                 createcat(
                     navDash = {navigationController.navigate(idearoute)},
@@ -183,8 +166,6 @@ fun OplevApp(start: String) {
             }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})
-
-
             }
         }
     }

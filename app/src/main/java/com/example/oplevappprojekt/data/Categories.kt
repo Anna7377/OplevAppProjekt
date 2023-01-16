@@ -21,7 +21,6 @@ class Categories {
         return withContext(Dispatchers.IO){categorylist}
     }
 
-
     fun addCategory(title:String){
         val category = hashMapOf(
             "title" to title,
