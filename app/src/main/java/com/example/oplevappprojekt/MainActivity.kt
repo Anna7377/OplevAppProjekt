@@ -14,7 +14,6 @@ import com.example.oplevappprojekt.ViewModel.*
 import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
-import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
 import invite
@@ -78,7 +77,8 @@ fun OplevApp() {
                 ) { navigationController.navigate(mainroute) }
             }
             composable(route = inviteroute) {
-                invite(viewmodel = colviewmodel)
+                invite(viewmodel = colviewmodel,
+                navBack = { navigationController.navigate(mainroute) } )
             }
             composable(route = mainroute) {
                 MainPage(navigationInsp = { navigationController.navigate(inspirationroute) },
@@ -99,6 +99,7 @@ fun OplevApp() {
             composable(route = createroute) {
                 Trip(
                     navMain = { navigationController.navigate(mainroute) },
+                    navBack = {navigationController.navigate(mainroute)},
                     viewModel = journeyviewmodel
                 )
             }
@@ -118,14 +119,16 @@ fun OplevApp() {
                 MyJourneyPage(
                     navCreate = { navigationController.navigate(intermediarycreate) },
                     viewModel = journeyviewmodel,
-                    navEdit = { navigationController.navigate(createroute) },
+                    viewModelIdea = ideasViewModel,
+                    viewModelcol = colviewmodel,
+                    navEdit = { navigationController.navigate(createroute) }
+               ,
                     navMain = {navigationController.navigate(mainroute)},
-                    navCreateIdea = {navigationController.navigate(createcategory)}
-               , viewModelIdea = ideasViewModel,  navCatIdeas = {navigationController.navigate(catideas)},
-                createCat = {navigationController.navigate(createcatbackup)}, navProfile = {})
+                    navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) }, navProfile ={ navigationController.navigate(profile) } )
             }
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel)
+                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel,
+                navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = changepassword) {
                 Password(
@@ -134,7 +137,7 @@ fun OplevApp() {
                 )
             }
             composable(route = createcategory) {
-                CreateCategory(navCategories = { navigationController.navigate(categorypage) })
+                CreateCategory(navCategories = { navigationController.navigate(categorypage) },navBack = {navigationController.navigate(idearoute)})
 
             }
             composable(route = categorypage) {
@@ -153,10 +156,10 @@ fun OplevApp() {
             }
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
-                navIdea={ navigationController.navigate(createIdea) } , ideasViewModel)}
+                navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
             composable(route = catideas){
             CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(idearoute)},
-            journeysviewmodel = journeyviewmodel)
+            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})

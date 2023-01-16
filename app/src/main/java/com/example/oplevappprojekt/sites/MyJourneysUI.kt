@@ -72,7 +72,7 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
 fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.oplevappprojekt.ViewModel.Journey>, navIdeas: ()-> Unit){
     LazyColumn {
         items(list) {
-            CountryCards(img=viewmodel.randomImg(),
+            CountryCards(img=it.img,
                 country = it.country,
                 navIdeas=navIdeas,
                 viewModel = viewmodel,
@@ -89,20 +89,25 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
+/*
             viewModel.selectJourney(
                 country = country,
                 date = date,
                 ID = ID,
                 originalJourneyID = originalJourneyID
             )
+            
+ */
+
+            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID, img = img)
+
             navIdeas()
         })
         , elevation = 4.dp) {
 
         Box() {
             Image(
-                painter = painterResource(id =
-                img),
+                painter = painterResource(id = img ),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -130,7 +135,7 @@ val myColor = "#455467"
 
 // Acts as a popup
 @Composable
-fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
+fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -286,6 +291,10 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                     )
                 }
             }
+            Box(modifier = Modifier
+                .size(30.dp)
+                .absoluteOffset(x = 320.dp, y = 0.dp)){
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))}
         }
     }
 }

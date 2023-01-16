@@ -1,7 +1,8 @@
 package com.example.oplevappprojekt.data
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Auth
+import com.example.oplevappprojekt.ViewModel.Journey
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -9,14 +10,10 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.sql.Timestamp
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
-data class colJourney(
-    val originaljourneyID: String = "",
-    val country: String = "",
-    val date: String = "",
-    val time: Date = Date(System.currentTimeMillis())
-)
+
 
 val uid = Firebase.auth.currentUser?.uid.toString()
 val currentCollection = Firebase.firestore
@@ -37,7 +34,8 @@ class CollaboratorRepository {
                 "country" to original["country"].toString(),
                 "date" to original["date"].toString(),
                 "time" to Timestamp(System.currentTimeMillis()),
-            "isPinned" to false
+            "isPinned" to false,
+                "img" to original["img"].toString()
             )
             currentCollection.document().set(journey)
         }
@@ -45,28 +43,32 @@ class CollaboratorRepository {
     }
 
     suspend fun uncollab(orig: String) {
-        val del = currentCollection.whereEqualTo("originaljourneyID", orig).get().await()
-        val id = del.documents.get(0).id
-        currentCollection.document(id).delete()
+        currentCollection.document(orig).delete()
     }
 
     suspend fun showCol(orig: String): kotlin.collections.ArrayList<String> {
         val users = Firebase.firestore.collection("users").get().await()
-        val coljourneys = Firebase.firestore.collection("users")
-        val cols = ArrayList<String>()
-        for (i in 1..users.size()) {
+        val usersRef = Firebase.firestore.collection("users")
+        var cols = ArrayList<String>()
+        for (i in 0..users.size()-1) {
             val uid = users.documents.get(i).id
-            val userobj = coljourneys.document(uid).get().await().toObject<Auth>()
-            val obj = coljourneys.document(uid)
-                .collection("coljourneys")
-                .whereEqualTo("originaljourneyID", orig).get().await().toObjects<colJourney>()
-            if (!obj.isEmpty()) {
-                cols.add(userobj?.userName.toString())
+            System.out.println(uid)
+            val userobj = usersRef.document(uid).collection("coljourneys").
+                whereEqualTo("originalJourneyID", orig).get().await().toObjects<Journey>()
+            System.out.println(userobj)
+            if (!userobj.isEmpty()) {
+                val name = usersRef.document(uid).get().await().toObject<user>()?.name.toString()
+                cols.add(name)
             }
+        }
+        if(cols.isEmpty()){
+            cols = arrayListOf("Ingen Medarrangørere")
         }
         return cols
     }
 }
+
+
 
 
 

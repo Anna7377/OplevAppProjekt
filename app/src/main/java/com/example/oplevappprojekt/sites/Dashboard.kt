@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
@@ -30,7 +29,6 @@ import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.ideas
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 typealias ComposableFun = @Composable () -> Unit
@@ -42,47 +40,65 @@ fun MyJourneyPage(
     navCreate: () -> Unit,
     viewModel: Journeysviewmodel,
     viewModelIdea: IdeasViewModel,
+    viewModelcol: CollaboratorViewmodel,
     navEdit: () -> Unit,
     navMain: () -> Unit,
-    navCreateIdea: ()->Unit,
-    navCatIdeas: ()->Unit,
-    navProfile: ()->Unit,
-    createCat: ()->Unit
+    navCatIdeas: () -> Unit,
+    createCat: () -> Unit,
+    navProfile: () -> Unit
 ){
-    Scaffold(content = {
+    Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
+        content =
+        {
+    //Scaffold(content = {
         Surface {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                 countryname = viewModel.uiState.value.currentcountry.toString()
-                journeyID = viewModel.uiState.value.currentJourneyID.toString()
+                if(viewModel.uiState.value.isOwned){
+                journeyID = viewModel.uiState.value.currentJourneyID.toString()}
+                else{
+                    journeyID = viewModel.uiState.value.originalJourneyID
+                }
                 TopCard(
-                    ImageId = R.drawable.image10,
+                    ImageId =
+                    viewModel.uiState.value.currentImg,
                     text = viewModel.uiState.value.currentcountry.toString()
                 )
                 var categories = viewModel.getCategories()
                 var ideas = viewModel.getOtherIdeas()
                 if (viewModel.uiState.value.isOwned) {
-                    Row {
-                        Text(
-                            text = viewModel.uiState.value.currentdate.toString(),
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(30.dp, 10.dp)
-                        )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
                         genLink(viewModel = viewModel)
                     }
 
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Spacer(modifier = Modifier.width(30.dp))
                         editJourney(navEdit = { navEdit() })
                         Spacer(modifier = Modifier.width(20.dp))
                         deleteJourney(navMain = { navMain() }, viewModel = viewModel)
                     }
+                    Row (verticalAlignment = Alignment.CenterVertically){
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
+                    }
                 } else {
                     ideas = viewModel.getColIdeas()
                     categories = viewModel.getColCategories()
+                    Row{
                     uncollab(
                         viewModel = CollaboratorViewmodel(),
                         orig = viewModel.uiState.value.currentJourneyID.toString()
                     ) {
+                    }
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
                     }
                 }
                 catCardList(
@@ -100,11 +116,8 @@ fun MyJourneyPage(
             //viewModelIdea.deselect()
         })
 
-   /* Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
-        content =
-        {
-})*/
 }
+
 
 
  @OptIn(ExperimentalFoundationApi::class)
@@ -135,8 +148,8 @@ fun IdeaBox(idea: ideas) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
             .clickable(onClick = { dialog.value = true })
-            .width(200.dp)
-            .height(200.dp)
+            .width(150.dp)
+            .height(150.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(15))) {
             Image(
@@ -203,25 +216,25 @@ Text("Inviter Medarrangør", color = Color.White)
     }
 }
 
-/* @Composable
-fun showCol(viewModel: CollaboratorViewmodel){
+@Composable
+fun showCol(viewModel: CollaboratorViewmodel, ID: String){
     val dialog = remember{mutableStateOf(false)}
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = { Text(text="Medarrangørere", color = Color.White) },
             text={ SelectionContainer() {
-               Text(text= viewModel.showCol(),
+               Text(text= viewModel.showCol(ID).toString(),
                     color = Color.White, ) }},
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
     Button(onClick = {dialog.value=true}) {
-        Text("Inviter Medarrangør")
+        Text("Se Medarrangørere")
     }
 }
 
- */
+
 
 @Composable
 fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
@@ -233,7 +246,7 @@ fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit
 }
 
 @Composable
-fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel){
+fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center)
@@ -253,7 +266,13 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
             modifier = Modifier
                 .fillMaxSize()
                 .padding(30.dp)
-        )}
+        )
+        Box(modifier = Modifier
+            .size(30.dp)
+            .absoluteOffset(x = 320.dp, y = 0.dp)){
+            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+        }
+    }
         MaterialTheme(
             content =
             {

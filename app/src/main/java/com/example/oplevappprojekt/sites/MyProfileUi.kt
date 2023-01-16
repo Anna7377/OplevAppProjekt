@@ -156,6 +156,12 @@ fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: Aut
             Text(text = "Slet profil",
                 color = Color.White)
         }
+        Text(
+            text = "Verifikations status: " + runBlocking { repositoryUser.userVerified() },
+            color = Color(myColourString.toColorInt()),
+            fontSize = 15.sp,
+            modifier = Modifier.absoluteOffset(10.dp, 11.dp)
+        )
     }
 })
 }

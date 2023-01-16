@@ -151,7 +151,9 @@ class AuthViewModel:ViewModel() {
                     Log.d(TAG, "Verifikations e-mail er blevet sendt.")
                 }
             }
-}}
+}
+
+}
 
 
 /*

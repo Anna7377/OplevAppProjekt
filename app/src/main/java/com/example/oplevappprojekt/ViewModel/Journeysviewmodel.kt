@@ -30,7 +30,8 @@ data class Journey(
     val userID: String = "",
     var JourneyID: String = "",
     val originalJourneyID: String = ".",
-    var isPinned: Boolean = false
+    var isPinned: Boolean = false,
+    var img: Int = R.drawable.image11
 )
 
 data class journeyState(
@@ -41,7 +42,8 @@ data class journeyState(
 var userjourneys: ArrayList<Journey> = arrayListOf(),
 var isPinned: Boolean = false,
 val isOwned: Boolean = true,
-val originalJourneyID: String = ".")
+val originalJourneyID: String = ".",
+val currentImg: Int = R.drawable.image11)
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
@@ -76,12 +78,11 @@ class Journeysviewmodel {
     }
 
     fun editCategory(name: String, ID: String){
-        println("category in vm is: " + ID)
         repo.editCategory(name=name, ID=ID)
     }
 
 
-    fun selectJourney(country: String, date: String, ID: String, originalJourneyID: String) {
+    fun selectJourney(img: Int, country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }
 
@@ -90,7 +91,8 @@ class Journeysviewmodel {
             currentJourneyID = ID,
             isJourneySelected = true,
             originalJourneyID = originalJourneyID,
-        isOwned = !iscol)
+        isOwned = !iscol,
+        currentImg = img)
 
     }
 
@@ -100,7 +102,8 @@ class Journeysviewmodel {
     }
 
     fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
-        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)
+        runBlocking {
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)}
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
         isPinned = isPinned)
     }
@@ -112,9 +115,15 @@ class Journeysviewmodel {
 
     fun getCategories() : ArrayList<category>{
         var ret: ArrayList<category>
+        var ID: String
+        if(uiState.value.isOwned){
+            ID = uiState.value.currentJourneyID.toString()
+        }
+        else {
+            ID = uiState.value.originalJourneyID
+        }
         runBlocking {
-            System.out.println("journeyID is: "+uiState.value.currentJourneyID)
-            ret = repo.getCategories(uiState.value.currentJourneyID.toString())
+            ret = repo.getCategories(ID)
         }
         System.out.println("ret123: " + ret)
         return ret
