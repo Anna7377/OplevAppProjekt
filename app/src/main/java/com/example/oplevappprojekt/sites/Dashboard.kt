@@ -207,6 +207,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             .absoluteOffset(x = 0.dp, y = 115.dp)
                             .height(35.dp)
                             .width(85.dp)
+                            .padding(bottom = 5.dp)
                     ) {
                         Text(
                             text = "Rediger",
@@ -226,6 +227,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             .absoluteOffset(x = 0.dp, y = 115.dp)
                             .height(35.dp)
                             .width(85.dp)
+                            .padding(top=5.dp)
                     ) {
                         Text(
                             text = "Slet",
@@ -251,7 +253,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                  },
 
 
-            confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
+            confirmButton = { TextButton(onClick = {dialog.value=false}, modifier = Modifier.padding(bottom = 10.dp, start = 10.dp)) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
 
         )
