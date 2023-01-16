@@ -112,8 +112,9 @@ fun MyJourneyPage(
                 catCardList(
                     catList = categories,
                     viewModel = viewModelIdea,
-                    navCatIdeas,
-                    navEdit = createCat
+                    navLoad = navLoad,
+                    navIdeas = navCatIdeas,
+                    navEdit = createCat,
                 )
                 IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
                     viewModelIdea, navLoad = navLoad)
@@ -122,7 +123,6 @@ fun MyJourneyPage(
     },
         floatingActionButton = {
             Fob(navCreate = navCreate)
-            //viewModelIdea.deselect()
         })
 
 }
@@ -201,6 +201,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->
                 }
                 Button(
                     onClick = {viewModel.deleteIdea(idea.ID)
+                        println("in the button")
                               navLoad()},
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
                     modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)

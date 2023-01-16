@@ -138,12 +138,14 @@ return thistext.value
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun catCardList(catList: ArrayList<category>, viewModel: IdeasViewModel, navIdeas: () -> Unit,
+fun catCardList(navLoad: ()->Unit,
+    catList: ArrayList<category>, viewModel: IdeasViewModel, navIdeas: () -> Unit,
 navEdit: ()->Unit) {
     val itemsinColumn = mutableListOf<ComposableFun>()
     for (category in catList) {
         val tempIdea: ComposableFun = {
-            catCard(category=catList.get(0), viewModel, navIdeas, navEdit)
+            catCard(category=catList.get(0), viewModel, navIdeas, navEdit = navEdit,
+            navLoad = navLoad)
         }
         itemsinColumn.add(tempIdea)
     }
@@ -154,10 +156,12 @@ navEdit: ()->Unit) {
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
-            item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas, navEdit) }
+            item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas,
+                navEdit = navEdit, navLoad = navLoad) }
         } } }}
 @Composable
-fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit,
+fun catCard(category: category, viewModel: IdeasViewModel,
+            navIdeas: ()->Unit, navLoad: () -> Unit,
 navEdit: () -> Unit){
     Card(modifier = Modifier
         .height(52.dp)
@@ -184,8 +188,12 @@ navEdit: () -> Unit){
             )
             Row() {
                 Button(onClick = {
-                    viewModel.selectCat(ID = category.categoryID, name = category.name)
-                    viewModel.deleteCategory(category.categoryID)}, modifier = Modifier.offset(x=310.dp), colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt()))) {
+                    viewModel.selectCat(ID = category.categoryID,
+                        name = category.name)
+                    navLoad()
+                    viewModel.deleteCategory(category.categoryID) },
+                    modifier = Modifier.offset(x=310.dp),
+                    colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt()))) {
                     Text(text="Slet", color = Color.White)
                 }
             Button(onClick = { navEdit()

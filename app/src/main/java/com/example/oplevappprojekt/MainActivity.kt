@@ -53,6 +53,7 @@ fun OplevApp(start: String) {
         val authviewmodel = AuthViewModel()
         val ideasViewModel = IdeasViewModel()
         val startRoute = "start"
+        val loadRoute = "load"
         val mainroute = "main"
         val profile = "profile"
         val loginRoute = "logIn"
@@ -172,10 +173,10 @@ fun OplevApp(start: String) {
             }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},
-              journeyviewmodel, navLoad = {navigationController.navigate("load")})
+              journeyviewmodel, navLoad = {navigationController.navigate(loadRoute)})
             }
-            composable(route="load"){
-                Load(navBack = {navigationController.navigate(mainroute)},
+            composable(route=loadRoute){
+                Load(navBack = {navigationController.navigate(idearoute)},
                 viewModel = ideasViewModel,
                     navIdeas = {navigationController.navigate(catideas)})
             }

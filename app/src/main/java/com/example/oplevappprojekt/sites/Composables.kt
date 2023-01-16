@@ -263,11 +263,12 @@ fun Load(navBack: ()->Unit, navIdeas:()->Unit, viewModel: IdeasViewModel){
     Surface(color = Color.Transparent, modifier = Modifier.fillMaxSize()) {
         Text("Indlæser..", color = Color(myColourString.toColorInt())
         , fontSize = 40.sp)
+        System.out.println("reloading again")
         if(viewModel.uiState.value.isCategorySelected){
-            navIdeas()
+            navBack()
         }
         else{
-            navBack()
+            navIdeas()
         }
 
     }
