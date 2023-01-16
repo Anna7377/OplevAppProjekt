@@ -43,7 +43,7 @@ val repositoryUser = MyUserProfileRepository()
 @Composable
 fun UserProfile(navMain: () -> Unit, navigationInspo: () -> Unit, viewModel: AuthViewModel, navStart:()->Unit, navChange:()->Unit){
    val state = viewModel.uiState.value
-    Scaffold(bottomBar = {BottomBar(onClick1 = {navMain()}, onClick2 = { /*TODO*/ }, onClick3 = {navigationInspo()})},
+    Scaffold(bottomBar = {BottomBar(onClick1 = {navigationInspo()}, onClick2 = {navMain()}, onClick3 = {})},
         content =
         {
         Logo()
