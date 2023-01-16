@@ -1,6 +1,8 @@
 package com.example.oplevappprojekt.sites
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -8,21 +10,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
 // s213370
 
 @Composable
-fun CreateCategory(navCategories: ()->Unit) {
+fun CreateCategory(navCategories: ()->Unit, navBack: ()-> Unit) {
     val vm = CategoryViewModel()
+
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
         Box(
             modifier = Modifier
                 .background(Color(myColourString.toColorInt()))
@@ -30,6 +36,7 @@ fun CreateCategory(navCategories: ()->Unit) {
                 .width(350.dp),
 
             ) {
+
             Text(
                 text = "Opret Kategori",
                 color = Color.White,
@@ -40,10 +47,13 @@ fun CreateCategory(navCategories: ()->Unit) {
                     .fillMaxSize()
                     .padding(30.dp)
             )
+
         }
+
 
         MaterialTheme(
             content = {
+
                 Column(
                     //modifier = Modifier.height(200.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,12 +79,22 @@ fun CreateCategory(navCategories: ()->Unit) {
                             text = "Opret",
                             color = Color.Black
                         )
+                        Box(modifier = Modifier
+                            .size(300.dp)
+                            .absoluteOffset(x = 320.dp, y = 0.dp)){
+                            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+                        }
                     }
                 }
 
-            })
+            }
+        )
+
+        }
+
     }
-}
+
+
 
 @Composable
 fun CategoryTitle(vm:CategoryViewModel) : String {

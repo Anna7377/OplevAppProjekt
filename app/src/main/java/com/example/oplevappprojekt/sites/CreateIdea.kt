@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.ViewModel
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.category
@@ -27,7 +30,7 @@ import com.example.oplevappprojekt.data.category
 //s215726 & s213370
 
 @Composable
-fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel: Journeysviewmodel) {
+fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel: Journeysviewmodel, navBack:() ->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -48,6 +51,11 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
                     .fillMaxSize()
                     .padding(20.dp)
             )
+            Box(modifier = Modifier
+                .size(30.dp)
+                .absoluteOffset(x = 320.dp, y = 0.dp)){
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+            }
         }
 
         MaterialTheme(
@@ -94,7 +102,9 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
                     }
                 }
 
-            })}}
+            })
+
+    }}
 
 @Composable
 fun Title() : String {
@@ -190,7 +200,7 @@ fun Link() : String {
 @Preview
 @Composable
 fun preview(){
-    CreateIdea({}, IdeasViewModel(), journeysviewmodel = Journeysviewmodel())
+    CreateIdea({}, IdeasViewModel(), journeysviewmodel = Journeysviewmodel(),{})
 }
 
 

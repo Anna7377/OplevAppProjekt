@@ -78,7 +78,8 @@ fun OplevApp() {
                 ) { navigationController.navigate(mainroute) }
             }
             composable(route = inviteroute) {
-                invite(viewmodel = colviewmodel)
+                invite(viewmodel = colviewmodel,
+                navBack = { navigationController.navigate(mainroute) } )
             }
             composable(route = mainroute) {
                 MainPage(navigationInsp = { navigationController.navigate(inspirationroute) },
@@ -99,6 +100,7 @@ fun OplevApp() {
             composable(route = createroute) {
                 Trip(
                     navMain = { navigationController.navigate(mainroute) },
+                    navBack = {navigationController.navigate(mainroute)},
                     viewModel = journeyviewmodel
                 )
             }
@@ -126,7 +128,8 @@ fun OplevApp() {
                 viewModelcol = colviewmodel)
             }
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel)
+                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel,
+                navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = changepassword) {
                 Password(
@@ -135,7 +138,7 @@ fun OplevApp() {
                 )
             }
             composable(route = createcategory) {
-                CreateCategory(navCategories = { navigationController.navigate(categorypage) })
+                CreateCategory(navCategories = { navigationController.navigate(categorypage) },navBack = {navigationController.navigate(idearoute)})
 
             }
             composable(route = categorypage) {
@@ -154,10 +157,10 @@ fun OplevApp() {
             }
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
-                navIdea={ navigationController.navigate(createIdea) } , ideasViewModel)}
+                navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
             composable(route = catideas){
             CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(idearoute)},
-            journeysviewmodel = journeyviewmodel)
+            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})

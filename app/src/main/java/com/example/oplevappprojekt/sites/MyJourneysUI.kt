@@ -127,7 +127,7 @@ val myColor = "#455467"
 
 // Acts as a popup
 @Composable
-fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
+fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -260,6 +260,10 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel) {
                     )
                 }
             }
+            Box(modifier = Modifier
+                .size(30.dp)
+                .absoluteOffset(x = 320.dp, y = 0.dp)){
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))}
         }
     }
 }
