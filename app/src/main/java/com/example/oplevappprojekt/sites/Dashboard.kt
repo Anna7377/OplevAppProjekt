@@ -51,7 +51,8 @@ fun MyJourneyPage(
     navMain: () -> Unit,
     navCatIdeas: () -> Unit,
     createCat: () -> Unit,
-    navProfile: () -> Unit
+    navProfile: () -> Unit,
+    navLoad: () -> Unit
 ){
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
@@ -114,7 +115,8 @@ fun MyJourneyPage(
                     navCatIdeas,
                     navEdit = createCat
                 )
-                IdeaGrid(list = ideas, randomimg = viewModel.randomImg(), viewModelIdea)
+                IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
+                    viewModelIdea, navLoad = navLoad)
             }
         }
     },
@@ -129,19 +131,21 @@ fun MyJourneyPage(
 
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel){
+fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
+ navLoad: ()->Unit){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
-           IdeaBox(idea = idea, randomimg = randomimg, viewModel)
+           IdeaBox(idea = idea, randomimg = randomimg, viewModel, navLoad = navLoad)
        }
        itemsinColumn.add(tempIdea)
    }
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(list.get(index), randomimg, viewModel) }
+                index, function ->  item { IdeaBox(list.get(index),
+            randomimg, viewModel, navLoad = navLoad) }
         }
     }
 }
@@ -150,7 +154,7 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel){
 
 
 @Composable
-fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel) {
+fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->Unit) {
     val dialog = remember{ mutableStateOf(false) }
     var idearepo = IdeaRepository
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -196,7 +200,8 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel) {
                     Image(painter = painterResource(id = randomimg), contentDescription = "")
                 }
                 Button(
-                    onClick = {viewModel.deleteIdea(idea.ID)},
+                    onClick = {viewModel.deleteIdea(idea.ID)
+                              navLoad()},
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
                     modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)
                         .width(85.dp)
@@ -231,8 +236,8 @@ fun editJourney(navEdit: () -> Unit){
 @Composable
 fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
     Button(onClick = {
-        navMain()
         viewModel.deleteJourney()
+        navMain()
     }, colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),modifier = Modifier
         .height(35.dp)
         .width(179.dp)) {
