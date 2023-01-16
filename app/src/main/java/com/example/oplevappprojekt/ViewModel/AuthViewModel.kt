@@ -31,7 +31,6 @@ data class Auth(
 )
 
 class AuthViewModel:ViewModel() {
-    private lateinit var auth: FirebaseAuth
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 

@@ -48,7 +48,8 @@ viewModel: Journeysviewmodel, navInvite: ()->Unit, navCategories: ()->Unit){
                       .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
               ) {
                   Box(
-                      modifier = Modifier.height(200.dp)
+                      modifier = Modifier
+                          .height(200.dp)
                           .fillMaxWidth()
                   ){
                       Image(painter = painterResource(id = R.drawable.topmap1), contentDescription = "topmap",
@@ -91,7 +92,13 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID, img = img)
+            viewModel.selectJourney(
+                country = country,
+                date = date,
+                ID = ID,
+                originalJourneyID = originalJourneyID,
+                img = img
+            )
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -104,6 +111,7 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
                     .fillMaxWidth(),
                     //.height(194.dp),
                 contentScale = ContentScale.Crop )
+            Row{
             Text(
                 text = country,
                 modifier = Modifier.padding(16.dp),
@@ -116,7 +124,8 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
-            ) } } }
+            )
+            } } } }
 
 //s215726
 val myColor = "#455467"
@@ -262,7 +271,9 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
             Box(modifier = Modifier
                 .size(30.dp)
                 .absoluteOffset(x = 320.dp, y = 0.dp)){
-                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))}
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(onClick = { navBack() }))}
         }
     }
 }

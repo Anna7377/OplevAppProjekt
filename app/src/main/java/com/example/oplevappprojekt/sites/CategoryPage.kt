@@ -27,7 +27,7 @@ import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.ui.theme.Teal200
 
 // s213370
-
+/*
 @Composable
 fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: journeyState){
     Scaffold(content = {
@@ -55,4 +55,6 @@ fun CategoryPage(navCategories: ()-> Unit, viewModel: Journeysviewmodel, state: 
     },
         floatingActionButton = {Fob(navCreate = navCategories)})
 }
+
+ */
 

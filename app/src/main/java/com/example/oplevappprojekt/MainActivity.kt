@@ -16,24 +16,37 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import invite
 
 
 class MainActivity : ComponentActivity() {
+
+    var start = "start"
+    public override fun onStart() {
+        super.onStart()
+        val currentuser = Firebase.auth.currentUser
+        if(currentuser!=null){
+start = "main"
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            OplevApp()
+
+            OplevApp(start = start)
         }
     }
 }
 
 // S215722
 @Composable
-fun OplevApp() {
+fun OplevApp(start: String) {
     OplevAppProjektTheme {
         val journeyviewmodel = Journeysviewmodel()
         val colviewmodel = CollaboratorViewmodel()
@@ -60,7 +73,7 @@ fun OplevApp() {
         NavHost(
             navController = navigationController,
             modifier = Modifier.fillMaxSize(),
-            startDestination = startRoute
+            startDestination = start
         ) {
             composable(route = startRoute) {
                 StartPage(navigate = { navigationController.navigate(loginRoute) })
@@ -136,17 +149,22 @@ fun OplevApp() {
                     navigation = { navigationController.navigate(profile) },
                 )
             }
+            /*
             composable(route = createcategory) {
                 CreateCategory(navCategories = { navigationController.navigate(categorypage) },navBack = {navigationController.navigate(idearoute)})
 
             }
-            composable(route = categorypage) {
+
+             */
+           /* composable(route = categorypage) {
                 CategoryPage(
                     navCategories =
                     { navigationController.navigate(createcategory) },
                     Journeysviewmodel(), journeyState()
                 )
             }
+
+            */
             composable(route = createcatbackup){
                 createcat(
                     navDash = {navigationController.navigate(idearoute)},
