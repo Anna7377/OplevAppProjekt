@@ -44,7 +44,8 @@ fun MyJourneyPage(
     navEdit: () -> Unit,
     navMain: () -> Unit,
     navCatIdeas: () -> Unit,
-    createCat: () -> Unit
+    createCat: () -> Unit,
+    navProfile: () -> Unit
 ){
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
