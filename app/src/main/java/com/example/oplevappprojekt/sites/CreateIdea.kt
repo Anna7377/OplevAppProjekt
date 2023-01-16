@@ -92,16 +92,17 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 if(viewModel.uiState.value.isCategorySelected){
     nav = navBack
 }
-                    var action = { viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
-                        img = img)}
+                    var onClick= { viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
+                        img = img)
+                    nav()}
                     if(viewModel.uiState.value.isIdeaSelected){
-                        action = {viewModel.editIdea(title = title, desc = desc, link = link,
-                            img = img)}
+                        onClick = {viewModel.editIdea(title = title, desc = desc, link = link,
+                            img = img)
+                        nav()}
+
                     }
-                    Button(onClick = {
-                        action()
-                        nav()
-                     },
+                    Button(onClick = onClick
+                     ,
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
