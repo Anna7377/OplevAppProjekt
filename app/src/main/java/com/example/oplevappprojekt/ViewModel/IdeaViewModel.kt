@@ -28,7 +28,6 @@ class IdeasViewModel{
         runBlocking{
             retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)
         }
-        System.out.println("CatID is: " + uiState.value.categoryID + " ideas are: " + retideas)
         return retideas
     }
 
@@ -72,4 +71,12 @@ categoryID = "")
         ideaRepo.setIdea(journeyID = journeyID, categoryID = categoryID, title = title,
         desc = desc, link=link)
     }
+
+
+    fun deleteIdea(ID: String){
+        runBlocking {
+            ideaRepo.deleteIdea(ID)
+        }
+    }
+
 }

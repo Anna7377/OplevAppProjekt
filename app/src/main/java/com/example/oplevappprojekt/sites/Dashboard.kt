@@ -31,6 +31,7 @@ import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.data.IdeaRepository
 import java.util.*
 
 
@@ -113,7 +114,7 @@ fun MyJourneyPage(
                     navCatIdeas,
                     navEdit = createCat
                 )
-                IdeaGrid(list = ideas, randomimg = viewModel.randomImg())
+                IdeaGrid(list = ideas, randomimg = viewModel.randomImg(), viewModelIdea)
             }
         }
     },
@@ -128,19 +129,19 @@ fun MyJourneyPage(
 
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int){
+fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
-           IdeaBox(idea = idea, randomimg = randomimg)
+           IdeaBox(idea = idea, randomimg = randomimg, viewModel)
        }
        itemsinColumn.add(tempIdea)
    }
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(list.get(index), randomimg) }
+                index, function ->  item { IdeaBox(list.get(index), randomimg, viewModel) }
         }
     }
 }
@@ -149,8 +150,9 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int){
 
 
 @Composable
-fun IdeaBox(idea: ideas, randomimg: Int) {
+fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel) {
     val dialog = remember{ mutableStateOf(false) }
+    var idearepo = IdeaRepository
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier
             .clickable(onClick = { dialog.value = true })
@@ -159,10 +161,11 @@ fun IdeaBox(idea: ideas, randomimg: Int) {
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(15))
             .background(color = Color(myColourString.toColorInt())))
+
         {
+            val imgpainter = rememberImagePainter(data = idea.img)
             if(idea.img?.isNotEmpty()==true){
-                val painter = rememberImagePainter(data = idea.img)
-                Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxSize(),
+                Image(painter = imgpainter, contentDescription = null, modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds)
             }
             else{
@@ -170,8 +173,11 @@ fun IdeaBox(idea: ideas, randomimg: Int) {
                 painter = painterResource(id =randomimg ),
                 contentDescription = " ", contentScale = ContentScale.FillBounds
             ) }
+
         }
         Text(text=idea.title, textAlign = TextAlign.Center)
+
+
         }
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
@@ -183,13 +189,36 @@ fun IdeaBox(idea: ideas, randomimg: Int) {
                         SelectionContainer(){
                     idea.link
                 }  , color = Color.White)
+                if(idea.img?.isNotEmpty()==true){
+                Image(painter = rememberImagePainter(data = idea.img), contentDescription = null)
+                }
+                else{
+                    Image(painter = painterResource(id = randomimg), contentDescription = "")
+                }
+                System.out.println("idea ID is" + idea.ID)
+                Button(
+                    onClick = {viewModel.deleteIdea(idea.ID)},
+                    colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
+                    modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)
+                        .width(85.dp)
+                ) {
+                    Text(
+                        text = "Slet",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                       // fontWeight = FontWeight.Bold
+                    )
+                }
             },
+
 
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
+
         )
     }
 }
+
 
 @Composable
 fun editJourney(navEdit: () -> Unit){

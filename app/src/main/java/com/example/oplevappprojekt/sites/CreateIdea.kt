@@ -71,12 +71,12 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
-                    var text = ""
+                    var text = "Vælg Kategori"
                     if(viewModel.uiState.value.isCategorySelected){
                         text = viewModel.uiState.value.categoryName
                     }
 
-                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel), journeyID)
+                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel, text), journeyID)
 
                     val desc = nameCat(text = "")
 
@@ -96,7 +96,7 @@ if(viewModel.uiState.value.isCategorySelected){
 }
                     Button(onClick = {
                         viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
-                        )
+                        img = img)
                         nav()
                         viewModel.createIdea(title = title, desc = desc, link = link,
                             journeyID = journeyID, img = img)
@@ -266,10 +266,3 @@ fun DropDownMenu(viewmodel: Journeysviewmodel, text: String) : String {
 }
 
 
-
-
-
-
-    }
-    }
-*/

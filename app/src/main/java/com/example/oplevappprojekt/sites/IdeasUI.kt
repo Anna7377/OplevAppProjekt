@@ -13,7 +13,7 @@ fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit, journeyViewModel: Jo
         Column() {
         TopCard(ImageId = R.drawable.image10, text = countryname)
         val ideas = viewModel.getCategorisedIdeas()
-        IdeaGrid(list = ideas, randomimg = journeyViewModel.randomImg())
+        IdeaGrid(list = ideas, randomimg = journeyViewModel.randomImg(), viewModel)
     }}, floatingActionButton = { Fob {
         navCreate()
     }})
