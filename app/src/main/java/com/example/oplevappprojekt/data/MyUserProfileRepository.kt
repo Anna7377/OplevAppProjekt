@@ -16,7 +16,8 @@ data class user(
 
     val name: String = " ",
     val userID: String = " ",
-    val mail: String = " "
+    val mail: String = " ",
+    val verified: String = ""
 )
 
 class MyUserProfileRepository {
@@ -44,6 +45,24 @@ class MyUserProfileRepository {
             text?.mail.toString()
         }
     }
+
+    suspend fun userVerified(): String{
+        val uid = Firebase.auth.currentUser?.uid.toString()
+        val text = UserCollection().document(uid).get().await()
+            .toObject<user>()
+        if (Firebase.auth.currentUser?.isEmailVerified == true){
+            System.out.println(text?.verified.toString())
+
+            return withContext(Dispatchers.IO) {
+                "Email er verificeret"
+            }
+    }
+        else {
+            return withContext(Dispatchers.IO) {
+                "Email er ikke verificeret"
+            }
+    }}
+
     fun save (name: String, mail: String) {
         val uid = Firebase.auth.currentUser?.uid.toString()
         val temp = hashMapOf(

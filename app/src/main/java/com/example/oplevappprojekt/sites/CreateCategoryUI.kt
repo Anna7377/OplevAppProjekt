@@ -138,16 +138,22 @@ navEdit: ()->Unit) {
         }
         itemsinColumn.add(tempIdea)
     }
+    Spacer(modifier = Modifier.height(20.dp))
+    Box(modifier = Modifier
+        .height(190.dp)
+        .width(390.dp) ){
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
             item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas, navEdit) }
-        } } }
+        } } }}
 @Composable
 fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit,
 navEdit: () -> Unit){
     Card(modifier = Modifier
-        .padding(4.dp)
+        .height(52.dp)
+        .width(200.dp)
+        .padding(vertical = 2.dp)
         .clickable(onClick = {
             viewModel.selectCat(ID = category.categoryID, name = category.name)
             navIdeas()
@@ -160,9 +166,9 @@ navEdit: () -> Unit){
                 modifier = Modifier.padding(16.dp),
                 //      .border(width = 2.dp, shape = , color = Color.Black),
                 style = MaterialTheme.typography.h3,
-                //  fontSize = 24.sp
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                //fontFamily = FontFamily.Cursive,
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
@@ -170,12 +176,12 @@ navEdit: () -> Unit){
             Row() {
                 Button(onClick = {
                     viewModel.selectCat(ID = category.categoryID, name = category.name)
-                    viewModel.deleteCategory(category.categoryID)}) {
+                    viewModel.deleteCategory(category.categoryID)}, modifier = Modifier.offset(x=310.dp)) {
                     Text(text="Slet")
                 }
             Button(onClick = { navEdit()
                 System.out.println("on Button click status: " + viewModel.uiState.value.isCategorySelected)
-            viewModel.selectCat(category.categoryID, name= category.name )}) {
+            viewModel.selectCat(category.categoryID, name= category.name )},modifier = Modifier.offset(x=150.dp)) {
                 Text(text="Rediger")
             }}
        } }

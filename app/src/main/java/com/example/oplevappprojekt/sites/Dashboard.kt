@@ -49,7 +49,10 @@ fun MyJourneyPage(
     navProfile: ()->Unit,
     createCat: ()->Unit
 ){
-    Scaffold(content = {
+    Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
+        content =
+        {
+    //Scaffold(content = {
         Surface {
             Column(modifier = Modifier.fillMaxSize()) {
                 countryname = viewModel.uiState.value.currentcountry.toString()
@@ -100,11 +103,8 @@ fun MyJourneyPage(
             //viewModelIdea.deselect()
         })
 
-   /* Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
-        content =
-        {
-})*/
 }
+
 
 
  @OptIn(ExperimentalFoundationApi::class)
@@ -135,8 +135,8 @@ fun IdeaBox(idea: ideas) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
             .clickable(onClick = { dialog.value = true })
-            .width(200.dp)
-            .height(200.dp)
+            .width(150.dp)
+            .height(150.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(15))) {
             Image(
@@ -233,7 +233,7 @@ fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit
 }
 
 @Composable
-fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel){
+fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center)
@@ -253,7 +253,13 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
             modifier = Modifier
                 .fillMaxSize()
                 .padding(30.dp)
-        )}
+        )
+        Box(modifier = Modifier
+            .size(30.dp)
+            .absoluteOffset(x = 320.dp, y = 0.dp)){
+            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+        }
+    }
         MaterialTheme(
             content =
             {
