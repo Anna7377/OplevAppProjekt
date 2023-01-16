@@ -28,7 +28,6 @@ class IdeasViewModel{
         runBlocking{
             retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)
         }
-        System.out.println("CatID is: " + uiState.value.categoryID + " ideas are: " + retideas)
         return retideas
     }
 
@@ -48,10 +47,10 @@ _uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = 
 categoryID = "")
     }
 
-    fun createIdea(title: String, desc: String, link: String, journeyID: String){
+    fun createIdea(title: String, desc: String, link: String, journeyID: String, img: String){
         runBlocking {
             ideaRepo.createIdea(title = title, desc=desc,
-                link=link, ID=uiState.value.categoryID, journeyID = journeyID)
+                link=link, ID=uiState.value.categoryID, journeyID = journeyID, img = img)
         }
     }
 
@@ -72,4 +71,12 @@ categoryID = "")
         ideaRepo.setIdea(journeyID = journeyID, categoryID = categoryID, title = title,
         desc = desc, link=link)
     }
+
+
+    fun deleteIdea(ID: String){
+        runBlocking {
+            ideaRepo.deleteIdea(ID)
+        }
+    }
+
 }

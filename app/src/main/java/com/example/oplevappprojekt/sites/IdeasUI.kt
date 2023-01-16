@@ -8,7 +8,9 @@ import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 
 @Composable
-fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit){
+fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit
+            , journeyViewModel: Journeysviewmodel,
+navLoad: ()->Unit){
     Scaffold(content = {
         Column() {
         TopCard(ImageId = R.drawable.image10, text = countryname,
@@ -16,7 +18,7 @@ fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit){
             navMain = navCreate
         )
         val ideas = viewModel.getCategorisedIdeas()
-        IdeaGrid(list = ideas)
+        IdeaGrid(list = ideas, randomimg = journeyViewModel.randomImg(), viewModel, navLoad = navLoad)
     }}, floatingActionButton = { Fob {
         navCreate()
     }})

@@ -189,7 +189,6 @@ navEdit: () -> Unit){
                     Text(text="Slet", color = Color.White)
                 }
             Button(onClick = { navEdit()
-                System.out.println("on Button click status: " + viewModel.uiState.value.isCategorySelected)
             viewModel.selectCat(category.categoryID, name= category.name )},modifier = Modifier.offset(x=150.dp), colors = ButtonDefaults.buttonColors(Color.Gray)) {
                 Text(text="Rediger", color = Color.White)
             }}

@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import java.time.format.TextStyle
 
 
@@ -95,7 +96,7 @@ Row(verticalAlignment = Alignment.Bottom){
         )
 
 }
-    
+
 
 
         }
@@ -284,6 +285,21 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
                 selected = false,
                 onClick = onClick3 )
         }
+    }
+}
+
+@Composable
+fun Load(navBack: ()->Unit, navIdeas:()->Unit, viewModel: IdeasViewModel){
+    Surface(color = Color.Transparent, modifier = Modifier.fillMaxSize()) {
+        Text("Indlæser..", color = Color(myColourString.toColorInt())
+        , fontSize = 40.sp)
+        if(viewModel.uiState.value.isCategorySelected){
+            navIdeas()
+        }
+        else{
+            navBack()
+        }
+
     }
 }
 

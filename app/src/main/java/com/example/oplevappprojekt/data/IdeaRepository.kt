@@ -68,14 +68,10 @@ class IdeaRepository(){
 
         val ideas = ideas.whereEqualTo("categoryID", ID)
             .get().await()
-        println(ideas.size())
         val  retideas = ideas.toObjects<ideas>()
-        System.out.println("CategoryID is: " + ID + "Ideas are: " + retideas)
-       /* for(i in 0..ideas.size()-1){
-            retideas.get(i).categoryID=ideas.documents.get(i).id
-        }
-
-        */
+    for(i in 0..ideas.size()-1){
+        retideas.get(i).ID = ideas.documents.get(i).id
+    }
         return retideas as ArrayList<ideas>
     }
 
@@ -88,20 +84,35 @@ class IdeaRepository(){
         }
     }
 
-    fun createIdea(title: String, desc: String, link: String, ID: String, journeyID: String){
+    fun createIdea(title: String, desc: String, link: String, ID: String, journeyID: String, img: String){
        val idea = hashMapOf(
             "title" to title,
             "desc" to desc,
             "link" to link,
             "categoryID" to ID,
-           "journeyID" to journeyID)
+           "journeyID" to journeyID,
+           "img" to img)
+
        Firebase.firestore.collection("ideas").document().set(idea) }
+
 
     private fun currentCollection(): CollectionReference =
         Firebase.firestore.collection(IDEA_COLLECTION)
 
     companion object {
-        private const val IDEA_COLLECTION = "Ideas"
+        private const val IDEA_COLLECTION = "ideas"
     }
-}
+
+    suspend fun deleteIdea(ID:String) {
+        val doc = Firebase.firestore.collection(IDEA_COLLECTION).document(ID).get()
+            .await()
+        if (doc.exists()) {
+        Firebase.firestore.collection(IDEA_COLLECTION).document(ID).delete()
+    }
+    }
+
+
+
+    }
+
 

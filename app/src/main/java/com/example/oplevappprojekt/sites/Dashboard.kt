@@ -17,17 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import coil.compose.rememberImagePainter
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.data.IdeaRepository
 import java.util.*
 
 
@@ -47,7 +50,8 @@ fun MyJourneyPage(
     navMain: () -> Unit,
     navCatIdeas: () -> Unit,
     createCat: () -> Unit,
-    navProfile: () -> Unit
+    navProfile: () -> Unit,
+    navLoad: () -> Unit
 ){
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
@@ -113,7 +117,8 @@ fun MyJourneyPage(
                     navCatIdeas,
                     navEdit = createCat
                 )
-                IdeaGrid(list = ideas)
+                IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
+                    viewModelIdea, navLoad = navLoad)
             }
         }
     },
@@ -128,19 +133,21 @@ fun MyJourneyPage(
 
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(list: ArrayList<ideas>){
+fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
+ navLoad: ()->Unit){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
-           IdeaBox(idea = idea)
+           IdeaBox(idea = idea, randomimg = randomimg, viewModel, navLoad = navLoad)
        }
        itemsinColumn.add(tempIdea)
    }
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(list.get(index)) }
+                index, function ->  item { IdeaBox(list.get(index),
+            randomimg, viewModel, navLoad = navLoad) }
         }
     }
 }
@@ -149,21 +156,34 @@ fun IdeaGrid(list: ArrayList<ideas>){
 
 
 @Composable
-fun IdeaBox(idea: ideas) {
+fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->Unit) {
     val dialog = remember{ mutableStateOf(false) }
+    var idearepo = IdeaRepository
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier
+        Box(contentAlignment = Alignment.Center, modifier = Modifier
             .clickable(onClick = { dialog.value = true })
             .width(190.dp)
             .height(190.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
-            .clip(RoundedCornerShape(15))) {
+            .clip(RoundedCornerShape(15))
+            .background(color = Color(myColourString.toColorInt())))
+
+        {
+            val imgpainter = rememberImagePainter(data = idea.img)
+            if(idea.img?.isNotEmpty()==true){
+                Image(painter = imgpainter, contentDescription = null, modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds)
+            }
+            else{
             Image(
-                painter = painterResource(id = R.drawable.image11),
-                contentDescription = " "
-            )
+                painter = painterResource(id =randomimg ),
+                contentDescription = " ", contentScale = ContentScale.FillBounds
+            ) }
+
         }
         Text(text=idea.title, textAlign = TextAlign.Center)
+
+
         }
 
     if(dialog.value){
@@ -176,13 +196,36 @@ fun IdeaBox(idea: ideas) {
                         SelectionContainer(){
                     idea.link
                 }  , color = Color.White)
+                if(idea.img?.isNotEmpty()==true){
+                Image(painter = rememberImagePainter(data = idea.img), contentDescription = null)
+                }
+                else{
+                    Image(painter = painterResource(id = randomimg), contentDescription = "")
+                }
+                Button(
+                    onClick = {viewModel.deleteIdea(idea.ID)
+                              navLoad()},
+                    colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
+                    modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)
+                        .width(85.dp)
+                ) {
+                    Text(
+                        text = "Slet",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                       // fontWeight = FontWeight.Bold
+                    )
+                }
             },
+
 
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt())
+
         )
     }
 }
+
 
 @Composable
 fun editJourney(navEdit: () -> Unit){
@@ -196,8 +239,8 @@ fun editJourney(navEdit: () -> Unit){
 @Composable
 fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
     Button(onClick = {
-        navMain()
         viewModel.deleteJourney()
+        navMain()
     }, colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),modifier = Modifier
         .height(35.dp)
         .width(179.dp)) {
@@ -294,11 +337,12 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
                     Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Eller", color = Color.White)
                     Spacer(modifier = Modifier.height(10.dp))
-                        Button(onClick = { navIdea() },
+                        Button(onClick = { navIdea()
+                                         ideasViewModel.deselect()},
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Ide", color = Color(myColourString.toColorInt()))
                         }
-                    }
+                }
             }
         )
     }
