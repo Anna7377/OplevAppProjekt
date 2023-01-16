@@ -21,6 +21,8 @@ import com.example.oplevappprojekt.ViewModel.CategoryViewModel
 
 // s213370
 
+/*
+
 @Composable
 fun CreateCategory(navCategories: ()->Unit, navBack: ()-> Unit) {
     val vm = CategoryViewModel()
@@ -125,5 +127,7 @@ fun CategoryTitle(vm:CategoryViewModel) : String {
                 )
                 return text
             }
+
+ */
 
 
