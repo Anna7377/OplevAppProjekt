@@ -51,7 +51,9 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
             Box(modifier = Modifier
                 .size(30.dp)
                 .absoluteOffset(x = 320.dp, y = 0.dp)){
-                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(onClick = { navBack() }))
             }
         }
 
@@ -81,12 +83,14 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
+                    
+                    val img = nameCat(text = "")
 
 
 
                     Button(onClick = {
-                        viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
-                        )
+                        viewModel.createIdea(title = title, desc = desc, link = link, 
+                            journeyID = journeyID, img = img)
                         navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),

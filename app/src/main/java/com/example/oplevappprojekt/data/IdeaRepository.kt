@@ -92,13 +92,15 @@ class IdeaRepository(){
         }
     }
 
-    fun createIdea(title: String, desc: String, link: String, ID: String, journeyID: String){
+    fun createIdea(title: String, desc: String, link: String, ID: String, journeyID: String, img: String){
        val idea = hashMapOf(
             "title" to title,
             "desc" to desc,
             "link" to link,
             "categoryID" to ID,
-           "journeyID" to journeyID)
+           "journeyID" to journeyID,
+           "img" to img)
+
        Firebase.firestore.collection("ideas").document().set(idea) }
 
     private fun currentCollection(): CollectionReference =

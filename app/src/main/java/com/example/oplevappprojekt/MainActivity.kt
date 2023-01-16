@@ -181,7 +181,8 @@ fun OplevApp(start: String) {
             journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = catideas){
-              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})
+              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},
+              journeyviewmodel)
 
 
             }
