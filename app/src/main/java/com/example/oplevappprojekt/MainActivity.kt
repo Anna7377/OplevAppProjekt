@@ -169,7 +169,8 @@ fun OplevApp(start: String) {
                 createcat(
                     navDash = {navigationController.navigate(idearoute)},
                     viewModel = journeyviewmodel,
-                    ideasViewModel = ideasViewModel
+                    ideasViewModel = ideasViewModel,
+                    navBack = {navigationController.navigate(idearoute)}
                 )
             }
             composable(route = intermediarycreate){
