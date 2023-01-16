@@ -107,7 +107,7 @@ fun OplevApp(start: String) {
             composable(route = inspirationroute) {
                 Inspiration(
                     navMain = { navigationController.navigate(mainroute) },
-                    navProfile = { navigationController.navigate(profile) })
+                    navProfile = { navigationController.navigate(profile) }, InspirationViewModel())
             }
             composable(route = createroute) {
                 Trip(
@@ -140,7 +140,9 @@ fun OplevApp(start: String) {
                     navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) }, navProfile ={ navigationController.navigate(profile) } )
             }
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel,
+                CreateIdea(navIdeas = { navigationController.navigate(catideas) },
+                    navCat = {navigationController.navigate(catideas)},
+                    viewModel = ideasViewModel, journeyviewmodel,
                 navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = changepassword) {
@@ -160,10 +162,6 @@ fun OplevApp(start: String) {
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
                 navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
-            composable(route = catideas){
-            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(idearoute)},
-            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)})
-            }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})
             }

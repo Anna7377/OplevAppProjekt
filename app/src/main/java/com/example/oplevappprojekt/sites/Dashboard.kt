@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import android.widget.Space
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +34,8 @@ import java.util.*
 typealias ComposableFun = @Composable () -> Unit
 var countryname = ""
 var journeyID = " "
+val colorRed = "#C40007"
+
 //s215722
 @Composable
 fun MyJourneyPage(
@@ -71,11 +74,12 @@ fun MyJourneyPage(
                 if (viewModel.uiState.value.isOwned) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
+                        Spacer(modifier = Modifier.width(20.dp))
                         genLink(viewModel = viewModel)
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Spacer(modifier = Modifier.width(30.dp))
+                        //Spacer(modifier = Modifier.width(30.dp))
                         editJourney(navEdit = { navEdit() })
                         Spacer(modifier = Modifier.width(20.dp))
                         deleteJourney(navMain = { navMain() }, viewModel = viewModel)
@@ -150,8 +154,8 @@ fun IdeaBox(idea: ideas) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
             .clickable(onClick = { dialog.value = true })
-            .width(150.dp)
-            .height(150.dp)
+            .width(190.dp)
+            .height(190.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(15))) {
             Image(
@@ -185,7 +189,7 @@ fun editJourney(navEdit: () -> Unit){
     Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt())),
         modifier = Modifier
             .height(35.dp)
-            .width(145.dp)) {
+            .width(171.dp)) {
         Text(text="Rediger Rejse", color = Color.White)
     }
 }
@@ -194,9 +198,9 @@ fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
     Button(onClick = {
         navMain()
         viewModel.deleteJourney()
-    }, colors = ButtonDefaults.buttonColors(Color.Red),modifier = Modifier
+    }, colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),modifier = Modifier
         .height(35.dp)
-        .width(180.dp)) {
+        .width(179.dp)) {
         Text(text="Slet Rejse", color = Color.White)
     } }
 
@@ -231,8 +235,9 @@ fun showCol(viewModel: CollaboratorViewmodel, ID: String){
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
-    Button(onClick = {dialog.value=true}) {
-        Text("Se Medarrangørere")
+    Button(onClick = {dialog.value=true},
+        colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+        Text("Se Medarrangørere", color = Color.White)
     }
 }
 

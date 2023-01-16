@@ -24,6 +24,7 @@ data class img(
 )
 
 class HardcodedJourneysRepository {
+    val idearepo = IdeaRepository()
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
     var journeylist: ArrayList<Journey> = arrayListOf()
@@ -113,8 +114,14 @@ class HardcodedJourneysRepository {
            }
        }
 
-       fun deleteJourney(ID: String) {
+      suspend fun deleteJourney(ID: String) {
            journeys.document(ID).delete()
+       val journeycats = Firebase.firestore.collection("categories")
+              .whereEqualTo("journeyID", ID).get().await()
+          for(i in 0..journeycats.size()-1) {
+              val catID = journeycats.documents.get(i).id
+              idearepo.deleteCategory(catID)
+          }
        }
 
        suspend fun getImage(ID: String): ImageBitmap {

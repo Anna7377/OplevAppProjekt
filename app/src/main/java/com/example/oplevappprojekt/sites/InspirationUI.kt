@@ -1,67 +1,32 @@
 package com.example.oplevappprojekt.sites
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.border
-
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.ScrollableState
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.ViewModel.InspirationViewModel
 import com.example.oplevappprojekt.data.InspirationRepository
-import com.example.oplevappprojekt.data.InspirationText
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.checkerframework.checker.units.qual.K
+
+
 
 
 // S215722
-
-// val currentText = remember {
-   // mutableStateOf(TextFieldValue()) }
-
-
-val repo = InspirationRepository()
-// S215722 & S213370
 
 class InspirationUI{
 }
 
 @Composable
-fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
-    var text: String = ""
-    runBlocking { text = repo.read() }
+fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit, viewModel: InspirationViewModel){
+    var text = viewModel.read()
     val currentText = rememberSaveable {
         mutableStateOf(text)
     }
@@ -111,7 +76,7 @@ fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
                     )
 
                 } } } } )
-repo.update(currentText.value, Firebase.auth.currentUser?.uid.toString())
+    viewModel.update(currentText.value)
 }
 
 
