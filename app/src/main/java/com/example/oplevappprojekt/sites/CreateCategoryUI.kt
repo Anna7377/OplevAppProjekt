@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,12 +13,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.category
@@ -25,7 +28,7 @@ import com.example.oplevappprojekt.data.uid
 
 // to create category
 @Composable
-fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel){
+fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -36,6 +39,11 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
                 .width(350.dp),
 
             ) {
+            Box(modifier = Modifier
+                .size(30.dp)
+                .absoluteOffset(x = 320.dp, y = 0.dp)){
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+            }
             Text(
                 text = "Opret Kategori",
                 color = Color.White,

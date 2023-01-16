@@ -1,6 +1,6 @@
 package com.example.oplevappprojekt.sites
 
-import  androidx.compose.foundation.Image
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
+import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.Countries
 
@@ -110,6 +113,7 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
                     .fillMaxWidth(),
                     //.height(194.dp),
                 contentScale = ContentScale.Crop )
+            Row{
             Text(
                 text = country,
                 modifier = Modifier.padding(16.dp),
@@ -122,7 +126,8 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
-            ) } } }
+            )
+            } } } }
 
 //s215726
 val myColor = "#455467"

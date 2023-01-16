@@ -60,12 +60,13 @@ class InspirationUI{
 
 @Composable
 fun Inspiration(navMain: () -> Unit, navProfile: () -> Unit){
+    var text: String = ""
+    runBlocking { text = repo.read() }
     val currentText = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(text)
     }
-    runBlocking {
-        currentText.value = repo.read()
-    }
+   // runBlocking {
+      //  currentText.value = repo.read() }
 
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
