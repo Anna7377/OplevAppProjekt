@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.sites
 
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -274,7 +275,9 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
         Box(modifier = Modifier
             .size(30.dp)
             .absoluteOffset(x = 320.dp, y = 0.dp)){
-            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                .fillMaxSize()
+                .clickable(onClick = { navBack() }))
         }
     }
         MaterialTheme(
