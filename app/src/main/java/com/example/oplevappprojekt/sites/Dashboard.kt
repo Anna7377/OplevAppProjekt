@@ -163,7 +163,6 @@ fun IdeaBox(idea: ideas) {
         }
         Text(text=idea.title, textAlign = TextAlign.Center)
         }
-
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = {
