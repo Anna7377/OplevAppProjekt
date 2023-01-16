@@ -11,12 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.oplevappprojekt.ViewModel.*
-import com.example.oplevappprojekt.ViewModel.AuthViewModel
-import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.ViewModel.journeyState
 import com.example.oplevappprojekt.sites.*
 import com.example.oplevappprojekt.ui.theme.OplevAppProjektTheme
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import invite
@@ -140,7 +136,8 @@ fun OplevApp(start: String) {
                     navMain = {navigationController.navigate(mainroute)},
                     navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) },
                     navProfile ={ navigationController.navigate(profile) },
-                navLoad = {navigationController.navigate("load")} )
+                navLoad = {navigationController.navigate("load")},
+                navCreateIdea = {navigationController.navigate(createIdea)})
             }
             composable(route = createIdea) {
                 CreateIdea(navIdeas = { navigationController.navigate(catideas) },
@@ -166,11 +163,6 @@ fun OplevApp(start: String) {
             composable(route = intermediarycreate){
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
                 navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
-            composable(route = catideas){
-            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(catideas)},
-            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)},
-            navCat = {navigationController.navigate(idearoute)})
-            }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},
               journeyviewmodel, navLoad = {navigationController.navigate(loadRoute)})

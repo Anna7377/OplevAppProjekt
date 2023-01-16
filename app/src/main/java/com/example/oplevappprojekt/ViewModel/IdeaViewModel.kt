@@ -13,8 +13,13 @@ data class IdeaState(
     val isCategorySelected: Boolean = false,
     val categoryID: String = " ",
    val  categoryName: String = " ",
-    val addMessage: String = " "
-    //val currentIdea : idea? = null,
+    val addMessage: String = " ",
+    val isIdeaSelected: Boolean = false,
+    val ideaID: String = "",
+    val ideadesc: String = "",
+val ideatitle: String = "",
+    val idealink: String = "",
+    val ideaimg: String = ""
 )
 
 class IdeasViewModel{
@@ -65,11 +70,12 @@ categoryID = "")
             ideaRepo.deleteCategory(ID) }
     }
 
-
-    fun setIdea(journeyID: String?, categoryID: String?, title: String,
-    desc: String, link: String){
-        ideaRepo.setIdea(journeyID = journeyID, categoryID = categoryID, title = title,
-        desc = desc, link=link)
+    fun selectIdea(ideaID: String, desc: String, link: String,
+                   img: String, title: String){
+        _uiState.value = _uiState.value.copy(ideaID =ideaID,
+            isIdeaSelected = true, ideadesc = desc, ideatitle = title,
+            ideaimg = img, idealink = link
+        )
     }
 
 

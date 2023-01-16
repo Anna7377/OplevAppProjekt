@@ -52,7 +52,8 @@ fun MyJourneyPage(
     navCatIdeas: () -> Unit,
     createCat: () -> Unit,
     navProfile: () -> Unit,
-    navLoad: () -> Unit
+    navLoad: () -> Unit,
+    navCreateIdea: ()->Unit
 ){
     Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
         content =
@@ -69,7 +70,8 @@ fun MyJourneyPage(
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
-                    text = viewModel.uiState.value.currentcountry.toString()
+                    text = viewModel.uiState.value.currentcountry.toString(),
+               // navMain = navMain, viewModel = viewModel
                 )
                 var categories = viewModel.getCategories()
                 var ideas = viewModel.getOtherIdeas()
@@ -117,7 +119,7 @@ fun MyJourneyPage(
                     navEdit = createCat,
                 )
                 IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
-                    viewModelIdea, navLoad = navLoad)
+                    viewModelIdea, navLoad = navLoad, navCreateIdea)
             }
         }
     },
@@ -132,12 +134,13 @@ fun MyJourneyPage(
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
- navLoad: ()->Unit){
+ navLoad: ()->Unit, navCreate: () -> Unit){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
-           IdeaBox(idea = idea, randomimg = randomimg, viewModel, navLoad = navLoad)
+           IdeaBox(idea = idea, randomimg = randomimg, viewModel,
+               navLoad = navLoad, navCreate = navCreate)
        }
        itemsinColumn.add(tempIdea)
    }
@@ -145,7 +148,7 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
 
         itemsinColumn.forEachIndexed{
                 index, function ->  item { IdeaBox(list.get(index),
-            randomimg, viewModel, navLoad = navLoad) }
+            randomimg, viewModel, navLoad = navLoad, navCreate = navCreate) }
         }
     }
 }
@@ -154,9 +157,11 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
 
 
 @Composable
-fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->Unit) {
+fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
+            navLoad:()->Unit, navCreate: () -> Unit) {
+    viewModel.selectIdea(idea.ID, desc = idea.desc, title = idea.title,
+        img = idea.img.toString(), link = idea.link)
     val dialog = remember{ mutableStateOf(false) }
-    var idearepo = IdeaRepository
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier
             .clickable(onClick = { dialog.value = true })
@@ -174,7 +179,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->
             }
             else{
             Image(
-                painter = painterResource(id =randomimg ),
+                painter = painterResource(id =R.drawable.logo_photo ),
                 contentDescription = " ", contentScale = ContentScale.FillBounds
             ) }
 
@@ -199,9 +204,20 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel, navLoad:()->
                 else{
                     Image(painter = painterResource(id = randomimg), contentDescription = "")
                 }
+                Button(onClick ={},
+                    colors = ButtonDefaults.buttonColors(Color.Gray),
+                    modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)
+                        .width(85.dp)
+                ) {
+                    Text(
+                        text = "Rediger",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        // fontWeight = FontWeight.Bold
+                    )
+                }
                 Button(
                     onClick = {viewModel.deleteIdea(idea.ID)
-                        println("in the button")
                               navLoad()},
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
                     modifier = Modifier.absoluteOffset(x = 0.dp, y = 115.dp).height(35.dp)

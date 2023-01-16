@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.data
 
 import com.example.oplevappprojekt.ViewModel.ideas
+import com.example.oplevappprojekt.sites.journeyID
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -32,7 +33,8 @@ class IdeaRepository(){
         var ret = "succesfully added"
         var flag = false
         val check = Firebase.firestore.collection("categories")
-            .whereEqualTo("name", name).get().await().toObjects<category>()
+            .whereEqualTo("name", name)
+            .whereEqualTo("journeyID", journeyID).get().await().toObjects<category>()
         for(i in 0..check.size-1){
             if(check.get(i).name.equals(name)){
                 System.out.println(name)
@@ -109,6 +111,12 @@ class IdeaRepository(){
         if (doc.exists()) {
         Firebase.firestore.collection(IDEA_COLLECTION).document(ID).delete()
     }
+    }
+
+    fun editIdea(title: String, desc: String, link: String, img: String, ID: String){
+        Firebase.firestore.collection(IDEA_COLLECTION).document(ID)
+            .update("title", title, "desc", desc,
+            "link", link, "img", img)
     }
 
 

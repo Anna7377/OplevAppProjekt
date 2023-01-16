@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
@@ -67,7 +66,7 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                 ) {
                     Spacer(modifier = Modifier.height(60.dp))
 
-                    val title = nameCat(text = "")
+                    val title = nameCat(text = viewModel.uiState.value.ideatitle)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
@@ -78,21 +77,21 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 
                     viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel, text), journeyID)
 
-                    val desc = nameCat(text = "")
+                    val desc = nameCat(text = viewModel.uiState.value.ideadesc)
 
                     Spacer(modifier = Modifier
                         .height(15.dp))
 
-                    val link = nameCat(text = "")
+                    val link = nameCat(text = viewModel.uiState.value.idealink)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    val img = nameCat(text = "")
+                    val img = nameCat(text = viewModel.uiState.value.ideaimg)
 
-                    var nav = navCat
+                    var nav = navIdeas
 if(viewModel.uiState.value.isCategorySelected){
-    nav = navIdeas
+    nav = navBack
 }
                     Button(onClick = {
                         viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,

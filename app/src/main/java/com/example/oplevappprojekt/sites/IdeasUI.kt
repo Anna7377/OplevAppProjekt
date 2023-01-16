@@ -17,7 +17,7 @@ navLoad: ()->Unit){
         val ideas = viewModel.getCategorisedIdeas()
         IdeaGrid(list = ideas,
             randomimg = journeyViewModel.randomImg(),
-            viewModel, navLoad = navLoad)
+            viewModel, navLoad = navLoad, navCreate)
     }}, floatingActionButton = { Fob {
         navCreate()
     }})
