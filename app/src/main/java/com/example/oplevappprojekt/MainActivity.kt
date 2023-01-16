@@ -144,7 +144,8 @@ fun OplevApp() {
                 CategoryPage(
                     navCategories =
                     { navigationController.navigate(createcategory) },
-                    Journeysviewmodel(), journeyState()
+                    Journeysviewmodel(), journeyState(),
+
                 )
             }
             composable(route = createcatbackup){

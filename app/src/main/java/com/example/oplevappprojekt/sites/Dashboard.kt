@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.sites
 
+import android.widget.Space
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,9 +11,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,7 +61,10 @@ fun MyJourneyPage(
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
-                    text = viewModel.uiState.value.currentcountry.toString()
+                    text = viewModel.uiState.value.currentcountry.toString(),
+                viewModel = viewModel,
+                    navMain
+
                 )
                 var categories = viewModel.getCategories()
                 var ideas = viewModel.getOtherIdeas()
@@ -270,7 +272,9 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
         Box(modifier = Modifier
             .size(30.dp)
             .absoluteOffset(x = 320.dp, y = 0.dp)){
-            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                .fillMaxSize()
+                .clickable(onClick = { navBack() }))
         }
     }
         MaterialTheme(

@@ -41,6 +41,7 @@ data class journeyState(
     var currentdate: String? = null,
 var userjourneys: ArrayList<Journey> = arrayListOf(),
 var isPinned: Boolean = false,
+    var unPinned: Boolean = true,
 val isOwned: Boolean = true,
 val originalJourneyID: String = ".",
 val currentImg: Int = R.drawable.image11)
@@ -101,11 +102,11 @@ class Journeysviewmodel {
         _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
-    fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
+    fun editJourney(country: String, date: String, ID: String, isPinned: Boolean, unPinned: Boolean){
         runBlocking {
-        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)}
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned, unPinned = unPinned)}
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
-        isPinned = isPinned)
+        isPinned = isPinned, unPinned = unPinned)
     }
 
     fun deleteJourney(){

@@ -5,12 +5,16 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 
 @Composable
 fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit){
     Scaffold(content = {
         Column() {
-        TopCard(ImageId = R.drawable.image10, text = countryname)
+        TopCard(ImageId = R.drawable.image10, text = countryname,
+        viewModel = Journeysviewmodel(),
+            navMain = navCreate
+        )
         val ideas = viewModel.getCategorisedIdeas()
         IdeaGrid(list = ideas)
     }}, floatingActionButton = { Fob {

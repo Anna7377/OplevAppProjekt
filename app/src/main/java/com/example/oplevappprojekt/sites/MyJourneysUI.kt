@@ -1,6 +1,6 @@
 package com.example.oplevappprojekt.sites
 
-import androidx.compose.foundation.Image
+import  androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -89,17 +89,14 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-/*
+
             viewModel.selectJourney(
                 country = country,
                 date = date,
                 ID = ID,
-                originalJourneyID = originalJourneyID
+                originalJourneyID = originalJourneyID,
+                img = img
             )
-            
- */
-
-            viewModel.selectJourney(country = country, date = date, ID = ID, originalJourneyID = originalJourneyID, img = img)
 
             navIdeas()
         })
@@ -222,8 +219,6 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
             val month = Month()
             val year = Year()
 
-
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -235,50 +230,13 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
                 System.out.println("is Journey selected? " + viewModel.uiState.value.isJourneySelected)
                 if(viewModel.uiState.value.isJourneySelected){
                     var pinVal = viewModel.uiState.value.isPinned
+                    var unPinVal = viewModel.uiState.value.unPinned
                     onClick = {viewModel.editJourney(country = selectedItem,
                         date =dato + "/" + month + "/"+year,
-                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal)
+                        ID=viewModel.uiState.value.currentJourneyID.toString(), pinVal, unPinVal)
                         navMain()}
                 }
-
-                IconButton(onClick ={
-                    val oldPinVal = viewModel.uiState.value.isPinned
-                    val newPinVal = !oldPinVal
-
-                    if (viewModel.uiState.value.isJourneySelected) {
-                        viewModel.editJourney(
-                            country = selectedItem,
-                            date = dato + "/" + month + "/" + year,
-                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
-                        )
-                        navMain()
-                    }}) {
-                    Image(painter = painterResource(id = R.drawable.pin), contentDescription = "Pin", Modifier.size(80.dp)
-                    )
-
-                }
-
-
-                /*
-                TextButton(onClick = {
-
-                    val oldPinVal = viewModel.uiState.value.isPinned
-                    val newPinVal = !oldPinVal
-
-                    if (viewModel.uiState.value.isJourneySelected) {
-                        viewModel.editJourney(
-                            country = selectedItem,
-                            date = dato + "/" + month + "/" + year,
-                            ID = viewModel.uiState.value.currentJourneyID.toString(), newPinVal
-                        )
-                        navMain()
-                    }
-                }
-
-
-                ) {
-                    Text(text = "Pin", color = Color.Red)
-                }*/
+                Spacer(modifier = Modifier.size(12.dp))
 
                 Button(
                     onClick = onClick,
@@ -294,7 +252,9 @@ fun Trip(navMain: ()->Unit, viewModel: Journeysviewmodel, navBack: ()-> Unit) {
             Box(modifier = Modifier
                 .size(30.dp)
                 .absoluteOffset(x = 320.dp, y = 0.dp)){
-                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))}
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(onClick = { navBack() }))}
         }
     }
 }

@@ -95,9 +95,9 @@ class HardcodedJourneysRepository {
            journeys.document().set(journey)
        }
 
-      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean) {
+      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean, unPinned: Boolean) {
            journeys.document(journeyID).update("country", country,
-               "date", date, "isPinned", isPinned)
+               "date", date, "isPinned", isPinned, "unPinned", unPinned)
            val usersRef = Firebase.firestore.collection("users")
            val users = usersRef.get().await()
           var coljourneys: QuerySnapshot
