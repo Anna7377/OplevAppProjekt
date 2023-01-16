@@ -18,12 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import coil.compose.rememberImagePainter
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
@@ -111,7 +113,7 @@ fun MyJourneyPage(
                     navCatIdeas,
                     navEdit = createCat
                 )
-                IdeaGrid(list = ideas)
+                IdeaGrid(list = ideas, randomimg = viewModel.randomImg())
             }
         }
     },
@@ -126,19 +128,19 @@ fun MyJourneyPage(
 
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun IdeaGrid(list: ArrayList<ideas>){
+fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
-           IdeaBox(idea = idea)
+           IdeaBox(idea = idea, randomimg = randomimg)
        }
        itemsinColumn.add(tempIdea)
    }
     LazyVerticalGrid(cells = GridCells.Fixed(2)){
 
         itemsinColumn.forEachIndexed{
-                index, function ->  item { IdeaBox(list.get(index)) }
+                index, function ->  item { IdeaBox(list.get(index), randomimg) }
         }
     }
 }
@@ -147,19 +149,27 @@ fun IdeaGrid(list: ArrayList<ideas>){
 
 
 @Composable
-fun IdeaBox(idea: ideas) {
+fun IdeaBox(idea: ideas, randomimg: Int) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier
+        Box(contentAlignment = Alignment.Center, modifier = Modifier
             .clickable(onClick = { dialog.value = true })
             .width(190.dp)
             .height(190.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
-            .clip(RoundedCornerShape(15))) {
+            .clip(RoundedCornerShape(15))
+            .background(color = Color(myColourString.toColorInt())))
+        {
+            if(idea.img?.isNotEmpty()==true){
+                val painter = rememberImagePainter(data = idea.img)
+                Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds)
+            }
+            else{
             Image(
-                painter = painterResource(id = R.drawable.image11),
-                contentDescription = " "
-            )
+                painter = painterResource(id =randomimg ),
+                contentDescription = " ", contentScale = ContentScale.FillBounds
+            ) }
         }
         Text(text=idea.title, textAlign = TextAlign.Center)
         }
@@ -295,7 +305,7 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Ide", color = Color(myColourString.toColorInt()))
                         }
-                    }
+                }
             }
         )
     }

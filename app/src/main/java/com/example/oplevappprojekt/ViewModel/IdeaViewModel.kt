@@ -48,10 +48,10 @@ _uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = 
 categoryID = "")
     }
 
-    fun createIdea(title: String, desc: String, link: String, journeyID: String){
+    fun createIdea(title: String, desc: String, link: String, journeyID: String, img: String){
         runBlocking {
             ideaRepo.createIdea(title = title, desc=desc,
-                link=link, ID=uiState.value.categoryID, journeyID = journeyID)
+                link=link, ID=uiState.value.categoryID, journeyID = journeyID, img = img)
         }
     }
 

@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
@@ -50,7 +51,9 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
             Box(modifier = Modifier
                 .size(30.dp)
                 .absoluteOffset(x = 320.dp, y = 0.dp)){
-                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(onClick = { navBack() }))
             }
         }
 
@@ -73,7 +76,7 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                         text = viewModel.uiState.value.categoryName
                     }
 
-                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel,text), journeyID)
+                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel), journeyID)
 
                     val desc = nameCat(text = "")
 
@@ -85,6 +88,8 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
+                    val img = nameCat(text = "")
+
                     var nav = navCat
 if(viewModel.uiState.value.isCategorySelected){
     nav = navIdeas
@@ -93,6 +98,9 @@ if(viewModel.uiState.value.isCategorySelected){
                         viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
                         )
                         nav()
+                        viewModel.createIdea(title = title, desc = desc, link = link,
+                            journeyID = journeyID, img = img)
+                        navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
@@ -260,3 +268,8 @@ fun DropDownMenu(viewmodel: Journeysviewmodel, text: String) : String {
 
 
 
+
+
+    }
+    }
+*/
