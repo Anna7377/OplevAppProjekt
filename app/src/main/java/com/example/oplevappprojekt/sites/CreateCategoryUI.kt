@@ -26,6 +26,7 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.category
 import com.example.oplevappprojekt.data.uid
 
+
 // to create category
 @Composable
 fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
@@ -146,10 +147,10 @@ navEdit: ()->Unit) {
         }
         itemsinColumn.add(tempIdea)
     }
-    Spacer(modifier = Modifier.height(20.dp))
+    Spacer(modifier = Modifier.height(0.dp))
     Box(modifier = Modifier
-        .height(190.dp)
-        .width(390.dp) ){
+        .height(140.dp)
+        .width(380.dp) ){
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
@@ -184,13 +185,13 @@ navEdit: () -> Unit){
             Row() {
                 Button(onClick = {
                     viewModel.selectCat(ID = category.categoryID, name = category.name)
-                    viewModel.deleteCategory(category.categoryID)}, modifier = Modifier.offset(x=310.dp)) {
-                    Text(text="Slet")
+                    viewModel.deleteCategory(category.categoryID)}, modifier = Modifier.offset(x=310.dp), colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt()))) {
+                    Text(text="Slet", color = Color.White)
                 }
             Button(onClick = { navEdit()
                 System.out.println("on Button click status: " + viewModel.uiState.value.isCategorySelected)
-            viewModel.selectCat(category.categoryID, name= category.name )},modifier = Modifier.offset(x=150.dp)) {
-                Text(text="Rediger")
+            viewModel.selectCat(category.categoryID, name= category.name )},modifier = Modifier.offset(x=150.dp), colors = ButtonDefaults.buttonColors(Color.Gray)) {
+                Text(text="Rediger", color = Color.White)
             }}
        } }
 }
