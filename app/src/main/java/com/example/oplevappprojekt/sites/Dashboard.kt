@@ -189,9 +189,14 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
 
         }
     if(dialog.value){
-        AlertDialog(modifier = Modifier.fillMaxSize(), onDismissRequest = {dialog.value=false},
+        AlertDialog(onDismissRequest = {dialog.value=false},
             title = {
-                Text(text=idea.title, color = Color.White)
+                var text = "Unavngivet"
+                println(idea.title + idea.desc)
+                if(idea.title.isNotEmpty()){
+                    text = idea.title
+                }
+                Text(text=text, color = Color.White)
             },
             text={
                 Column() {
@@ -238,6 +243,9 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             painter = rememberImagePainter(data = idea.img),
                             contentDescription = null
                         )
+                    }
+                    else{
+                        Text(text="Intet Billede")
                     }
                     }
                  },
