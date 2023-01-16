@@ -53,6 +53,7 @@ fun OplevApp(start: String) {
         val authviewmodel = AuthViewModel()
         val ideasViewModel = IdeasViewModel()
         val startRoute = "start"
+        val loadRoute = "load"
         val mainroute = "main"
         val profile = "profile"
         val loginRoute = "logIn"
@@ -107,7 +108,7 @@ fun OplevApp(start: String) {
             composable(route = inspirationroute) {
                 Inspiration(
                     navMain = { navigationController.navigate(mainroute) },
-                    navProfile = { navigationController.navigate(profile) })
+                    navProfile = { navigationController.navigate(profile) }, InspirationViewModel())
             }
             composable(route = createroute) {
                 Trip(
@@ -137,10 +138,14 @@ fun OplevApp(start: String) {
                     navEdit = { navigationController.navigate(createroute) }
                ,
                     navMain = {navigationController.navigate(mainroute)},
-                    navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) }, navProfile ={ navigationController.navigate(profile) } )
+                    navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) },
+                    navProfile ={ navigationController.navigate(profile) },
+                navLoad = {navigationController.navigate("load")} )
             }
             composable(route = createIdea) {
-                CreateIdea(navIdeas = { navigationController.navigate(idearoute) }, ideasViewModel, journeyviewmodel,
+                CreateIdea(navIdeas = { navigationController.navigate(catideas) },
+                    navCat = {navigationController.navigate(catideas)},
+                    viewModel = ideasViewModel, journeyviewmodel,
                 navBack = {navigationController.navigate(idearoute)})
             }
             composable(route = changepassword) {
@@ -149,22 +154,7 @@ fun OplevApp(start: String) {
                     navigation = { navigationController.navigate(profile) },
                 )
             }
-            /*
-            composable(route = createcategory) {
-                CreateCategory(navCategories = { navigationController.navigate(categorypage) },navBack = {navigationController.navigate(idearoute)})
 
-            }
-
-             */
-           /* composable(route = categorypage) {
-                CategoryPage(
-                    navCategories =
-                    { navigationController.navigate(createcategory) },
-                    Journeysviewmodel(), journeyState()
-                )
-            }
-
-            */
             composable(route = createcatbackup){
                 createcat(
                     navDash = {navigationController.navigate(idearoute)},
@@ -177,13 +167,18 @@ fun OplevApp(start: String) {
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
                 navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
             composable(route = catideas){
-            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(idearoute)},
-            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)})
+            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(catideas)},
+            journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)},
+            navCat = {navigationController.navigate(idearoute)})
             }
             composable(route = catideas){
-              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})
-
-
+              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},
+              journeyviewmodel, navLoad = {navigationController.navigate(loadRoute)})
+            }
+            composable(route=loadRoute){
+                Load(navBack = {navigationController.navigate(idearoute)},
+                viewModel = ideasViewModel,
+                    navIdeas = {navigationController.navigate(catideas)})
             }
         }
     }

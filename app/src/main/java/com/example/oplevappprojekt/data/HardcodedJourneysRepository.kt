@@ -163,10 +163,14 @@ class HardcodedJourneysRepository {
 
     suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
         val ideas = Firebase.firestore.collection("ideas")
+        val docref = ideas.get().await()
         val idealist = ideas.whereEqualTo("journeyID", ID)
             .whereEqualTo("categoryID", "")
             .get()
             .await().toObjects<ideas>()
+        for(i in 0..idealist.size-1){
+            idealist.get(i).ID = docref.documents.get(i).id
+        }
     return idealist as ArrayList<ideas>
     }
 

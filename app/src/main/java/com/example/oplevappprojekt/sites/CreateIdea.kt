@@ -27,7 +27,7 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 //s215726 & s213370
 
 @Composable
-fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel: Journeysviewmodel, navBack:() ->Unit) {
+fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel: Journeysviewmodel, navBack:() ->Unit) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -51,7 +51,9 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
             Box(modifier = Modifier
                 .size(30.dp)
                 .absoluteOffset(x = 320.dp, y = 0.dp)){
-                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(onClick = { navBack() }))
             }
         }
 
@@ -69,8 +71,12 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
+                    var text = "Vælg Kategori"
+                    if(viewModel.uiState.value.isCategorySelected){
+                        text = viewModel.uiState.value.categoryName
+                    }
 
-                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel), journeyID)
+                    viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel, text), journeyID)
 
                     val desc = nameCat(text = "")
 
@@ -82,12 +88,16 @@ fun CreateIdea(navIdeas: ()->Unit, viewModel: IdeasViewModel, journeysviewmodel:
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
+                    val img = nameCat(text = "")
 
-
+                    var nav = navCat
+if(viewModel.uiState.value.isCategorySelected){
+    nav = navIdeas
+}
                     Button(onClick = {
                         viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
-                        )
-                        navIdeas()
+                        img = img)
+                        nav()
                      },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
@@ -194,21 +204,13 @@ fun Link() : String {
 
 
 
-@Preview
 @Composable
-fun preview(){
-    CreateIdea({}, IdeasViewModel(), journeysviewmodel = Journeysviewmodel(),{})
-}
-
-
-
-@Composable
-fun DropDownMenu(viewmodel: Journeysviewmodel) : String {
+fun DropDownMenu(viewmodel: Journeysviewmodel, text: String) : String {
     var expanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("Tildel til kategori")
+        mutableStateOf(text)
     }
     val list = viewmodel.getCategories()
     System.out.println("list: " + list)
@@ -261,27 +263,3 @@ fun DropDownMenu(viewmodel: Journeysviewmodel) : String {
 }
 
 
-
-
-/*
-@Composable
-fun DropDownMenu() {
-    var expanded by remember { mutableStateOf(false) }
-    val items = listOf("A", "B", "C", "D", "E")
-    var selectedIndex by remember { mutableStateOf(0) }
-    
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .wrapContentSize(Alignment.Center)) {
-
-        Text (items[selectedIndex],
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = { expanded = true })
-                .background(Color.Gray))
-
-
-
-    }
-    }
-*/
