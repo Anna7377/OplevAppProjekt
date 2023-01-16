@@ -195,7 +195,6 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel) {
                 else{
                     Image(painter = painterResource(id = randomimg), contentDescription = "")
                 }
-                System.out.println("idea ID is" + idea.ID)
                 Button(
                     onClick = {viewModel.deleteIdea(idea.ID)},
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
@@ -330,7 +329,8 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
                     Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Eller", color = Color.White)
                     Spacer(modifier = Modifier.height(10.dp))
-                        Button(onClick = { navIdea() },
+                        Button(onClick = { navIdea()
+                                         ideasViewModel.deselect()},
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Ide", color = Color(myColourString.toColorInt()))
                         }

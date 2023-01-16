@@ -98,9 +98,6 @@ if(viewModel.uiState.value.isCategorySelected){
                         viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
                         img = img)
                         nav()
-                        viewModel.createIdea(title = title, desc = desc, link = link,
-                            journeyID = journeyID, img = img)
-                        navIdeas()
                      },
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),

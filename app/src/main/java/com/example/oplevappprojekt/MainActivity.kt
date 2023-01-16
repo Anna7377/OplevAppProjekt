@@ -179,9 +179,9 @@ fun OplevApp(start: String) {
                 createOpt(navCat = {navigationController.navigate(createcatbackup)},
                 navIdea={ navigationController.navigate(createIdea) } , ideasViewModel, navBack = {navigationController.navigate(idearoute)})}
             composable(route = catideas){
-            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(idearoute)},
+            CreateIdea(viewModel = ideasViewModel, navIdeas = {navigationController.navigate(catideas)},
             journeysviewmodel = journeyviewmodel, navBack = {navigationController.navigate(idearoute)},
-            navCat = {navigationController.navigate(catideas)})
+            navCat = {navigationController.navigate(idearoute)})
             }
             composable(route = catideas){
               IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},
