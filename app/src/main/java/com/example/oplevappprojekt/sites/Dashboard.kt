@@ -71,7 +71,7 @@ fun MyJourneyPage(
                     ImageId =
                     viewModel.uiState.value.currentImg,
                     text = viewModel.uiState.value.currentcountry.toString(),
-               // navMain = navMain, viewModel = viewModel
+               navMain = navMain, viewModel = viewModel
                 )
                 var categories = viewModel.getCategories()
                 var ideas = viewModel.getOtherIdeas()
@@ -161,7 +161,6 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
             navLoad:()->Unit, navCreate: () -> Unit) {
     viewModel.selectIdea(idea.ID, desc = idea.desc, title = idea.title,
         img = idea.img.toString(), link = idea.link)
-    println("idea title is" + idea.title)
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier
@@ -181,7 +180,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
             else{
             Image(
                 painter = painterResource(id =R.drawable.logo_photo ),
-                contentDescription = " ", contentScale = ContentScale.FillBounds
+                contentDescription = " ", contentScale = ContentScale.FillHeight
             ) }
 
         }
@@ -190,12 +189,46 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
 
         }
     if(dialog.value){
-        AlertDialog(onDismissRequest = {dialog.value=false},
+        AlertDialog(modifier = Modifier.fillMaxSize(), onDismissRequest = {dialog.value=false},
             title = {
                 Text(text=idea.title, color = Color.White)
             },
             text={
                 Column() {
+                    Button(
+                        onClick = {navCreate()},
+                        colors = ButtonDefaults.buttonColors(Color.Gray),
+                        modifier = Modifier
+                            .absoluteOffset(x = 0.dp, y = 115.dp)
+                            .height(35.dp)
+                            .width(85.dp)
+                    ) {
+                        Text(
+                            text = "Rediger",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            // fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            viewModel.deleteIdea(idea.ID)
+                            navLoad()
+                            dialog.value=false
+                        },
+                        colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
+                        modifier = Modifier
+                            .absoluteOffset(x = 0.dp, y = 115.dp)
+                            .height(35.dp)
+                            .width(85.dp)
+                    ) {
+                        Text(
+                            text = "Slet",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            // fontWeight = FontWeight.Bold
+                        )
+                    }
                     Text(text = idea.desc +
                             SelectionContainer() {
                                 idea.link
@@ -206,39 +239,6 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             contentDescription = null
                         )
                     }
-                        Button(
-                            onClick = {navCreate()},
-                            colors = ButtonDefaults.buttonColors(Color.Gray),
-                            modifier = Modifier
-                                .absoluteOffset(x = 0.dp, y = 115.dp)
-                                .height(35.dp)
-                                .width(85.dp)
-                        ) {
-                            Text(
-                                text = "Rediger",
-                                color = Color.White,
-                                fontSize = 12.sp,
-                                // fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                viewModel.deleteIdea(idea.ID)
-                                navLoad()
-                            },
-                            colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
-                            modifier = Modifier
-                                .absoluteOffset(x = 0.dp, y = 115.dp)
-                                .height(35.dp)
-                                .width(85.dp)
-                        ) {
-                            Text(
-                                text = "Slet",
-                                color = Color.White,
-                                fontSize = 12.sp,
-                                // fontWeight = FontWeight.Bold
-                            )
-                        }
                     }
                  },
 
