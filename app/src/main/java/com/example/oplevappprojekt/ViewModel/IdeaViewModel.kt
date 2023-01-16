@@ -12,7 +12,8 @@ import kotlinx.coroutines.tasks.await
 data class IdeaState(
     val isCategorySelected: Boolean = false,
     val categoryID: String = " ",
-   val  categoryName: String = " "
+   val  categoryName: String = " ",
+    val addMessage: String = " "
     //val currentIdea : idea? = null,
 )
 
@@ -36,8 +37,15 @@ class IdeasViewModel{
             categoryID = ID, categoryName = name)
     }
 
-    fun deselect(){
+    fun setcategory(title: String, ID: String) {
+        var ret: String
+        runBlocking { ret = ideaRepo.setcategory(name = title, ID = ID ) }
+        _uiState.value = _uiState.value.copy(addMessage = ret)
 
+    }
+    fun deselect(){
+_uiState.value = _uiState.value.copy(isCategorySelected = false, categoryName = "",
+categoryID = "")
     }
 
     fun createIdea(title: String, desc: String, link: String, journeyID: String){
@@ -45,6 +53,12 @@ class IdeasViewModel{
             ideaRepo.createIdea(title = title, desc=desc,
                 link=link, ID=uiState.value.categoryID, journeyID = journeyID)
         }
+    }
+
+    fun getCatID(name: String, ID: String){
+        var catID = " "
+        runBlocking { catID = ideaRepo.findCatID(name = name, ID = ID) }
+        _uiState.value = _uiState.value.copy(categoryID = catID)
     }
 
     fun deleteCategory(ID: String){

@@ -6,11 +6,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-data class category(
-    val name: String = "",
-    val journeyID: String = "",
-var categoryID: String = ""
-)
+
 class backupRepoCat {
     val category_collection = Firebase.firestore.collection("categories")
     var categorylist: ArrayList<category> = arrayListOf()
@@ -26,11 +22,5 @@ class backupRepoCat {
         return categorylist
     }
 
-    fun setcategory(name: String, ID: String) {
-        val cat = hashMapOf(
-            "name" to name,
-            "journeyID" to ID
-        )
-        category_collection.document().set(cat)
-    }
+
 }

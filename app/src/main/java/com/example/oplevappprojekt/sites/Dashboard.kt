@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
@@ -30,11 +29,10 @@ import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.ViewModel.ideas
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 typealias ComposableFun = @Composable () -> Unit
-var countryname: String = ""
+var countryname = ""
 var journeyID = " "
 //s215722
 @Composable
@@ -42,40 +40,84 @@ fun MyJourneyPage(
     navCreate: () -> Unit,
     viewModel: Journeysviewmodel,
     viewModelIdea: IdeasViewModel,
+    viewModelcol: CollaboratorViewmodel,
     navEdit: () -> Unit,
     navMain: () -> Unit,
-    navCreateIdea: ()->Unit,
-    navCatIdeas: ()->Unit,
-    createCat: ()->Unit
+    navCatIdeas: () -> Unit,
+    createCat: () -> Unit,
+    navProfile: () -> Unit
 ){
-    Scaffold(content = {Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
-countryname = viewModel.uiState.value.currentcountry.toString()
-            journeyID=viewModel.uiState.value.currentJourneyID.toString()
-            TopCard(ImageId = R.drawable.image10,
-                text = viewModel.uiState.value.currentcountry.toString())
-            Text(text = viewModel.uiState.value.currentdate.toString())
-
-            Row{
+    Scaffold(bottomBar = {BottomBar(onClick1 = {}, onClick2 = {navMain()}, onClick3 = {navProfile()})},
+        content =
+        {
+    //Scaffold(content = {
+        Surface {
+            Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                countryname = viewModel.uiState.value.currentcountry.toString()
                 if(viewModel.uiState.value.isOwned){
-                editJourney(navEdit = {navEdit()})
-                genLink(viewModel = viewModel)
-                deleteJourney(navMain = {navMain()}, viewModel = viewModel)}
+                journeyID = viewModel.uiState.value.currentJourneyID.toString()}
                 else{
-                    uncollab(viewModel = CollaboratorViewmodel(), orig =viewModel.uiState.value.currentJourneyID.toString() ) {
+                    journeyID = viewModel.uiState.value.originalJourneyID
+                }
+                TopCard(
+                    ImageId =
+                    viewModel.uiState.value.currentImg,
+                    text = viewModel.uiState.value.currentcountry.toString()
+                )
+                var categories = viewModel.getCategories()
+                var ideas = viewModel.getOtherIdeas()
+                if (viewModel.uiState.value.isOwned) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
+                        genLink(viewModel = viewModel)
+                    }
 
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(modifier = Modifier.width(30.dp))
+                        editJourney(navEdit = { navEdit() })
+                        Spacer(modifier = Modifier.width(20.dp))
+                        deleteJourney(navMain = { navMain() }, viewModel = viewModel)
+                    }
+                    Row (verticalAlignment = Alignment.CenterVertically){
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
+                    }
+                } else {
+                    ideas = viewModel.getColIdeas()
+                    categories = viewModel.getColCategories()
+                    Row{
+                    uncollab(
+                        viewModel = CollaboratorViewmodel(),
+                        orig = viewModel.uiState.value.currentJourneyID.toString()
+                    ) {
+                    }
+                        Text(
+                            text = viewModel.uiState.value.currentdate.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(30.dp, 10.dp)
+                        )
                     }
                 }
+                catCardList(
+                    catList = categories,
+                    viewModel = viewModelIdea,
+                    navCatIdeas,
+                    navEdit = createCat
+                )
+                IdeaGrid(list = ideas)
             }
-            val categories = viewModel.getCategories()
-            catCardList(catList = categories, viewModel = viewModelIdea, navCatIdeas, navEdit=createCat)
-            IdeaGrid(list = viewModel.getOtherIdeas())}
-    }
+        }
     },
-        floatingActionButton = {Fob(navCreate = navCreate)
-      viewModelIdea.deselect()
+        floatingActionButton = {
+            Fob(navCreate = navCreate)
+            //viewModelIdea.deselect()
         })
+
 }
+
 
 
  @OptIn(ExperimentalFoundationApi::class)
@@ -106,8 +148,8 @@ fun IdeaBox(idea: ideas) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier
             .clickable(onClick = { dialog.value = true })
-            .width(200.dp)
-            .height(200.dp)
+            .width(150.dp)
+            .height(150.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(15))) {
             Image(
@@ -138,7 +180,10 @@ fun IdeaBox(idea: ideas) {
 
 @Composable
 fun editJourney(navEdit: () -> Unit){
-    Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+    Button(onClick = {navEdit()}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt())),
+        modifier = Modifier
+            .height(35.dp)
+            .width(145.dp)) {
         Text(text="Rediger Rejse", color = Color.White)
     }
 }
@@ -147,7 +192,9 @@ fun deleteJourney(navMain: ()-> Unit, viewModel: Journeysviewmodel) {
     Button(onClick = {
         navMain()
         viewModel.deleteJourney()
-    }, colors = ButtonDefaults.buttonColors(Color.Red)) {
+    }, colors = ButtonDefaults.buttonColors(Color.Red),modifier = Modifier
+        .height(35.dp)
+        .width(180.dp)) {
         Text(text="Slet Rejse", color = Color.White)
     } }
 
@@ -157,49 +204,49 @@ fun genLink(viewModel: Journeysviewmodel){
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
-            title = { Text(text="Inviter Medarrangør", color = Color.White) },
+            title = { Text(text="Inviter medarrangør via linket:", color = Color.White) },
             text={ SelectionContainer() {
                 Text(text= viewModel.uiState.value.currentJourneyID.toString(),
                 color = Color.White, ) }},
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
-    Button(onClick = {dialog.value=true}) {
-Text("Inviter Medarrangør")
+    Button(onClick = {dialog.value=true}, colors = ButtonDefaults.buttonColors(Color(myColourString.toColorInt()))) {
+Text("Inviter Medarrangør", color = Color.White)
     }
 }
 
-/* @Composable
-fun showCol(viewModel: CollaboratorViewmodel){
+@Composable
+fun showCol(viewModel: CollaboratorViewmodel, ID: String){
     val dialog = remember{mutableStateOf(false)}
 
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = { Text(text="Medarrangørere", color = Color.White) },
             text={ SelectionContainer() {
-               Text(text= viewModel.showCol(),
+               Text(text= viewModel.showCol(ID).toString(),
                     color = Color.White, ) }},
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="luk", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }
     Button(onClick = {dialog.value=true}) {
-        Text("Inviter Medarrangør")
+        Text("Se Medarrangørere")
     }
 }
 
- */
+
 
 @Composable
 fun uncollab(viewModel: CollaboratorViewmodel, orig: String, navMain: () -> Unit){
     Button(onClick = {  viewModel.uncollab(orig)
-   navMain() }){
-        Text("fjern rejse")
+   navMain() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(myColourString.toColorInt()))){
+        Text("fjern rejse", color = Color.White)
     }
 
 }
 
 @Composable
-fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
+fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center)
@@ -219,12 +266,19 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit){
             modifier = Modifier
                 .fillMaxSize()
                 .padding(30.dp)
-        )}
+        )
+        Box(modifier = Modifier
+            .size(30.dp)
+            .absoluteOffset(x = 320.dp, y = 0.dp)){
+            Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+        }
+    }
         MaterialTheme(
             content =
             {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Button(onClick = { navCat() },
+                        Button(onClick = { navCat()
+                                         ideasViewModel.deselect()},
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Kategori", color = Color(myColourString.toColorInt()))
                         }

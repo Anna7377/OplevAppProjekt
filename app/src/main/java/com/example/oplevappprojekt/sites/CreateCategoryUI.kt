@@ -1,6 +1,7 @@
 package com.example.oplevappprojekt.sites
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,21 +13,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
-import com.example.oplevappprojekt.data.backupRepoCat
 import com.example.oplevappprojekt.data.category
+import com.example.oplevappprojekt.data.uid
 
 // to create category
 @Composable
-fun createcat(navDash: ()->Unit, repo: backupRepoCat, viewModel: Journeysviewmodel,
-ideasViewModel: IdeasViewModel){
+fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -37,6 +39,11 @@ ideasViewModel: IdeasViewModel){
                 .width(350.dp),
 
             ) {
+            Box(modifier = Modifier
+                .size(30.dp)
+                .absoluteOffset(x = 320.dp, y = 0.dp)){
+                Image(painter = painterResource(id = R.drawable.close), contentDescription = "", modifier = Modifier.fillMaxSize().clickable(onClick = {navBack()}))
+            }
             Text(
                 text = "Opret Kategori",
                 color = Color.White,
@@ -57,20 +64,35 @@ ideasViewModel: IdeasViewModel){
                     verticalArrangement = Arrangement.Center
 
                 ) {
-                    var text = " "
+                    var text = ""
                     if(ideasViewModel.uiState.value.isCategorySelected){
                         text = ideasViewModel.uiState.value.categoryName
                     }
-                    val name = nameCat(text)
-var OnClick = {
-    repo.setcategory(name = name, ID = viewModel.uiState.value.currentJourneyID.toString())
-    navDash()
-}
+                    val name = nameCat(text = text)
+                    Text(ideasViewModel.uiState.value.addMessage)
+                    var enabled = false
+                    if(name.isNotEmpty()){
+                        enabled=true
+                    }
+                    var ID = viewModel.uiState.value.currentJourneyID
+                    if(!viewModel.uiState.value.isOwned){
+                        ID = viewModel.uiState.value.originalJourneyID
+                    }
+                    var OnClick = {
+                        ideasViewModel.setcategory(title = name, ID = ID.toString())
+                        System.out.println("in the wrong place")
+                        navDash()
+                        // ideasViewModel.deselect()
+                    }
+                    println("in createcat: " + ideasViewModel.uiState.value.isCategorySelected)
+                    println("in createcat: " + ideasViewModel.uiState.value.categoryName)
                     if(ideasViewModel.uiState.value.isCategorySelected){
                       OnClick = {viewModel.editCategory(name = name, ID = ideasViewModel.uiState.value.categoryID )
-                      navDash()}
+                      // navDash()
+                     // ideasViewModel.deselect()
+                      }
                     }
-                    Button(onClick = OnClick,
+                    Button(onClick = OnClick, enabled = enabled,
                         shape = RoundedCornerShape(60.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                     ) {
@@ -87,22 +109,20 @@ var OnClick = {
 
 @Composable
 fun nameCat(text: String) : String{
-var text by remember { mutableStateOf(text) }
+val thistext =  remember { mutableStateOf(text) }
 TextField(
-value = text,
+value = thistext.value,
 colors = TextFieldDefaults.textFieldColors(
 backgroundColor = Color.White,
 cursorColor = Color.Black,
 focusedIndicatorColor = Color.Black,
 unfocusedIndicatorColor = Color.Transparent),
 modifier = Modifier
-    .height(49.dp)
+    .height(60.dp)
     .width(250.dp)
     .offset(x = 2.dp),
 shape = RoundedCornerShape(8.dp),
-onValueChange = {newText -> {
-
-}
+onValueChange = {thistext.value = it
 },
 label ={
     Text(text = "Titel:",
@@ -112,7 +132,7 @@ label ={
 },
 
 )
-return text
+return thistext.value
 }
 
 @Composable
@@ -126,19 +146,24 @@ navEdit: ()->Unit) {
         }
         itemsinColumn.add(tempIdea)
     }
+    Spacer(modifier = Modifier.height(20.dp))
+    Box(modifier = Modifier
+        .height(190.dp)
+        .width(390.dp) ){
     LazyVerticalGrid(cells = GridCells.Fixed(1)) {
 
         itemsinColumn.forEachIndexed { index, function ->
             item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas, navEdit) }
-        } } }
+        } } }}
 @Composable
 fun catCard(category: category, viewModel: IdeasViewModel, navIdeas: ()->Unit,
 navEdit: () -> Unit){
     Card(modifier = Modifier
-        .padding(4.dp)
+        .height(52.dp)
+        .width(200.dp)
+        .padding(vertical = 2.dp)
         .clickable(onClick = {
             viewModel.selectCat(ID = category.categoryID, name = category.name)
-            System.out.println("ID is: " + category.categoryID)
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -149,19 +174,22 @@ navEdit: () -> Unit){
                 modifier = Modifier.padding(16.dp),
                 //      .border(width = 2.dp, shape = , color = Color.Black),
                 style = MaterialTheme.typography.h3,
-                //  fontSize = 24.sp
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                //fontFamily = FontFamily.Cursive,
                 //  fontFamily = FontFamily.Serif
                 color = Color.White,
                 //  textDecoration = TextDecoration.Underline
             )
             Row() {
-                Button(onClick = { viewModel.deleteCategory(category.categoryID)}) {
+                Button(onClick = {
+                    viewModel.selectCat(ID = category.categoryID, name = category.name)
+                    viewModel.deleteCategory(category.categoryID)}, modifier = Modifier.offset(x=310.dp)) {
                     Text(text="Slet")
                 }
             Button(onClick = { navEdit()
-            viewModel.selectCat(category.categoryID, name= category.name )}) {
+                System.out.println("on Button click status: " + viewModel.uiState.value.isCategorySelected)
+            viewModel.selectCat(category.categoryID, name= category.name )},modifier = Modifier.offset(x=150.dp)) {
                 Text(text="Rediger")
             }}
        } }

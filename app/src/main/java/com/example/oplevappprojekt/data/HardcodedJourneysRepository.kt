@@ -1,9 +1,11 @@
 package com.example.oplevappprojekt.data
 
 import androidx.compose.ui.graphics.ImageBitmap
+import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journey
 import com.example.oplevappprojekt.ViewModel.ideas
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -12,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
+import java.util.concurrent.ThreadLocalRandom
 
 //s215722
 
@@ -86,20 +89,28 @@ class HardcodedJourneysRepository {
                "userID" to uid,
                "date" to date,
                "time" to Timestamp(System.currentTimeMillis()),
-               "isPinned" to false
+               "isPinned" to false,
+               "img" to randomImg()
            )
            journeys.document().set(journey)
        }
 
-       fun editJourney(journeyID: String, date: String, country: String) {
-           val journey = hashMapOf(
-               "country" to country,
-               "userID" to uid,
-               "date" to date,
-               "time" to Timestamp(System.currentTimeMillis())
-           )
+      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean) {
            journeys.document(journeyID).update("country", country,
-               "date", date)
+               "date", date, "isPinned", isPinned)
+           val usersRef = Firebase.firestore.collection("users")
+           val users = usersRef.get().await()
+          var coljourneys: QuerySnapshot
+           for(i in 0..users.size()-1){
+               val uid = users.documents.get(i).id
+               coljourneys = usersRef.document(uid).collection("coljourneys")
+                   .whereEqualTo("originalJourneyID", journeyID).get().await()
+               for(i in 0..coljourneys.size()-1){
+                 val docid = coljourneys.documents.get(i).id
+                   usersRef.document(uid).collection("coljourneys").document(docid)
+                       .update("country", country, "date", date)
+               }
+           }
        }
 
        fun deleteJourney(ID: String) {
@@ -113,7 +124,7 @@ class HardcodedJourneysRepository {
            return journ?.img!!
        }
 
-       suspend fun setImage(ID: String, img: ImageBitmap) {
+       fun setImage(ID: String, img: ImageBitmap) {
            Firebase.firestore.collection("journeyimages").document(ID)
                .update("img", img)
        }
@@ -145,8 +156,24 @@ class HardcodedJourneysRepository {
 
     suspend fun getOtherIdeas(ID: String) : ArrayList<ideas>{
         val ideas = Firebase.firestore.collection("ideas")
-        val idealist = ideas.whereEqualTo("journeyID", ID).get().await().toObjects<ideas>()
+        val idealist = ideas.whereEqualTo("journeyID", ID)
+            .whereEqualTo("categoryID", "")
+            .get()
+            .await().toObjects<ideas>()
     return idealist as ArrayList<ideas>
+    }
+
+    fun randomImg(): Int {
+        val i = ThreadLocalRandom.current().nextInt(0, 5)
+        var img: Int = R.drawable.image6
+        when (i) {
+            1 -> img = R.drawable.image1
+            2 -> img = R.drawable.image2
+            3 -> img = R.drawable.image3
+            4 -> img = R.drawable.image4
+            5 -> img = R.drawable.image5
+        }
+        return img
     }
    }
 

@@ -10,13 +10,11 @@ import com.example.oplevappprojekt.data.category
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
 //s215722
-
 data class ideas(
     val title: String = "",
     val desc: String = "",
@@ -31,8 +29,9 @@ data class Journey(
     val time: Date = Date(System.currentTimeMillis()),
     val userID: String = "",
     var JourneyID: String = "",
-    val originalJourneyID: String = " ",
-val isPinned: Boolean = false
+    val originalJourneyID: String = ".",
+    var isPinned: Boolean = false,
+    var img: Int = R.drawable.image11
 )
 
 data class journeyState(
@@ -41,13 +40,30 @@ data class journeyState(
     var currentcountry: String? = null,
     var currentdate: String? = null,
 var userjourneys: ArrayList<Journey> = arrayListOf(),
-val isPinned: Boolean = false,
-val isOwned: Boolean = true)
+var isPinned: Boolean = false,
+val isOwned: Boolean = true,
+val originalJourneyID: String = ".",
+val currentImg: Int = R.drawable.image11)
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
     val uiState: State<journeyState> = _uiState
     val repo = HardcodedJourneysRepository()
+
+    fun getColCategories() : ArrayList<category>{
+        var cat: ArrayList<category>
+        runBlocking {
+     cat = repo.getCategories(uiState.value.originalJourneyID) }
+        return cat
+    }
+
+    fun getColIdeas() : ArrayList<ideas>{
+        var ideas = arrayListOf<ideas>()
+        runBlocking {
+            ideas = repo.getOtherIdeas(uiState.value.originalJourneyID)
+        }
+        return ideas
+    }
 
     fun getJourneys() {
         var journeys: ArrayList<Journey>
@@ -65,7 +81,8 @@ class Journeysviewmodel {
         repo.editCategory(name=name, ID=ID)
     }
 
-    fun selectJourney(country: String, date: String, ID: String) {
+
+    fun selectJourney(img: Int, country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }
 
@@ -73,18 +90,22 @@ class Journeysviewmodel {
             currentdate = date,
             currentJourneyID = ID,
             isJourneySelected = true,
-        isOwned = !iscol)
-        System.out.println(_uiState.value)
+            originalJourneyID = originalJourneyID,
+        isOwned = !iscol,
+        currentImg = img)
+
     }
 
     fun deselect(){
-        println("Deselecting")
+
         _uiState.value = _uiState.value.copy(isJourneySelected = false)
     }
 
-    fun editJourney(country: String, date: String, ID: String){
-        repo.editJourney(country=country, date=date, journeyID = ID)
-        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true)
+    fun editJourney(country: String, date: String, ID: String, isPinned: Boolean){
+        runBlocking {
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned)}
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
+        isPinned = isPinned)
     }
 
     fun deleteJourney(){
@@ -92,11 +113,17 @@ class Journeysviewmodel {
         getJourneys()
     }
 
-    fun getCategories() : kotlin.collections.ArrayList<category>{
-        var ret: kotlin.collections.ArrayList<category>
+    fun getCategories() : ArrayList<category>{
+        var ret: ArrayList<category>
+        var ID: String
+        if(uiState.value.isOwned){
+            ID = uiState.value.currentJourneyID.toString()
+        }
+        else {
+            ID = uiState.value.originalJourneyID
+        }
         runBlocking {
-            System.out.println("journeyID is: "+uiState.value.currentJourneyID)
-            ret = repo.getCategories(uiState.value.currentJourneyID.toString())
+            ret = repo.getCategories(ID)
         }
         System.out.println("ret123: " + ret)
         return ret
@@ -114,17 +141,17 @@ class Journeysviewmodel {
 
     }
 
-    fun getOtherIdeas() : kotlin.collections.ArrayList<ideas>{
-        var list: kotlin.collections.ArrayList<ideas>
+    fun getOtherIdeas() : ArrayList<ideas>{
+        var list: ArrayList<ideas>
 runBlocking { list = repo.getOtherIdeas(uiState.value.currentJourneyID.toString()) }
         return list
     }
 
-
-fun setImg(img: Bitmap?){
+fun setImg(img: Bitmap?) {
     runBlocking {
     repo.setImage(uiState.value.currentJourneyID.toString(), img=img?.asImageBitmap()!!)
 }}
+
     fun randomImg(): Int {
         val i = ThreadLocalRandom.current().nextInt(0, 5)
         var img: Int = R.drawable.image6
