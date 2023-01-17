@@ -12,15 +12,16 @@ fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit
             ,journeyViewModel: Journeysviewmodel,
 navLoad: ()->Unit){
     Scaffold(content = {
+        viewModel.getCategorisedIdeas()
         Column() {
         TopCard(ImageId = R.drawable.image10, text = countryname,
-        viewModel = Journeysviewmodel(),
+        viewModel = journeyViewModel,
             navMain = navCreate
         )
-        val ideas = viewModel.getCategorisedIdeas()
+        val ideas = viewModel.uiState.value.idealist
         IdeaGrid(list = ideas,
             randomimg = journeyViewModel.randomImg(),
-            viewModel, navLoad = navLoad, navCreate)
+            viewModel, navLoad = navLoad, navCreate, journeyViewModel)
     }}, floatingActionButton = { Fob {
         navCreate()
     }})

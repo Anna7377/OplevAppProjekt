@@ -63,11 +63,17 @@ fun MyJourneyPage(
             Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                 countryname = viewModel.uiState.value.currentcountry.toString()
                 if(viewModel.uiState.value.isOwned){
-                journeyID = viewModel.uiState.value.currentJourneyID.toString()}
+                journeyID = viewModel.uiState.value.currentJourneyID.toString()
+                    viewModel.getCategories()
+                    viewModel.getOtherIdeas()
+                }
                 else{
+                    viewModel.getColIdeas()
+                    viewModel.getColCategories()
                     journeyID = viewModel.uiState.value.originalJourneyID
                 }
-                viewModel.getCategories()
+
+
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
@@ -75,7 +81,7 @@ fun MyJourneyPage(
                navMain = navMain, viewModel = viewModel
                 )
                 var categories = viewModel.uiState.value.categorylist
-                var ideas = viewModel.getOtherIdeas()
+                var ideas = viewModel.uiState.value.idealist
                 if (viewModel.uiState.value.isOwned) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         showCol(viewModel = viewModelcol, ID = viewModel.uiState.value.currentJourneyID.toString())
@@ -97,7 +103,7 @@ fun MyJourneyPage(
                         )
                     }
                 } else {
-                    ideas = viewModel.getColIdeas()
+                    ideas = viewModel.uiState.value.idealist
                     categories = viewModel.uiState.value.categorylist
                     Row{
                     uncollab(
@@ -121,7 +127,7 @@ fun MyJourneyPage(
                     journeysviewmodel = viewModel
                 )
                 IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
-                    viewModelIdea, navLoad = navLoad, navCreateIdea)
+                    viewModelIdea, navLoad = navLoad, navCreateIdea, viewModel)
             }
         }
     },
@@ -136,13 +142,14 @@ fun MyJourneyPage(
  @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
- navLoad: ()->Unit, navCreate: () -> Unit){
+ navLoad: ()->Unit, navCreate: () -> Unit, journeysviewmodel: Journeysviewmodel){
     val itemsinColumn = mutableListOf<ComposableFun>()
 
    for (idea in list){
        val tempIdea: ComposableFun = {
            IdeaBox(idea = idea, randomimg = randomimg, viewModel,
-               navLoad = navLoad, navCreate = navCreate)
+               navLoad = navLoad, navCreate = navCreate,
+               journeysviewmodel = journeysviewmodel)
        }
        itemsinColumn.add(tempIdea)
    }
@@ -150,7 +157,8 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
 
         itemsinColumn.forEachIndexed{
                 index, function ->  item { IdeaBox(list.get(index),
-            randomimg, viewModel, navLoad = navLoad, navCreate = navCreate) }
+            randomimg, viewModel, navLoad = navLoad, navCreate = navCreate,
+        journeysviewmodel = journeysviewmodel) }
         }
     }
 }
@@ -160,7 +168,7 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
 
 @Composable
 fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
-            navLoad:()->Unit, navCreate: () -> Unit) {
+            navLoad:()->Unit, navCreate: () -> Unit, journeysviewmodel: Journeysviewmodel) {
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier
@@ -218,12 +226,15 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             // fontWeight = FontWeight.Bold
                         )
                     }
+                    var onClick ={journeysviewmodel.deleteOtherIdea(idea.ID)
+                    dialog.value = false }
+                    if(idea.categoryID==null){
+                        onClick = {viewModel.deleteIdea(idea.ID)
+                        dialog.value = false }
+                    }
+
                     Button(
-                        onClick = {
-                            viewModel.deleteIdea(idea.ID)
-                         //   navLoad()
-                            dialog.value=false
-                        },
+                        onClick = onClick,
                         colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
                         modifier = Modifier
                             .absoluteOffset(x = 0.dp, y = 115.dp)

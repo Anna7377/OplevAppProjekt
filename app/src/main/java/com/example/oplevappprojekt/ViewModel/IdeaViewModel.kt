@@ -19,7 +19,8 @@ data class IdeaState(
     val ideadesc: String = "",
 val ideatitle: String = "",
     val idealink: String = "",
-    val ideaimg: String = ""
+    val ideaimg: String = "",
+val idealist: ArrayList<ideas> = arrayListOf()
 )
 
 class IdeasViewModel{
@@ -28,12 +29,13 @@ class IdeasViewModel{
     val uiState: State<IdeaState> = _uiState
     val ideas = Firebase.firestore.collection("ideas")
 
-    fun getCategorisedIdeas() : ArrayList<ideas>{
+    fun getCategorisedIdeas() {
         var retideas: ArrayList<ideas>
         runBlocking{
             retideas = ideaRepo.getCategorisedIdeas(ID=uiState.value.categoryID)
         }
-        return retideas
+        _uiState.value = _uiState.value.copy(idealist = retideas)
+        //return retideas
     }
 
     fun selectCat(ID: String, name: String){
@@ -82,6 +84,7 @@ categoryID = "")
         runBlocking {
             ideaRepo.deleteIdea(ID)
         }
+        getCategorisedIdeas()
     }
 
     fun deselectIdea(){

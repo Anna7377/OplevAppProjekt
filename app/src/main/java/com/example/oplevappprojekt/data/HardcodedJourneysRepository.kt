@@ -151,6 +151,14 @@ class HardcodedJourneysRepository {
 
        }
 
+    suspend fun deleteOtherIdea(ID: String){
+        val doc = Firebase.firestore.collection("ideas").document(ID).get()
+            .await()
+        if (doc.exists()) {
+            Firebase.firestore.collection("ideas").document(ID).delete()
+        }
+    }
+
     suspend fun getCategories(ID: String): ArrayList<category> {
         System.out.println(ID)
         val catdocs = category_collection.whereEqualTo("journeyID", ID)

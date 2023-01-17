@@ -99,9 +99,9 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 
                     val img = nameCat(text = imgText)
 
-                    var nav = navIdeas
+                    var nav = navBack
 if(viewModel.uiState.value.isCategorySelected){
-    nav = navBack
+    nav = navIdeas
 }
                     var onClick= { viewModel.createIdea(title = title, desc = desc, link = link, journeyID = journeyID,
                         img = img)

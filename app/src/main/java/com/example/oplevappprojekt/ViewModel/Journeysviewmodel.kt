@@ -47,7 +47,8 @@ var isPinned: Boolean = false,
 val isOwned: Boolean = true,
 val originalJourneyID: String = ".",
 val currentImg: Int = R.drawable.image11,
-val categorylist: kotlin.collections.ArrayList<category> = arrayListOf()
+val categorylist: kotlin.collections.ArrayList<category> = arrayListOf(),
+    val idealist: kotlin.collections.ArrayList<ideas> = arrayListOf()
 )
 
 class Journeysviewmodel {
@@ -55,26 +56,45 @@ class Journeysviewmodel {
     val uiState: State<journeyState> = _uiState
     val repo = HardcodedJourneysRepository()
 
-    fun getColCategories() : ArrayList<category>{
+    fun getColCategories() {
         var cat: ArrayList<category>
         runBlocking {
      cat = repo.getCategories(uiState.value.originalJourneyID) }
-        return cat
+        _uiState.value = _uiState.value.copy(categorylist = cat)
     }
 
     fun deleteCategory(ID: String){
         runBlocking {
             repo.deleteCategory(ID)
-            getCategories()
+            if(uiState.value.isOwned){
+                getCategories()
+            }
+            else{
+                getColCategories()
+            }
+
         }
     }
 
-    fun getColIdeas() : ArrayList<ideas>{
+    fun deleteOtherIdea(ID: String){
+        runBlocking {
+            repo.deleteOtherIdea(ID)
+        }
+        if(uiState.value.isOwned){
+            getOtherIdeas()
+        }
+        else{
+            getColIdeas()
+        }
+    }
+
+    fun getColIdeas() {
         var ideas = arrayListOf<ideas>()
         runBlocking {
             ideas = repo.getOtherIdeas(uiState.value.originalJourneyID)
         }
-        return ideas
+        _uiState.value =_uiState.value.copy(idealist = ideas)
+
     }
 
     fun getJourneys() {
@@ -92,7 +112,6 @@ class Journeysviewmodel {
     fun editCategory(name: String, ID: String){
         repo.editCategory(name=name, ID=ID)
     }
-
 
     fun selectJourney(img: Int, country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean
@@ -153,10 +172,11 @@ class Journeysviewmodel {
 
     }
 
-    fun getOtherIdeas() : ArrayList<ideas>{
+    fun getOtherIdeas()  {
         var list: ArrayList<ideas>
 runBlocking { list = repo.getOtherIdeas(uiState.value.currentJourneyID.toString()) }
-        return list
+        _uiState.value = _uiState.value.copy(idealist = list)
+
     }
 
 fun setImg(img: Bitmap?) {
