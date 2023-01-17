@@ -178,7 +178,9 @@ fun OplevApp(start: String) {
                 Load(navBack = {navigationController.navigate(mainroute)},
                 viewModel = ideasViewModel,
                     navIdeas = {navigationController.navigate(catideas)})
-              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)})
+              IdeasPg(viewModel = ideasViewModel, navCreate = {navigationController.navigate(createIdea)},journeyviewmodel, navLoad = {navigationController.navigate("load")
+              })
+
             }
         }
     }

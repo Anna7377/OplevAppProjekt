@@ -57,7 +57,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("jasmin.clemmensen@gmail.com", "test123", context, activity) }
+                viewModel.SignIn(mail, pass,  context, activity) }
                if(FirebaseAuth.getInstance().currentUser!=null)
                     navMain() }
             , enabled)
@@ -150,7 +150,9 @@ fun GDPR(){
     if(dialog.value){
         AlertDialog(onDismissRequest = {dialog.value=false},
             title = { Text(text="GDPR Regler", color = Color.White) },
-            text={ Text(text="...", color = Color.White) },
+            text={ Text(text="Jeg giver OPLEV APS samtykke til at opbevare mine\n" +
+                    "kontaktinformationer. Informationer må bruges til forbedring af appen\n" +
+                    "og markedsføring.", color = Color.White) },
             confirmButton = { TextButton(onClick = {dialog.value=false}) { Text(text="Ok", color = Color.White) } },
             backgroundColor = Color(myColourString.toColorInt()))
     }

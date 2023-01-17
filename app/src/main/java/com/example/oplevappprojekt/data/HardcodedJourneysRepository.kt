@@ -107,7 +107,7 @@ class HardcodedJourneysRepository {
                coljourneys = usersRef.document(uid).collection("coljourneys")
                    .whereEqualTo("originalJourneyID", journeyID).get().await()
                for(i in 0..coljourneys.size()-1){
-                 val docid = coljourneys.documents.get(i).id
+                   val docid = coljourneys.documents.get(i).id
                    usersRef.document(uid).collection("coljourneys").document(docid)
                        .update("country", country, "date", date)
                }
