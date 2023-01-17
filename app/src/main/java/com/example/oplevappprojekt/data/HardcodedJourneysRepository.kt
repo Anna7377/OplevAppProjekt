@@ -111,6 +111,7 @@ class HardcodedJourneysRepository {
                "isPinned" to false,
                "img" to randomImg()
            )
+           println("user ID: " + uid)
            journeys.document().set(journey)
        }
 

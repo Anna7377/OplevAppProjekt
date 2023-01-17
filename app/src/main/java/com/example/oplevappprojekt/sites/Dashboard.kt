@@ -225,10 +225,12 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
 
 
                     if (idea.img?.isNotEmpty() == true) {
-                        Image(
-                            painter = rememberImagePainter(data = idea.img),
-                            contentDescription = null
-                        )
+                        Box(Modifier.heightIn(min=0.dp, max=50.dp)) {
+                            Image(
+                                painter = rememberImagePainter(data = idea.img),
+                                contentDescription = null
+                            )
+                        }
                     }
                     Button(
                         onClick = {navCreate()},
