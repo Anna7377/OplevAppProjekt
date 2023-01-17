@@ -73,12 +73,13 @@ fun MyJourneyPage(
                     journeyID = viewModel.uiState.value.originalJourneyID
                 }
 
-
+println("in UI" + viewModel.uiState.value.currentJourneyID)
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
                     text = viewModel.uiState.value.currentcountry.toString(),
-               navMain = navMain, viewModel = viewModel
+               navMain = navMain, viewModel = viewModel,
+                    ID = viewModel.uiState.value.currentJourneyID.toString()
                 )
                 var categories = viewModel.uiState.value.categorylist
                 var ideas = viewModel.uiState.value.idealist

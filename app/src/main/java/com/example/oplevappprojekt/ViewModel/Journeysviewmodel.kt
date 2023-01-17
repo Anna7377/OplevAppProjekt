@@ -48,7 +48,7 @@ val isOwned: Boolean = true,
 val originalJourneyID: String = ".",
 val currentImg: Int = R.drawable.image11,
 val categorylist: kotlin.collections.ArrayList<category> = arrayListOf(),
-    val idealist: kotlin.collections.ArrayList<ideas> = arrayListOf()
+    val idealist: kotlin.collections.ArrayList<ideas> = arrayListOf(),
 )
 
 class Journeysviewmodel {
@@ -116,16 +116,14 @@ class Journeysviewmodel {
     fun selectJourney(img: Int, country: String, date: String, ID: String, originalJourneyID: String) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }
-
+println("in vm, ID is" + ID)
         _uiState.value = _uiState.value.copy(currentcountry = country,
             currentdate = date,
             currentJourneyID = ID,
             isJourneySelected = true,
             originalJourneyID = originalJourneyID,
         isOwned = !iscol,
-        currentImg = img)
-
-    }
+        currentImg = img) }
 
     fun deselect(){
 

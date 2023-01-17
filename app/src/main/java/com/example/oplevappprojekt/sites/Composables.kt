@@ -36,7 +36,8 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 //S215722
 
 @Composable
-fun TopCard(ImageId: Int, text: String, viewModel: Journeysviewmodel, navMain: () -> Unit) {
+fun TopCard(ImageId: Int, text: String, viewModel: Journeysviewmodel, navMain: () -> Unit,
+            ID: String) {
     Card(modifier = Modifier.padding(4.dp), elevation = 4.dp,
         shape = RoundedCornerShape(20.dp)
     ) {
@@ -65,14 +66,14 @@ Row(verticalAlignment = Alignment.Bottom){
         , onClick ={
         val oldPinVal = viewModel.uiState.value.isPinned
         val newPinVal = !oldPinVal
-            val oldUnPinVal = viewModel.uiState.value.unPinned
-            val newUnPinVal = !oldUnPinVal
         if (viewModel.uiState.value.isJourneySelected) {
             if (viewModel.uiState.value.isPinned){
+
+                System.out.println(ID)
                 viewModel.editJourney(
                     country = viewModel.uiState.value.currentcountry.toString(),
                     date = viewModel.uiState.value.currentdate.toString(),
-                    ID = viewModel.uiState.value.currentJourneyID.toString(),
+                    ID = ID,
                     isPinned = newPinVal,
                     unPinned = oldPinVal,
                 )

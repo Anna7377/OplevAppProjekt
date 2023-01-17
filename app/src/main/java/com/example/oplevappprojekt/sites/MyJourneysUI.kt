@@ -92,7 +92,7 @@ fun CountryCards(originalJourneyID: String, img: Int, country: String, date: Str
         .height(150.dp)
         .width(350.dp)
         .clickable(onClick = {
-
+System.out.println("ID is " + ID)
             viewModel.selectJourney(
                 country = country,
                 date = date,

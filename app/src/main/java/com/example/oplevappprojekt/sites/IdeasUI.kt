@@ -16,7 +16,8 @@ navLoad: ()->Unit){
         Column() {
         TopCard(ImageId = journeyViewModel.uiState.value.currentImg, text = countryname,
         viewModel = journeyViewModel,
-            navMain = navCreate
+            navMain = navCreate,
+            ID = journeyViewModel.uiState.value.currentJourneyID.toString()
         )
         val ideas = viewModel.uiState.value.idealist
         IdeaGrid(list = ideas,

@@ -35,6 +35,7 @@ class HardcodedJourneysRepository {
    suspend fun getJourneys(): ArrayList<Journey> {
        val coljourneylist: ArrayList<Journey>
        val colIDs: ArrayList<String> = arrayListOf()
+       val pinColID: ArrayList<String> = arrayListOf()
        val unpinID: ArrayList<String> = arrayListOf()
 // get pinned journeys
        val journeydocs = journeys.whereEqualTo("userID", uid).whereEqualTo("isPinned", true).get()
@@ -44,6 +45,24 @@ class HardcodedJourneysRepository {
            IDs.add(journeydocs.documents.get(i).id)
            journeylist.get(i).JourneyID = IDs.get(i)
        }
+       // get pinned coljourneys
+       val collection = Firebase.firestore.collection("users")
+           .document(uid).collection("coljourneys")
+       val pincoldocs = collection.whereEqualTo("isPinned", true)
+           .get().await()
+       val pincoljourneys = pincoldocs.toObjects<Journey>() as ArrayList
+       for (i in 0..pincoldocs.size() - 1) {
+           val journ = pincoljourneys.get(i).originalJourneyID
+           pinColID.add(pincoldocs.documents.get(i).id)
+           if (journeys.document(journ).get().await().exists()) {
+              pincoljourneys.get(i).JourneyID = pinColID.get(i)
+               journeylist.add(pincoljourneys.get(i))
+           } else {
+              collection.document(colIDs.get(i)).delete()
+               pinColID.removeAt(i)
+           }
+       }
+
 // get non-pinned journeys
        val journeydocs2 = journeys.whereEqualTo("userID", uid).whereEqualTo("isPinned", false).get()
            .await()
@@ -56,7 +75,7 @@ class HardcodedJourneysRepository {
 // get collaborated journeys
        val coljourneys = Firebase.firestore.collection("users")
            .document(uid).collection("coljourneys")
-       val coldocs = coljourneys.get().await()
+       val coldocs = coljourneys.whereNotEqualTo("isPinned", true).get().await()
        coljourneylist = coldocs.toObjects<Journey>() as ArrayList<Journey>
        for (i in 0..coldocs.size() - 1) {
            val journ = coljourneylist.get(i).originalJourneyID
