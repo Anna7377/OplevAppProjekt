@@ -131,8 +131,7 @@ fun OplevApp(start: String) {
                     viewModel = journeyviewmodel,
                     viewModelIdea = ideasViewModel,
                     viewModelcol = colviewmodel,
-                    navEdit = { navigationController.navigate(createroute) }
-               ,
+                    navEdit = { navigationController.navigate(createroute) },
                     navMain = {navigationController.navigate(mainroute)},
                     navCatIdeas = {navigationController.navigate(catideas)}, createCat = { navigationController.navigate(createcatbackup) },
                     navProfile ={ navigationController.navigate(profile) },
