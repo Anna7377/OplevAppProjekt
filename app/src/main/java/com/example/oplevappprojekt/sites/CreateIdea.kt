@@ -78,7 +78,7 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                     }
 
 
-                    val title = nameCat(text =titletext)
+                    val title = nameCat(text =titletext, "titel")
                     Spacer(modifier = Modifier
                         .height(10.dp))
                     var text = "Vælg Kategori"
@@ -87,17 +87,17 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                     }
 
                     viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel, text), journeyID)
-                    val desc = nameCat(text = desctext)
+                    val desc = nameCat(text = desctext, "beskrivelse")
 
                     Spacer(modifier = Modifier
                         .height(15.dp))
 
-                    val link = nameCat(text = linktext)
+                    val link = nameCat(text = linktext, "link")
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    val img = nameCat(text = imgText)
+                    val img = nameCat(text = imgText, "billede URL")
 
                     var nav = navBack
 if(viewModel.uiState.value.isCategorySelected){

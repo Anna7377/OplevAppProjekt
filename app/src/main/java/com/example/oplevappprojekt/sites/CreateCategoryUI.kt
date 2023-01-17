@@ -69,7 +69,7 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
                     if(ideasViewModel.uiState.value.isCategorySelected){
                         text = ideasViewModel.uiState.value.categoryName
                     }
-                    val name = nameCat(text = text)
+                    val name = nameCat(text = text, "navn")
                     Text(ideasViewModel.uiState.value.addMessage)
                     var enabled = false
                     if(name.isNotEmpty()){
@@ -109,7 +109,7 @@ fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel:
 }
 
 @Composable
-fun nameCat(text: String) : String{
+fun nameCat(text: String, hint: String) : String{
 val thistext =  remember { mutableStateOf(text) }
 TextField(
 value = thistext.value,
@@ -126,7 +126,7 @@ shape = RoundedCornerShape(8.dp),
 onValueChange = {thistext.value = it
 },
 label ={
-    Text(text = "Titel:",
+    Text(text = hint,
         color = Color.Gray,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold)

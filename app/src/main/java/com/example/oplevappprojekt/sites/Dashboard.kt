@@ -227,9 +227,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                     }
                     var onClick ={journeysviewmodel.deleteOtherIdea(idea.ID)
                     dialog.value = false }
-                    println("idea category is" + idea.categoryID)
                     if(idea.categoryID?.isNotEmpty()==true){
-                        println("In here ")
                         onClick = {viewModel.deleteIdea(idea.ID)
                         dialog.value = false }
                     }
@@ -251,7 +249,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                         )
                     }
                     SelectionContainer() {
-                        Text(text = idea.desc + "" +  idea.link
+                        Text(text = idea.desc + "\n" +  idea.link
                             , color = Color.White)
                     }
 
@@ -261,9 +259,6 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             painter = rememberImagePainter(data = idea.img),
                             contentDescription = null
                         )
-                    }
-                    else{
-                        Text(text="Intet Billede")
                     }
                     }
                  },
