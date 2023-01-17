@@ -30,8 +30,11 @@ import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.CategoryViewModel
-import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+<<<<<<<<< Temporary merge branch 1
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+=========
+import com.example.oplevappprojekt.ViewModel.IdeasViewModel
+>>>>>>>>> Temporary merge branch 2
 import java.time.format.TextStyle
 
 
@@ -96,7 +99,7 @@ Row(verticalAlignment = Alignment.Bottom){
         )
 
 }
-
+    
 
 
         }
