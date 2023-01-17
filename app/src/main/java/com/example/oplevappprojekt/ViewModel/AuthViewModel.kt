@@ -27,7 +27,8 @@ data class Auth(
     val mail:String="_",
     val password:String="",
     val userName:String="",
-    val isLoggedIn:Boolean=false
+    val isLoggedIn:Boolean=false,
+    val hasPressedCreate:Boolean = false,
 )
 
 class AuthViewModel:ViewModel() {
@@ -107,6 +108,9 @@ class AuthViewModel:ViewModel() {
         _uiState.value = _uiState.value.copy(isLoggedIn = isSuccessful)
     }
 
+    fun setCreatePressedFlag(value:Boolean){
+        _uiState.value = _uiState.value.copy(hasPressedCreate = value)
+    }
 
     fun deleteUser() {
         Firebase.auth.currentUser?.delete()
