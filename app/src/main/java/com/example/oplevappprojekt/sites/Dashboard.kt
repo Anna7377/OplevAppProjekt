@@ -209,22 +209,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
             },
             text={
                 Column() {
-                    Button(
-                        onClick = {navCreate()},
-                        colors = ButtonDefaults.buttonColors(Color.Gray),
-                        modifier = Modifier
-                            .absoluteOffset(x = 0.dp, y = 115.dp)
-                            .height(35.dp)
-                            .width(85.dp)
-                            .padding(bottom = 5.dp)
-                    ) {
-                        Text(
-                            text = "Rediger",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            // fontWeight = FontWeight.Bold
-                        )
-                    }
+
                     var onClick ={journeysviewmodel.deleteOtherIdea(idea.ID)
                     dialog.value = false }
                     if(idea.categoryID?.isNotEmpty()==true){
@@ -232,22 +217,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                         dialog.value = false }
                     }
 
-                    Button(
-                        onClick = onClick,
-                        colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
-                        modifier = Modifier
-                            .absoluteOffset(x = 0.dp, y = 115.dp)
-                            .height(35.dp)
-                            .width(85.dp)
-                            .padding(top=5.dp)
-                    ) {
-                        Text(
-                            text = "Slet",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            // fontWeight = FontWeight.Bold
-                        )
-                    }
+
                     SelectionContainer() {
                         Text(text = idea.desc + "\n" +  idea.link +"\n" + " "
                             , color = Color.White)
@@ -258,6 +228,39 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                         Image(
                             painter = rememberImagePainter(data = idea.img),
                             contentDescription = null
+                        )
+                    }
+                    Button(
+                        onClick = {navCreate()},
+                        colors = ButtonDefaults.buttonColors(Color.Gray),
+                        modifier = Modifier
+                            .absoluteOffset(x = 0.dp, y = 70.dp)
+                            .height(35.dp)
+                            .width(85.dp)
+                            .padding(top = 5.dp)
+                    ) {
+                        Text(
+                            text = "Rediger",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            // fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Button(
+                        onClick = onClick,
+                        colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
+                        modifier = Modifier
+                            .absoluteOffset(x = 0.dp, y = 70.dp)
+                            .height(35.dp)
+                            .width(85.dp)
+                            .padding(bottom = 0.dp,top=5.dp)
+
+                    ) {
+                        Text(
+                            text = "Slet",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            // fontWeight = FontWeight.Bold
                         )
                     }
                     }
