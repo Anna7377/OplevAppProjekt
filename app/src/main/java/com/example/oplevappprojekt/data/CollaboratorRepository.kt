@@ -35,7 +35,7 @@ class CollaboratorRepository {
                 "date" to original["date"].toString(),
                 "time" to Timestamp(System.currentTimeMillis()),
             "isPinned" to false,
-                "img" to original["img"].toString()
+                "img" to original["img"]
             )
             currentCollection.document().set(journey)
         }

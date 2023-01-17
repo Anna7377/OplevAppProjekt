@@ -14,7 +14,7 @@ navLoad: ()->Unit){
     Scaffold(content = {
         viewModel.getCategorisedIdeas()
         Column() {
-        TopCard(ImageId = R.drawable.image10, text = countryname,
+        TopCard(ImageId = journeyViewModel.uiState.value.currentImg, text = countryname,
         viewModel = journeyViewModel,
             navMain = navCreate
         )
