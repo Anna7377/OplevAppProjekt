@@ -65,15 +65,13 @@ fun MyJourneyPage(
                 if(viewModel.uiState.value.isOwned){
                 journeyID = viewModel.uiState.value.currentJourneyID.toString()
                     viewModel.getCategories()
-                    viewModel.getOtherIdeas()
-                }
+                    viewModel.getOtherIdeas() }
+
                 else{
                     viewModel.getColIdeas()
                     viewModel.getColCategories()
-                    journeyID = viewModel.uiState.value.originalJourneyID
-                }
+                    journeyID = viewModel.uiState.value.originalJourneyID }
 
-println("in UI" + viewModel.uiState.value.currentJourneyID)
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
@@ -229,7 +227,9 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                     }
                     var onClick ={journeysviewmodel.deleteOtherIdea(idea.ID)
                     dialog.value = false }
-                    if(idea.categoryID==null){
+                    println("idea category is" + idea.categoryID)
+                    if(idea.categoryID?.isNotEmpty()==true){
+                        println("In here ")
                         onClick = {viewModel.deleteIdea(idea.ID)
                         dialog.value = false }
                     }
