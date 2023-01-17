@@ -168,7 +168,6 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> 
 
 }
 
-
 @Composable
 fun GDPR(){
     val dialog = remember{ mutableStateOf(true) }
