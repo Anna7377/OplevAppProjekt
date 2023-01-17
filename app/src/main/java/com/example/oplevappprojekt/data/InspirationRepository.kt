@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
+// s215722
 data class InspirationText(
     val text: String = " ",
     val userID: String = " "

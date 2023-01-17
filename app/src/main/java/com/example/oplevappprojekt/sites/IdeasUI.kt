@@ -7,6 +7,8 @@ import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 
+
+// s215722
 @Composable
 fun IdeasPg(viewModel: IdeasViewModel, navCreate: ()->Unit
             ,journeyViewModel: Journeysviewmodel,

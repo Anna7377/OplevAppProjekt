@@ -23,6 +23,8 @@ import com.example.oplevappprojekt.ViewModel.CollaboratorViewmodel
 import com.example.oplevappprojekt.sites.myColor
 import com.example.oplevappprojekt.sites.myColourString
 
+// 215722
+
 @Composable
 fun invite(viewmodel: CollaboratorViewmodel, navBack: () -> Unit){
     Box(modifier = Modifier.fillMaxSize(),

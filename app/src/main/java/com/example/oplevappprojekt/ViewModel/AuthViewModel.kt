@@ -22,7 +22,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 
-//s215722
+//s215722 & s215726 & s216237
 data class Auth(
     val mail:String="_",
     val password:String="",

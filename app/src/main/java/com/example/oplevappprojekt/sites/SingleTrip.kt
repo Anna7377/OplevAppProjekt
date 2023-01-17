@@ -19,7 +19,7 @@ import com.example.oplevappprojekt.R
 
 class SingleTrip {
 }
-
+//215726
 @Composable
 fun FinalTrip(){
 

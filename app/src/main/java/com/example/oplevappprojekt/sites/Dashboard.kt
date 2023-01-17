@@ -40,7 +40,7 @@ var countryname = ""
 var journeyID = " "
 val colorRed = "#C40007"
 
-//s215722
+//s215722 & s215726
 @Composable
 fun MyJourneyPage(
     navCreate: () -> Unit,
@@ -249,7 +249,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                         )
                     }
                     SelectionContainer() {
-                        Text(text = idea.desc + "\n" +  idea.link
+                        Text(text = idea.desc + "\n" +  idea.link +"\n" + " "
                             , color = Color.White)
                     }
 

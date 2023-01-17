@@ -30,10 +30,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
 
 
-//s215726 &
-
-//S213370
-
+//s215726 & 216237
 
 @Preview
 @Composable

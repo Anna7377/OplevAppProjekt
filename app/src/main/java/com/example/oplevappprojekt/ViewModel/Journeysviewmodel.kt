@@ -14,7 +14,7 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
-//s215722
+//s215722 & s216237
 data class ideas(
     val title: String = "",
     val desc: String = "",

@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.sql.Timestamp
 import java.util.concurrent.ThreadLocalRandom
 
-//s215722
+//s215722, s215726 & s216237
 
 data class img(
    val img: ImageBitmap,

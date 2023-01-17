@@ -32,7 +32,7 @@ import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
 import com.example.oplevappprojekt.data.Countries
 
 
-//S215722
+//215726
 
 // the main screen shown
 @Composable

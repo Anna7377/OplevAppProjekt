@@ -40,7 +40,7 @@ start = "main"
     }
 }
 
-// S215722
+
 @Composable
 fun OplevApp(start: String) {
     OplevAppProjektTheme {

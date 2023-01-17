@@ -28,6 +28,8 @@ import com.example.oplevappprojekt.data.uid
 
 
 // to create category
+
+// s215722
 @Composable
 fun createcat(navDash: () -> Unit, viewModel: Journeysviewmodel, ideasViewModel: IdeasViewModel, navBack: ()->Unit){
     Box(modifier = Modifier.fillMaxSize(),

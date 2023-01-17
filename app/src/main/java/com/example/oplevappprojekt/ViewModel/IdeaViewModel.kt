@@ -9,6 +9,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
+
+// s215726 & s215722
 data class IdeaState(
     val isCategorySelected: Boolean = false,
     val categoryID: String = " ",

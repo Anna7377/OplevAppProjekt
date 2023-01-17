@@ -14,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
 
 
+// s215722
 
 val uid = Firebase.auth.currentUser?.uid.toString()
 val currentCollection = Firebase.firestore
