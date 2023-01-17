@@ -8,6 +8,7 @@ import android.text.Layout
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,7 +23,7 @@ import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.runBlocking
 
-// S215722
+// S215722 & s213370
 
 @Composable
 fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit) {
@@ -48,7 +49,8 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
             val enabled: Boolean
             if (mail.isNotEmpty() && pass.isNotEmpty()) {
                 enabled = true
-            } else {
+            }
+            else {
                 enabled = true
             }
             val text = ""
@@ -57,7 +59,7 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
             LogInButton(text = "Log Ind", onClick = {
                 runBlocking {
-                viewModel.SignIn("jasmin.clemmensen@gmail.com", "test123", context, activity) }
+                viewModel.SignIn(mail, pass, context, activity) }
                if(FirebaseAuth.getInstance().currentUser!=null)
                     navMain() }
             , enabled)
@@ -73,6 +75,14 @@ fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Uni
 
 @Composable
 fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> Unit) {
+
+    DisposableEffect(key1 = 1){
+        viewModel.setCreatePressedFlag(false)
+        onDispose {
+
+        }
+    }
+
     viewModel.uiState.value
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
         Column(modifier = Modifier
@@ -88,11 +98,22 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> 
             Spacer(modifier = Modifier.height(10.dp))
 
             val name = InputText("Navn")
+
             val mail: String = InputText("Mail")
 
+
             val pass= InputText("Kodeord")
+            if (viewModel.uiState.value.hasPressedCreate && pass.length < 6){
+                Text(text = "Kodeordet skal have en længde på minimum 6 tegn", modifier = Modifier.padding(2.dp), color = Color.Red)
+            }
+
 
             val confpass= InputText("Gentag Kodeord")
+
+            if (viewModel.uiState.value.hasPressedCreate && pass != confpass) {
+                Text(text = "Kodeordene skal være ens", modifier = Modifier.padding(2.dp), color = Color.Red)
+            }
+
             var check = false
 
             Row(modifier = Modifier.height(30.dp)){
@@ -123,13 +144,18 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> 
             val activity = LocalContext.current as Activity
 
             LogInButton(text = "Opret", onClick = {
-                runBlocking {
-                    viewModel.SignUp(mail, pass, confpass, context, activity, name)
+                viewModel.setCreatePressedFlag(true)
+                if (pass.length > 5){
+                    runBlocking {
+                        viewModel.SignUp(mail, pass, confpass, context, activity, name)
+                    }
+                    viewModel.emailVerification()
+                    if (FirebaseAuth.getInstance().currentUser!=null){
+                        navMain()
+                    }
                 }
-                viewModel.emailVerification()
-                if (FirebaseAuth.getInstance().currentUser!=null){
-                    navMain()
-                }
+
+
             }, enabled)
 
             ChangePageText(text="Allerede Oprettet? Log Ind Nu!",onClick = navigation)
