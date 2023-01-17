@@ -67,14 +67,15 @@ Row(verticalAlignment = Alignment.Bottom){
         val oldPinVal = viewModel.uiState.value.isPinned
         val newPinVal = !oldPinVal
         if (viewModel.uiState.value.isJourneySelected) {
+
             if (viewModel.uiState.value.isPinned){
 
                 System.out.println(ID)
                 viewModel.editJourney(
                     country = viewModel.uiState.value.currentcountry.toString(),
                     date = viewModel.uiState.value.currentdate.toString(),
-                    ID = ID,
-                    isPinned = newPinVal,
+                    ID = viewModel.uiState.value.newCurrentId.toString(),
+                    isPinned = true,
                     unPinned = oldPinVal,
                 )
             }
@@ -82,7 +83,7 @@ Row(verticalAlignment = Alignment.Bottom){
                 viewModel.editJourney(
                     country = viewModel.uiState.value.currentcountry.toString(),
                     date = viewModel.uiState.value.currentdate.toString(),
-                    ID = viewModel.uiState.value.currentJourneyID.toString(),
+                    ID = viewModel.uiState.value.newCurrentId.toString(),
                     isPinned = newPinVal,
                     unPinned = oldPinVal
                 )

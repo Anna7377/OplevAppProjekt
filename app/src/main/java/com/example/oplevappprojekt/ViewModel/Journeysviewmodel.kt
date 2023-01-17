@@ -37,6 +37,7 @@ data class Journey(
 )
 
 data class journeyState(
+    var newCurrentId: String? = null,
     var isJourneySelected: Boolean = false,
     var currentJourneyID: String? = null,
     var currentcountry: String? = null,
@@ -113,17 +114,19 @@ class Journeysviewmodel {
         repo.editCategory(name=name, ID=ID)
     }
 
-    fun selectJourney(img: Int, country: String, date: String, ID: String, originalJourneyID: String) {
+    fun selectJourney(img: Int, country: String, date: String,
+                      ID: String, originalJourneyID: String, isPinned: Boolean) {
         var iscol: Boolean
         runBlocking {   iscol = repo.isCollaborated(ID) }
-println("in vm, ID is" + ID)
         _uiState.value = _uiState.value.copy(currentcountry = country,
             currentdate = date,
             currentJourneyID = ID,
             isJourneySelected = true,
             originalJourneyID = originalJourneyID,
+            newCurrentId = ID,
         isOwned = !iscol,
-        currentImg = img) }
+        currentImg = img,
+        isPinned = isPinned) }
 
     fun deselect(){
 
@@ -132,7 +135,8 @@ println("in vm, ID is" + ID)
 
     fun editJourney(country: String, date: String, ID: String, isPinned: Boolean, unPinned: Boolean){
         runBlocking {
-        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned, unPinned = unPinned)}
+        repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned, unPinned = unPinned,
+        isOwned = uiState.value.isOwned)}
         _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
         isPinned = isPinned, unPinned = unPinned)
     }

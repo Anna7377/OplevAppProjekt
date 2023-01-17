@@ -115,22 +115,16 @@ class HardcodedJourneysRepository {
        }
 
       @SuppressLint("SuspiciousIndentation")
-      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean, unPinned: Boolean) {
-           journeys.document(journeyID).update("country", country,
-               "date", date, "isPinned", isPinned, "unPinned", unPinned)
-           val usersRef = Firebase.firestore.collection("users")
-           val users = usersRef.get().await()
-          var coljourneys: QuerySnapshot
-           for(i in 0..users.size()-1){
-               val uid = users.documents.get(i).id
-               coljourneys = usersRef.document(uid).collection("coljourneys")
-                   .whereEqualTo("originalJourneyID", journeyID).get().await()
-               for(i in 0..coljourneys.size()-1){
-                 val docid = coljourneys.documents.get(i).id
-                   usersRef.document(uid).collection("coljourneys").document(docid)
-                       .update("country", country, "date", date)
-               }
-           }
+      suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean,
+                              unPinned: Boolean, isOwned: Boolean) {
+          var ref = journeys
+          if(!isOwned){
+              ref = Firebase.firestore.collection("users")
+                  .document(uid).collection("coljourneys")
+          }
+          ref.document(journeyID).update("country", country,
+              "date", date, "isPinned", isPinned, "unPinned", unPinned)
+
        }
 
     suspend fun deleteCategory(ID: String){

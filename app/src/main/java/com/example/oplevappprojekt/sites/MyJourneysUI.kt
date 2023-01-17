@@ -81,11 +81,14 @@ fun CountryList(viewmodel: Journeysviewmodel, list: ArrayList<com.example.opleva
                 viewModel = viewmodel,
                 date=it.date,
             ID=it.JourneyID,
-           originalJourneyID = it.originalJourneyID)
+           originalJourneyID = it.originalJourneyID,
+            isPinned = it.isPinned)
         } } }
 
 @Composable
-fun CountryCards(originalJourneyID: String, img: Int, country: String, date: String, ID: String, navIdeas: ()-> Unit, viewModel: Journeysviewmodel) {
+fun CountryCards(originalJourneyID: String, img: Int, country: String,
+                 date: String, ID: String, navIdeas: ()-> Unit,
+                 viewModel: Journeysviewmodel, isPinned: Boolean) {
 
     Card(modifier = Modifier
         .padding(4.dp)
@@ -98,7 +101,8 @@ System.out.println("ID is " + ID)
                 date = date,
                 ID = ID,
                 originalJourneyID = originalJourneyID,
-                img = img
+                img = img,
+                isPinned = isPinned
             )
 
             navIdeas()
