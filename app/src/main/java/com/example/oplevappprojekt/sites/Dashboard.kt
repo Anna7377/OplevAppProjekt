@@ -159,12 +159,12 @@ fun IdeaGrid(list: ArrayList<ideas>, randomimg: Int, viewModel: IdeasViewModel,
 @Composable
 fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
             navLoad:()->Unit, navCreate: () -> Unit) {
-    viewModel.selectIdea(idea.ID, desc = idea.desc, title = idea.title,
-        img = idea.img.toString(), link = idea.link)
     val dialog = remember{ mutableStateOf(false) }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier
-            .clickable(onClick = { dialog.value = true })
+            .clickable(onClick = { dialog.value = true
+                viewModel.selectIdea(idea.ID, desc = idea.desc, title = idea.title,
+                    img = idea.img.toString(), link = idea.link)})
             .width(190.dp)
             .height(190.dp)
             .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
@@ -219,7 +219,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                     Button(
                         onClick = {
                             viewModel.deleteIdea(idea.ID)
-                            navLoad()
+                         //   navLoad()
                             dialog.value=false
                         },
                         colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt())),
@@ -236,10 +236,12 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
                             // fontWeight = FontWeight.Bold
                         )
                     }
-                    Text(text = idea.desc +
-                            SelectionContainer() {
-                                idea.link
-                            }, color = Color.White)
+                    SelectionContainer() {
+                        Text(text = idea.desc + "" +  idea.link
+                            , color = Color.White)
+                    }
+
+
                     if (idea.img?.isNotEmpty() == true) {
                         Image(
                             painter = rememberImagePainter(data = idea.img),
@@ -372,7 +374,8 @@ fun createOpt(navCat: ()->Unit, navIdea: ()->Unit, ideasViewModel: IdeasViewMode
                         Text(text = "Eller", color = Color.White)
                     Spacer(modifier = Modifier.height(10.dp))
                         Button(onClick = { navIdea()
-                                         ideasViewModel.deselect()},
+                                         ideasViewModel.deselect()
+                                         ideasViewModel.deselectIdea()},
                             shape = RoundedCornerShape(4), colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)) {
                             Text(text = "Ide", color = Color(myColourString.toColorInt()))
                         }

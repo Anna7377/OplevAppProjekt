@@ -67,7 +67,8 @@ categoryID = "")
 
     fun deleteCategory(ID: String){
         runBlocking {
-            ideaRepo.deleteCategory(ID) }
+            ideaRepo.deleteCategory(ID)
+        }
     }
 
     fun selectIdea(ideaID: String, desc: String, link: String,
@@ -81,6 +82,11 @@ categoryID = "")
         runBlocking {
             ideaRepo.deleteIdea(ID)
         }
+    }
+
+    fun deselectIdea(){
+        _uiState.value = _uiState.value.copy(isIdeaSelected = false,
+        idealink = "", ideadesc = "", ideatitle = "", ideaimg = "")
     }
 
     fun editIdea(title: String, desc: String, link: String, img: String){

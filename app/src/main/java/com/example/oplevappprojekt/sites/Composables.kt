@@ -288,20 +288,4 @@ fun BottomBar(onClick1: ()-> Unit, onClick2: () -> Unit, onClick3: () -> Unit){
     }
 }
 
-@Composable
-fun Load(navBack: ()->Unit, navIdeas:()->Unit, viewModel: IdeasViewModel){
-    Surface(color = Color.Transparent, modifier = Modifier.fillMaxSize()) {
-        Text("Indlæser..", color = Color(myColourString.toColorInt())
-        , fontSize = 40.sp)
-        System.out.println("reloading again")
-        if(viewModel.uiState.value.isCategorySelected){
-            navBack()
-        }
-        else{
-            navIdeas()
-        }
-
-    }
-}
-
 

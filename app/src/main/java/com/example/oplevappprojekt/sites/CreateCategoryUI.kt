@@ -169,6 +169,8 @@ navEdit: () -> Unit){
         .padding(vertical = 2.dp)
         .clickable(onClick = {
             viewModel.selectCat(ID = category.categoryID, name = category.name)
+            viewModel.deselectIdea()
+            println(viewModel.uiState.value.ideatitle)
             navIdeas()
         })
         , elevation = 4.dp) {
@@ -190,7 +192,7 @@ navEdit: () -> Unit){
                 Button(onClick = {
                     viewModel.selectCat(ID = category.categoryID,
                         name = category.name)
-                    navLoad()
+                    //navLoad()
                     viewModel.deleteCategory(category.categoryID) },
                     modifier = Modifier.offset(x=310.dp),
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt()))) {

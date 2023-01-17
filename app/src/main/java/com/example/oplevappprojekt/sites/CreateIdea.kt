@@ -22,6 +22,7 @@ import androidx.core.graphics.toColorInt
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.IdeasViewModel
 import com.example.oplevappprojekt.ViewModel.Journeysviewmodel
+import com.example.oplevappprojekt.data.img
 
 //s215726 & s213370
 
@@ -65,8 +66,19 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
 
                 ) {
                     Spacer(modifier = Modifier.height(60.dp))
+                    var titletext = ""
+                    var desctext = ""
+                    var linktext = ""
+                    var imgText = ""
+                    if(viewModel.uiState.value.isIdeaSelected){
+                        titletext = viewModel.uiState.value.ideatitle
+                        desctext = viewModel.uiState.value.ideadesc
+                        linktext = viewModel.uiState.value.idealink
+                        imgText = viewModel.uiState.value.ideaimg
+                    }
 
-                    val title = nameCat(text = viewModel.uiState.value.ideatitle)
+
+                    val title = nameCat(text =titletext)
                     Spacer(modifier = Modifier
                         .height(10.dp))
                     var text = "Vælg Kategori"
@@ -75,18 +87,17 @@ fun CreateIdea(navIdeas: ()->Unit, navCat: ()->Unit, viewModel: IdeasViewModel, 
                     }
 
                     viewModel.getCatID(DropDownMenu(viewmodel = journeysviewmodel, text), journeyID)
-
-                    val desc = nameCat(text = viewModel.uiState.value.ideadesc)
+                    val desc = nameCat(text = desctext)
 
                     Spacer(modifier = Modifier
                         .height(15.dp))
 
-                    val link = nameCat(text = viewModel.uiState.value.idealink)
+                    val link = nameCat(text = linktext)
 
                     Spacer(modifier = Modifier
                         .height(10.dp))
 
-                    val img = nameCat(text = viewModel.uiState.value.ideaimg)
+                    val img = nameCat(text = imgText)
 
                     var nav = navIdeas
 if(viewModel.uiState.value.isCategorySelected){
