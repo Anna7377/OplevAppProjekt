@@ -227,8 +227,7 @@ fun DropDownMenu(viewmodel: Journeysviewmodel, text: String) : String {
     var selectedItem by remember {
         mutableStateOf(text)
     }
-    val list = viewmodel.getCategories()
-    System.out.println("list: " + list)
+    val list = viewmodel.uiState.value.categorylist
     val names = arrayListOf<String>()
     for (i in 0..list.size-1){
         names.add(list.get(i).name)

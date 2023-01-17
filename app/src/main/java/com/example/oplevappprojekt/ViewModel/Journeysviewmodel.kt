@@ -46,7 +46,9 @@ var isPinned: Boolean = false,
     var unPinned: Boolean = true,
 val isOwned: Boolean = true,
 val originalJourneyID: String = ".",
-val currentImg: Int = R.drawable.image11)
+val currentImg: Int = R.drawable.image11,
+val categorylist: kotlin.collections.ArrayList<category> = arrayListOf()
+)
 
 class Journeysviewmodel {
     private val _uiState = mutableStateOf(journeyState())
@@ -58,6 +60,13 @@ class Journeysviewmodel {
         runBlocking {
      cat = repo.getCategories(uiState.value.originalJourneyID) }
         return cat
+    }
+
+    fun deleteCategory(ID: String){
+        runBlocking {
+            repo.deleteCategory(ID)
+            getCategories()
+        }
     }
 
     fun getColIdeas() : ArrayList<ideas>{
@@ -116,7 +125,7 @@ class Journeysviewmodel {
         getJourneys()
     }
 
-    fun getCategories() : ArrayList<category>{
+    fun getCategories() {
         var ret: ArrayList<category>
         var ID: String
         if(uiState.value.isOwned){
@@ -128,8 +137,8 @@ class Journeysviewmodel {
         runBlocking {
             ret = repo.getCategories(ID)
         }
-        System.out.println("ret123: " + ret)
-        return ret
+        _uiState.value = _uiState.value.copy(categorylist = ret)
+        //return ret
     }
 
   fun pinJourney(){

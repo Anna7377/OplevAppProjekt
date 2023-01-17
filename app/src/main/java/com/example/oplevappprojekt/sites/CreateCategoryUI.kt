@@ -140,12 +140,12 @@ return thistext.value
 @OptIn(ExperimentalFoundationApi::class)
 fun catCardList(navLoad: ()->Unit,
     catList: ArrayList<category>, viewModel: IdeasViewModel, navIdeas: () -> Unit,
-navEdit: ()->Unit) {
+navEdit: ()->Unit, journeysviewmodel: Journeysviewmodel) {
     val itemsinColumn = mutableListOf<ComposableFun>()
     for (category in catList) {
         val tempIdea: ComposableFun = {
             catCard(category=catList.get(0), viewModel, navIdeas, navEdit = navEdit,
-            navLoad = navLoad)
+            navLoad = navLoad, journeysviewmodel = journeysviewmodel)
         }
         itemsinColumn.add(tempIdea)
     }
@@ -157,11 +157,11 @@ navEdit: ()->Unit) {
 
         itemsinColumn.forEachIndexed { index, function ->
             item { catCard(category = catList.get(index), viewModel = viewModel, navIdeas,
-                navEdit = navEdit, navLoad = navLoad) }
+                navEdit = navEdit, navLoad = navLoad, journeysviewmodel = journeysviewmodel ) }
         } } }}
 @Composable
 fun catCard(category: category, viewModel: IdeasViewModel,
-            navIdeas: ()->Unit, navLoad: () -> Unit,
+            navIdeas: ()->Unit, navLoad: () -> Unit, journeysviewmodel: Journeysviewmodel,
 navEdit: () -> Unit){
     Card(modifier = Modifier
         .height(52.dp)
@@ -193,7 +193,7 @@ navEdit: () -> Unit){
                     viewModel.selectCat(ID = category.categoryID,
                         name = category.name)
                     //navLoad()
-                    viewModel.deleteCategory(category.categoryID) },
+                    journeysviewmodel.deleteCategory(category.categoryID) },
                     modifier = Modifier.offset(x=310.dp),
                     colors = ButtonDefaults.buttonColors(Color(colorRed.toColorInt()))) {
                     Text(text="Slet", color = Color.White)

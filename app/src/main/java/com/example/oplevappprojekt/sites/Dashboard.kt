@@ -67,13 +67,14 @@ fun MyJourneyPage(
                 else{
                     journeyID = viewModel.uiState.value.originalJourneyID
                 }
+                viewModel.getCategories()
                 TopCard(
                     ImageId =
                     viewModel.uiState.value.currentImg,
                     text = viewModel.uiState.value.currentcountry.toString(),
                navMain = navMain, viewModel = viewModel
                 )
-                var categories = viewModel.getCategories()
+                var categories = viewModel.uiState.value.categorylist
                 var ideas = viewModel.getOtherIdeas()
                 if (viewModel.uiState.value.isOwned) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -97,7 +98,7 @@ fun MyJourneyPage(
                     }
                 } else {
                     ideas = viewModel.getColIdeas()
-                    categories = viewModel.getColCategories()
+                    categories = viewModel.uiState.value.categorylist
                     Row{
                     uncollab(
                         viewModel = CollaboratorViewmodel(),
@@ -117,6 +118,7 @@ fun MyJourneyPage(
                     navLoad = navLoad,
                     navIdeas = navCatIdeas,
                     navEdit = createCat,
+                    journeysviewmodel = viewModel
                 )
                 IdeaGrid(list = ideas, randomimg = viewModel.randomImg(),
                     viewModelIdea, navLoad = navLoad, navCreateIdea)

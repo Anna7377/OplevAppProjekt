@@ -1,5 +1,6 @@
 package com.example.oplevappprojekt.data
 
+import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.ImageBitmap
 import com.example.oplevappprojekt.R
 import com.example.oplevappprojekt.ViewModel.Journey
@@ -24,12 +25,10 @@ data class img(
 )
 
 class HardcodedJourneysRepository {
-    val idearepo = IdeaRepository()
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
     var journeylist: ArrayList<Journey> = arrayListOf()
     val IDs : ArrayList<String> = arrayListOf()
-
     val category_collection = Firebase.firestore.collection("categories")
     var categorylist: ArrayList<category> = arrayListOf()
 
@@ -96,6 +95,7 @@ class HardcodedJourneysRepository {
            journeys.document().set(journey)
        }
 
+      @SuppressLint("SuspiciousIndentation")
       suspend fun editJourney(journeyID: String, date: String, country: String, isPinned: Boolean, unPinned: Boolean) {
            journeys.document(journeyID).update("country", country,
                "date", date, "isPinned", isPinned, "unPinned", unPinned)
@@ -114,13 +114,21 @@ class HardcodedJourneysRepository {
            }
        }
 
+    suspend fun deleteCategory(ID: String){
+        Firebase.firestore.collection("categories").document(ID).delete()
+        val ideas = Firebase.firestore.collection("ideas").whereEqualTo("categoryID", ID).get().await()
+        for(i in 0..ideas.size()-1){
+            val ID = ideas.documents.get(i).id
+            Firebase.firestore.collection("ideas").document(ID).delete()
+        }
+    }
       suspend fun deleteJourney(ID: String) {
            journeys.document(ID).delete()
        val journeycats = Firebase.firestore.collection("categories")
               .whereEqualTo("journeyID", ID).get().await()
           for(i in 0..journeycats.size()-1) {
               val catID = journeycats.documents.get(i).id
-              idearepo.deleteCategory(catID)
+              deleteCategory(catID)
           }
        }
 
