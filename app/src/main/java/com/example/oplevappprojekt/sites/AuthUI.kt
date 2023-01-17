@@ -21,7 +21,7 @@ import com.example.oplevappprojekt.ViewModel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.runBlocking
 
-// S215722
+// S215722 & s213370
 
 @Composable
 fun LoginPage(navigation: ()-> Unit, viewModel: AuthViewModel, navMain: ()-> Unit) {
@@ -102,14 +102,14 @@ fun SignUpPage(viewModel: AuthViewModel, navigation: () -> Unit, navMain: () -> 
 
             val pass= InputText("Kodeord")
             if (viewModel.uiState.value.hasPressedCreate && pass.length < 6){
-                Text(text = "Kodeordet skal have en længde på minimum 6 tegn", modifier = Modifier.padding(5.dp), color = Color.Red)
+                Text(text = "Kodeordet skal have en længde på minimum 6 tegn", modifier = Modifier.padding(2.dp), color = Color.Red)
             }
 
 
             val confpass= InputText("Gentag Kodeord")
 
             if (viewModel.uiState.value.hasPressedCreate && pass != confpass) {
-                Text(text = "Kodeordene skal være ens", modifier = Modifier.padding(5.dp), color = Color.Red)
+                Text(text = "Kodeordene skal være ens", modifier = Modifier.padding(2.dp), color = Color.Red)
             }
 
             var check = false
