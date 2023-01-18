@@ -225,7 +225,7 @@ fun IdeaBox(idea: ideas, randomimg: Int, viewModel: IdeasViewModel,
 
 
                     if (idea.img?.isNotEmpty() == true) {
-                        Box(Modifier.heightIn(min=0.dp, max=50.dp)) {
+                        Box(Modifier.heightIn(min=0.dp, max=100.dp)) {
                             Image(
                                 painter = rememberImagePainter(data = idea.img),
                                 contentDescription = null

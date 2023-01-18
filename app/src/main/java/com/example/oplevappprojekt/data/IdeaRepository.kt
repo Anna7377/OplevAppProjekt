@@ -78,8 +78,12 @@ class IdeaRepository(){
     }
 
     fun createIdea(title: String, desc: String, link: String, ID: String, journeyID: String, img: String){
+     var ideatitle = title
+      if(title.isEmpty()){
+          ideatitle = "Unavngivet"
+      }
        val idea = hashMapOf(
-            "title" to title,
+            "title" to ideatitle,
             "desc" to desc,
             "link" to link,
             "categoryID" to ID,
