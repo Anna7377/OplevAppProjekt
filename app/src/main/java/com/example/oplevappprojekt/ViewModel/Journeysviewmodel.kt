@@ -169,7 +169,7 @@ class Journeysviewmodel {
         journeydoc.update("isPinned", true)
         }
         else{
-            journeydoc.update("isPinned", true)
+            journeydoc.update("isPinned", false)
         }
 
     }

@@ -75,18 +75,20 @@ Row(verticalAlignment = Alignment.Bottom){
                     country = viewModel.uiState.value.currentcountry.toString(),
                     date = viewModel.uiState.value.currentdate.toString(),
                     ID = viewModel.uiState.value.newCurrentId.toString(),
-                    isPinned = true,
-                    unPinned = oldPinVal,
+                    isPinned = false,
+                    unPinned = true,
                 )
             }
-            else{
-                viewModel.editJourney(
-                    country = viewModel.uiState.value.currentcountry.toString(),
-                    date = viewModel.uiState.value.currentdate.toString(),
-                    ID = viewModel.uiState.value.newCurrentId.toString(),
-                    isPinned = newPinVal,
-                    unPinned = oldPinVal
-                )
+            else {
+                if (!viewModel.uiState.value.isPinned) {
+                    viewModel.editJourney(
+                        country = viewModel.uiState.value.currentcountry.toString(),
+                        date = viewModel.uiState.value.currentdate.toString(),
+                        ID = viewModel.uiState.value.newCurrentId.toString(),
+                        isPinned = true,
+                        unPinned = false
+                    )
+                }
             }
 
              navMain()
