@@ -64,12 +64,8 @@ Row(verticalAlignment = Alignment.Bottom){
     Spacer(modifier = Modifier.width(150.dp))
     IconButton(modifier = Modifier
         , onClick ={
-        val oldPinVal = viewModel.uiState.value.isPinned
-        val newPinVal = !oldPinVal
         if (viewModel.uiState.value.isJourneySelected) {
-
             if (viewModel.uiState.value.isPinned){
-
                 System.out.println(ID)
                 viewModel.editJourney(
                     country = viewModel.uiState.value.currentcountry.toString(),
@@ -80,15 +76,14 @@ Row(verticalAlignment = Alignment.Bottom){
                 )
             }
             else {
-                if (!viewModel.uiState.value.isPinned) {
                     viewModel.editJourney(
                         country = viewModel.uiState.value.currentcountry.toString(),
                         date = viewModel.uiState.value.currentdate.toString(),
                         ID = viewModel.uiState.value.newCurrentId.toString(),
                         isPinned = true,
-                        unPinned = false
+                        unPinned = true
                     )
-                }
+
             }
 
              navMain()

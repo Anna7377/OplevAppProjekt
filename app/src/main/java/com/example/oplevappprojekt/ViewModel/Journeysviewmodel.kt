@@ -137,7 +137,8 @@ class Journeysviewmodel {
         runBlocking {
         repo.editJourney(country=country, date=date, journeyID = ID, isPinned = isPinned, unPinned = unPinned,
         isOwned = uiState.value.isOwned)}
-        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date, currentJourneyID = ID, isJourneySelected = true,
+        _uiState.value = _uiState.value.copy(currentcountry = country, currentdate = date,
+            currentJourneyID = ID, isJourneySelected = true,
         isPinned = isPinned, unPinned = unPinned)
     }
 
