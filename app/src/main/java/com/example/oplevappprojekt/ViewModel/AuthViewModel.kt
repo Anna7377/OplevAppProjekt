@@ -35,6 +35,8 @@ class AuthViewModel:ViewModel() {
     private val _uiState = mutableStateOf(Auth())
     val uiState: State<Auth> = _uiState
 
+    //https://firebase.google.com/docs/auth/android/start
+
     suspend fun SignUp(
         email: String,
         password: String,
