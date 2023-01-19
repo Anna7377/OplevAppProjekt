@@ -64,8 +64,9 @@ class HardcodedJourneysRepository {
               pincoljourneys.get(i).JourneyID = pinColID.get(i)
                journeylist.add(pincoljourneys.get(i))
            } else {
+               if(colIDs.size>0){
               collection.document(colIDs.get(i)).delete()
-               pinColID.removeAt(i)
+               pinColID.removeAt(i)}
            }
        }
 
@@ -90,8 +91,9 @@ class HardcodedJourneysRepository {
                coljourneylist.get(i).JourneyID = colIDs.get(i)
                journeylist.add(coljourneylist.get(i))
            } else {
+               if( colIDs.size>0){
                coljourneys.document(colIDs.get(i)).delete()
-               colIDs.removeAt(i)
+               colIDs.removeAt(i) }
            }
        }
            return withContext(Dispatchers.IO) { journeylist }
