@@ -27,12 +27,12 @@ data class img(
 class HardcodedJourneysRepository {
     val uid = Firebase.auth.currentUser?.uid.toString()
     val journeys = Firebase.firestore.collection("journeys")
-    var journeylist: ArrayList<Journey> = arrayListOf()
     val IDs : ArrayList<String> = arrayListOf()
     val category_collection = Firebase.firestore.collection("categories")
     var categorylist: ArrayList<category> = arrayListOf()
 
    suspend fun getJourneys(): ArrayList<Journey> {
+       val journeylist: ArrayList<Journey> = arrayListOf()
        val coljourneylist: ArrayList<Journey>
        val colIDs: ArrayList<String> = arrayListOf()
        val pinColID: ArrayList<String> = arrayListOf()
@@ -40,7 +40,13 @@ class HardcodedJourneysRepository {
 // get pinned journeys
        val journeydocs = journeys.whereEqualTo("userID", uid).whereEqualTo("isPinned", true).get()
            .await()
-       journeylist = journeydocs.toObjects<Journey>() as ArrayList<Journey>
+
+       val journeyss = journeydocs.toObjects<Journey>() as ArrayList<Journey>
+
+       for (journey in journeyss) {
+           journeylist.add(journey)
+       }
+
        for (i in 0..journeydocs.size() - 1) {
            IDs.add(journeydocs.documents.get(i).id)
            journeylist.get(i).JourneyID = IDs.get(i)

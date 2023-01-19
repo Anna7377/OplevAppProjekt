@@ -32,6 +32,7 @@ data class Journey(
     val userID: String = "",
     var JourneyID: String = "",
     val originalJourneyID: String = ".",
+    @field:JvmField
     var isPinned: Boolean = false,
     var img: Int = R.drawable.image11
 )
