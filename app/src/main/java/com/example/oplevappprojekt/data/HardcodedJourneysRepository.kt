@@ -131,6 +131,18 @@ class HardcodedJourneysRepository {
           }
           ref.document(journeyID).update("country", country,
               "date", date, "isPinned", isPinned, "unPinned", unPinned)
+          if(isOwned){
+              val colref = Firebase.firestore.collection("users")
+                  .document(uid).collection("coljourneys")
+                  .whereEqualTo("originalJourneyID", journeyID).get().await()
+              val colrefedit = Firebase.firestore.collection("users")
+                  .document(uid).collection("coljourneys")
+              for(i in 0..colref.size()-1){
+                  val ID = colref.documents.get(i).id
+                  colrefedit.document(ID).update("country", country,
+                  "date", date, "isPinned", isPinned)
+              }
+          }
 
        }
 
